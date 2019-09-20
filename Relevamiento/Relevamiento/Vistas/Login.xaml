@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.Login"
+             Title="Ingresar"
+             BackgroundColor="#FFECA9">
+
+    <ContentPage.Resources>
+        <StyleSheet Source="/Estilos/Estilos.css" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <BoxView Opacity="0.8"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Image Source="logo3.png" Scale="1" Opacity="0.8" Margin="0,5"/>
+                <StackLayout Grid.Row="1">
+                    <Entry x:Name="entryName" Placeholder="Usuario" PlaceholderColor="Gray" TextColor="Gray" TextChanged="EntryName_TextChanged"/>
+                    <Label x:Name="lblusufail" TextColor="Red" FontSize="Small" IsVisible="False"/>
+                    <Entry x:Name="entryPass" IsPassword="True" Placeholder="Contraseña" PlaceholderColor="Gray" TextColor="Gray" TextChanged="EntryPass_TextChanged"/>
+                    <Label x:Name="lblpwfail" TextColor="Red" FontSize="Small" IsVisible="False"/>
+                    <Label x:Name="txtFail" IsVisible="False" Text="Usuario o contraseña incorrectas!" TextColor="Red" HorizontalTextAlignment="Center" FontAttributes="Bold"></Label>
+                    <Label x:Name="DevieId"/>
+                    <Button Text="Ingresar" Clicked="Button_Clicked" TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+                    <!--<Button Text="Ingresar" Clicked="ObtenerImei" BorderColor="Aqua" BorderWidth="1" BorderRadius="60"/>-->
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

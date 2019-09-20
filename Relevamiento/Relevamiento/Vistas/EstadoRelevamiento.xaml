@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.EstadoRelevamiento"
+                        xmlns:local="clr-namespace:Relevamiento.Vistas"
+            BackgroundColor="#FFECA9"
+>
+  <!--Pages can be added as references or inline-->
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Name="Aceptar" Order="Primary" Icon="Microsoft.png" Text="Aceptar" Priority="0" Clicked="Aceptar_Clicked"/>
+    </TabbedPage.ToolbarItems>
+    <local:GaseosasRele></local:GaseosasRele>
+    <local:AguasRele></local:AguasRele>
+    <local:SaboriadasRele></local:SaboriadasRele>
+    <local:JugosRele></local:JugosRele>
+    <local:SodasRele></local:SodasRele>
+    <local:FernetRele></local:FernetRele>
+</TabbedPage>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.Comercio"
+             BackgroundColor="#FFECA9">
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView Orientation="Vertical" VerticalOptions="Start">
+                <StackLayout>
+                    <Label Text="Datos del Comercio" FontSize="Medium"/>
+                    <Picker x:Name="PickerProvincia" Title="Provincia">
+                        <Picker.ItemsSource >
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Buenos Aires</x:String>
+                                <x:String>Catamarca</x:String>
+                                <x:String>Chaco</x:String>
+                                <x:String>Chubut</x:String>
+                                <x:String>Ciudad de Buenos Aires</x:String>
+                                <x:String>Cordoba</x:String>
+                                <x:String>Corrientes</x:String>
+                                <x:String>Entre Rios</x:String>
+                                <x:String>Formosa</x:String>
+                                <x:String>Jujuy</x:String>
+                                <x:String>La Pampa</x:String>
+                                <x:String>La Rioja</x:String>
+                                <x:String>Mendoza</x:String>
+                                <x:String>Misiones</x:String>
+                                <x:String>Neuquen</x:String>
+                                <x:String>Rio Negro</x:String>
+                                <x:String>Salta</x:String>
+                                <x:String>San Juan</x:String>
+                                <x:String>San Luis</x:String>
+                                <x:String>Santa Cruz</x:String>
+                                <x:String>Santiago del Estero</x:String>
+                                <x:String>Tierra del Fuego</x:String>
+                                <x:String>Tucuman</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Entry x:Name="EntryLocalidad" Placeholder="Localidad o Pueblo"/>
+                    <Label x:Name="LabelLocalidad" TextColor="Red" Text="Debe ingresar una localidad" IsVisible="False" FontSize="Small"/>
+                    <Picker Title="Tipo de local" x:Name="pickerTipoLocal" ItemDisplayBinding="{Binding Tipo}"/>
+                    <Label x:Name="LabelTipoLocal" TextColor="Red" Text="Debe seleccionar un tipo de local" IsVisible="False" FontSize="Small"/>
+                    <Entry Placeholder="Nombre del local" x:Name="entryNombreLocal"/>
+                    <Label x:Name="LabelNombreLocal" TextColor="Red" Text="Debe ingresar un nombre" IsVisible="False" FontSize="Small"/>
+                    <Entry Placeholder="Calle" x:Name="entryCalleLocal"/>
+                    <Label x:Name="LabelCalleLocal" TextColor="Red" Text="Debe ingresar una calle" IsVisible="False" FontSize="Small"/>
+                    <Entry Placeholder="Numero" x:Name="entryNumeroLocal" Keyboard="Numeric"/>
+                    <Label x:Name="LabelNumero" TextColor="Red" Text="Debe ingresar una altura" IsVisible="False" FontSize="Small"/>
+                    <Button x:Name="BtnSiguiente" Text="Siguiente" VerticalOptions="Center" Clicked="btnSiguienteClicked" TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+
+                    <Button x:Name="BtnFinalizar" Text="Finalizar" VerticalOptions="Center" Clicked="btnFinalizarClicked" TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+                    <Button Text="Cancelar" VerticalOptions="Center" Clicked="btnCancelarClicked"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

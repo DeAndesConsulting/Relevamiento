@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.EstadoPage"
+             BackgroundColor="#FFECA9"
+             Title="Estados de Relevamientos">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Estados de relevamientos realizados" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" 
+                   FontSize="Medium"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Text="Nombre del Distribuidor" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Direccion del comercio" Grid.Row="0" Grid.Column="1" FontAttributes="Bold"/>
+                <Label Text="Entregado" Grid.Row="0" Grid.Column="2" FontAttributes="Bold"/>
+            </Grid>
+            <ListView x:Name="EstadoListView"
+                          HasUnevenRows="True"
+                      ItemsSource="{Binding .}"
+                      ItemTapped="EstadoListView_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding NombreDistribuidor}" Grid.Column="0"/>
+                                <Label Text="{Binding Direccion}" Grid.Column="1" FontAttributes="Bold"/>
+                                <Label Text="{Binding Status}" Grid.Column="2" Grid.Row="0" IsVisible="False"/>
+                                <Image Source="no.png" Scale="1" Opacity="0.8" Grid.Column="2" IsVisible="True"></Image>
+                                <Image Source="si.png" Scale="1" Opacity="0.8" Grid.Column="2" IsVisible="False"></Image>
+                                </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

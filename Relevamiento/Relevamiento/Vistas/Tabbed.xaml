@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.Tabbed"
+            xmlns:local="clr-namespace:Relevamiento.Vistas"
+            BackgroundColor="#FFECA9"
+>
+  <!--Pages can be added as references or inline-->
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Name="Finalizar" Order="Primary" Icon="Microsoft.png" Text="Finalizar" Priority="0" Clicked="BtnFinalizar_Clicked"/>
+        <ToolbarItem Name="Cancelar" Order="Primary" Icon="Microsoft.png" Text="Cancelar" Priority="0" Clicked="BtnCancelar_Clicked"/>
+    </TabbedPage.ToolbarItems>
+    <local:Gaseosas></local:Gaseosas>
+    <local:Aguas></local:Aguas>
+    <local:Saborizadas></local:Saborizadas>
+    <local:Jugos></local:Jugos>
+    <local:Sodas></local:Sodas>
+    <local:Fernet></local:Fernet>
+</TabbedPage>

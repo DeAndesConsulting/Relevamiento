@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.BusquedaDistribuidor"
+             BackgroundColor="#FFECA9"
+             Title="Buscar Distribuidor">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Start">
+            <SearchBar x:Name="DistribuidorSearch" TextChanged="DistribuidorSearch_TextChanged" Placeholder="Nombre Fantasía ó N° de Empresa"/>
+            <ListView x:Name="DistribuidorList" SeparatorColor="White" ItemTapped="DistribuidorList_ItemTapped"
+                      ItemsSource="{Binding .}" IsVisible="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label x:Name="LblBusqueda" Text="{Binding FormattedText}" FontSize="Medium"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout x:Name="DatosDistribuidor" IsVisible="False">
+                <Label x:Name="LblNombreFantasia" FontSize="Medium"/>
+                <Label x:Name="LblCodigo" FontSize="Medium"/>
+                <Button x:Name="BtnSiguiente" Clicked="BtnSiguiente_Clicked" Text="Siguiente"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,586 @@
+{
+  "Relevados.xaml": [
+    {
+      "Producto": "Manaos 3000",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos 2250",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos 1250",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos 600",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos sin azucar",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cant. de sabores 2250",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Beach",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cabalgata",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Caribe",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cimes",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Coca",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cordoba",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cunnington",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Doble Cola",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Frutafiel",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Goliat",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Marinaro",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Mocoreta",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Pepsi",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Prity",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Rafting",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Secco",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Taica",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Torasso",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Otras",
+      "Precio": 0,
+      "Existe": false
+    }
+
+
+  ],
+  "Relevamiento.xaml": [
+    {
+      "Nombre": "John",
+      "Direccion": 29,
+      "Localidad": "Buenos Aires",
+      "RAZ_SOCIAL": "Hola SRL"
+    },
+    {
+      "Nombre": "Pam",
+      "Direccion": 32,
+      "Localidad": "Buenos Aires",
+      "RAZ_SOCIAL": "Hola SRL"
+    },
+    {
+      "Nombre": "Cassy",
+      "Direccion": 58,
+      "Localidad": "Capital Federal",
+      "RAZ_SOCIAL": "Lolo SRL"
+    },
+    {
+      "Nombre": "Susan",
+      "Direccion": 29,
+      "Localidad": "Buenos Aires",
+      "RAZ_SOCIAL": "Hola SRL"
+    }
+  ],
+
+  "DatosRelevamiento.xaml": [
+    {
+      "Nombre": "John",
+      "Direccion": "Sin nombre 445",
+      "Localidad": "Moreno",
+      "RAZ_SOCIAL": "Hola SRL",
+      "Title": "Coca Cola",
+      "IsVisible": true
+    }
+  ],
+
+  "Relevados.xaml": [
+    {
+      "Producto": "Manaos 3000",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos 2250",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos 1250",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos 600",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Manaos sin azucar",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cant. de sabores 2250",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Beach",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cabalgata",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Caribe",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cimes",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Coca",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cordoba",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cunnington",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Doble Cola",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Frutafiel",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Goliat",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Marinaro",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Mocoreta",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Pepsi",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Prity",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Rafting",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Secco",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Taica",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Torasso",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Otras",
+      "Precio": 0,
+      "Existe": false
+    }
+
+
+  ],
+
+
+  "Aguas.xaml": [
+    {
+      "Producto": "Villamanaos 2000",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Villamanaos 6000",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Agua de misiones",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Celier",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cimes",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Exaltacion de la cruz",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Glaciar",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Kin",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Sierra de los padres",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Villa del Sur",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Villavicencio",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Otras",
+      "Precio": 0,
+      "Existe": false
+    }
+
+
+  ],
+
+
+  "Saborizadas.xaml": [
+    {
+      "Producto": "Placer 1500",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Placer 500",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Baggio Fresh",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Levite",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cimes",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Aquarius",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Bio Balance",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Celier",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Livra",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Ser",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Style",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Otras",
+      "Precio": 0,
+      "Existe": false
+    }
+
+
+  ],
+
+
+  "Sodas.xaml": [
+    {
+      "Producto": "Manaos 2000",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cimes",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Exaltacion de la cruz",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Ivess",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Vitalisima",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Sierra de los padres",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Torasso",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Saldan",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Nihuil",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Mas",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Penty",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Otras",
+      "Precio": 0,
+      "Existe": false
+    }
+  ],
+
+  "Jugos.xaml": [
+    {
+      "Producto": "Pindapoy",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Baggio Pronto",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Cepita",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Bio frut",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Capilla mendocina",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Tutti",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Puro sol",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Citric",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Otras",
+      "Precio": 0,
+      "Existe": false
+    }
+  ],
+
+
+  "Fernet.xaml": [
+    {
+      "Producto": "F-Nandito VII",
+      "Precio": 0,
+      "Existe": false
+    },
+    {
+      "Producto": "Fernando",
+      "Precio": 0,
+      "Existe": false
+    }
+  ],
+  "Busqueda.xaml": [
+    {
+      "Id": 4,
+      "Provincia": "la concha de la lora",
+      "Nombre": "Refres",
+      "Direccion": "Av lola 2211",
+      "FormattedText": "4 Refres"
+    },
+    {
+      "Id": 4,
+      "Provincia": "la concha de la lora",
+      "Nombre": "Refres",
+      "Direccion": "Av lola 2211",
+      "FormattedText": "4 Refres"
+    },
+    {
+      "Id": 4,
+      "Provincia": "la concha de la lora",
+      "Nombre": "Refres",
+      "Direccion": "Av lola 2211",
+      "FormattedText": "4 Refres"
+    },
+    {
+      "Id": 4,
+      "Provincia": "la concha de la lora",
+      "Nombre": "Refres",
+      "Direccion": "Av lola 2211",
+      "FormattedText": "4 Refres"
+    }
+  ]
+}

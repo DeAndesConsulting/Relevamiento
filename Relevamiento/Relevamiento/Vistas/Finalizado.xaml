@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.Finalizado"
+             BackgroundColor="#FFECA9">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Relevamiento finalizado!"/>
+            <Label x:Name="LblDistribuidor"/>
+            <Label x:Name="LblLocal"/>
+            <Button x:Name="btnVolver" Clicked="BtnVolver_Clicked" Text="Volver"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

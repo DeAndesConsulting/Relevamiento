@@ -1,8 +1,0 @@
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\ibtool\_BundleResourceWithLogicalName.items
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\actool\_PartialAppManifest.items
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\actool\_BundleResourceWithLogicalName.items
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\coremlc\_PartialAppManifest.items
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\coremlc\_BundleResourceWithLogicalName.items
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\optimized\
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\Relevamiento.iOS.csprojAssemblyReference.cache
-C:\relevamiento\Relevamiento\Relevamiento.iOS\obj\iPhoneSimulator\Debug\Relevamiento.iOS.csproj.CoreCompileInputs.cache

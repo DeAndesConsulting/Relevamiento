@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Trabajo\\Itris\\leo\\Relevamiento v4.0.0\\Relevamiento\\Relevamiento\\Relevamiento.csproj": {}
+    "C:\\Leo\\ProyectosGit\\Relevamiento\\Relevamiento\\Relevamiento\\Relevamiento.csproj": {}
   },
   "projects": {
-    "C:\\Trabajo\\Itris\\leo\\Relevamiento v4.0.0\\Relevamiento\\Relevamiento\\Relevamiento.csproj": {
+    "C:\\Leo\\ProyectosGit\\Relevamiento\\Relevamiento\\Relevamiento\\Relevamiento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Trabajo\\Itris\\leo\\Relevamiento v4.0.0\\Relevamiento\\Relevamiento\\Relevamiento.csproj",
+        "projectUniqueName": "C:\\Leo\\ProyectosGit\\Relevamiento\\Relevamiento\\Relevamiento\\Relevamiento.csproj",
         "projectName": "Relevamiento",
-        "projectPath": "C:\\Trabajo\\Itris\\leo\\Relevamiento v4.0.0\\Relevamiento\\Relevamiento\\Relevamiento.csproj",
-        "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
-        "outputPath": "C:\\Trabajo\\Itris\\leo\\Relevamiento v4.0.0\\Relevamiento\\Relevamiento\\obj\\",
+        "projectPath": "C:\\Leo\\ProyectosGit\\Relevamiento\\Relevamiento\\Relevamiento\\Relevamiento.csproj",
+        "packagesPath": "C:\\Users\\leona_000\\.nuget\\packages\\",
+        "outputPath": "C:\\Leo\\ProyectosGit\\Relevamiento\\Relevamiento\\Relevamiento\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\ProgramData\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\leona_000\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],

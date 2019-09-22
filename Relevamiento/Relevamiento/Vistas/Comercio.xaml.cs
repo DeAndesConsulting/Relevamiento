@@ -20,14 +20,14 @@ namespace Relevamiento.Vistas
     public partial class Comercio : ContentPage
     {
         //public Distribuidora distribuidorseleccionado;
-        public Local ComercioSeleccionado;
-        public Comercio(Distribuidora Distribuidor)
+        public _COMERCIO ComercioSeleccionado;
+        public Comercio(ERP_EMPRESAS Distribuidor)
         {
             InitializeComponent();
             List<TipoLocal> lista_locales = new List<TipoLocal>();
             lista_locales = TraerLocales();
             pickerTipoLocal.ItemsSource = lista_locales.ToList();
-            PickerProvincia.SelectedItem = Distribuidor.Provincia;
+            PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
             App.distribuidorseleccionado = Distribuidor;
         }
             public bool ValidarDatos()
@@ -93,17 +93,6 @@ namespace Relevamiento.Vistas
             return ListaComercios;
         }
 
-        public List<Local> TraerLocales2(Distribuidora Distribuidor)
-        {
-            List<Local> listaLocales = new List<Local>();
-            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-            {
-
-                listaLocales = conexion.Query<Local>("select * from Local where Distribuidor = ?", Distribuidor.Nombre).ToList();
-
-            }
-            return listaLocales;
-        }
         private async void btnCancelarClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
@@ -136,15 +125,15 @@ namespace Relevamiento.Vistas
             if (ValidarDatos())
             {
 
-                Local nuevoLocal = new Local()
+                _COMERCIO nuevoLocal = new _COMERCIO()
                 {
-                    Provincia = PickerProvincia.Items[PickerProvincia.SelectedIndex],
-                    TipoLocal = pickerTipoLocal.Items[pickerTipoLocal.SelectedIndex],
-                    Distribuidor = App.distribuidorseleccionado.Nombre,
-                    Nombre = entryNombreLocal.Text,
-                    Calle = entryCalleLocal.Text,
-                    Numero = entryNumeroLocal.Text,
-                    Localidad = EntryLocalidad.Text,
+                    //   FK_ERP_PROVINCIAS = PickerProvincia.Items[PickerProvincia.SelectedIndex],
+                    //FK_TIP_COM = pickerTipoLocal.Items[pickerTipoLocal.SelectedIndex],
+                    //  Distribuidor = App.distribuidorseleccionado.NOM_FANTASIA,
+                    NOMBRE = entryNombreLocal.Text,
+                    CALLE = entryCalleLocal.Text,
+                    NUMERO = entryNumeroLocal.Text,
+                    FK_ERP_LOCALIDADES = EntryLocalidad.Text,
                 };
                 await Navigation.PushAsync(new Tabbed(nuevoLocal));
             }

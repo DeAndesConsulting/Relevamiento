@@ -19,11 +19,31 @@ namespace Relevamiento.Vistas
         {
             InitializeComponent();
             int Jugos = 4;
+            List<_ARTICULOS> listaArticulos = new List<_ARTICULOS>();
+
+            List<ListaProductos> listaTemp = new List<ListaProductos>();
             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
             {
-                listaJugos = conexion.Query<ListaProductos>("select * from ListaProductos where TipoProducto = ?", Jugos).ToList();
-                JugosListView.ItemsSource = listaJugos;
+                listaArticulos = conexion.Query<_ARTICULOS>("select * from _ARTICULOS where FK_TIP_ART = ?", Jugos).ToList();
+
             }
+            ListaProductos producto;
+            if (listaArticulos.Count != 0)
+            {
+                foreach (var obj in listaArticulos)
+                {
+                    producto = new ListaProductos()
+                    {
+                        Id = obj.ID,
+                        Producto = obj.DESCRIPCION,
+                        TipoProducto = obj.FK_TIP_ART,
+                    };
+                    listaTemp.Add(producto);
+                }
+
+            }
+            listaJugos = listaTemp;
+            JugosListView.ItemsSource = listaJugos;
         }
     }
 }

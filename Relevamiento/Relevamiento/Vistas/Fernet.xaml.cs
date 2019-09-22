@@ -15,11 +15,31 @@ namespace Relevamiento.Vistas
         {
             InitializeComponent();
             int Fernet = 5;
+            List<_ARTICULOS> listaArticulos = new List<_ARTICULOS>();
+
+            List<ListaProductos> listaTemp = new List<ListaProductos>();
             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
             {
-                listaFernets = conexion.Query<ListaProductos>("select * from ListaProductos where TipoProducto = ?", Fernet).ToList();
-                 FernetListView.ItemsSource = listaFernets;
+                listaArticulos = conexion.Query<_ARTICULOS>("select * from _ARTICULOS where FK_TIP_ART = ?", Fernet).ToList();
+
             }
+            ListaProductos producto;
+            if (listaArticulos.Count != 0)
+            {
+                foreach (var obj in listaArticulos)
+                {
+                    producto = new ListaProductos()
+                    {
+                        Id = obj.ID,
+                        Producto = obj.DESCRIPCION,
+                        TipoProducto = obj.FK_TIP_ART,
+                    };
+                    listaTemp.Add(producto);
+                }
+
+            }
+            listaFernets = listaTemp;
+            FernetListView.ItemsSource = listaFernets;
         }
     }
 }

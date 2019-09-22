@@ -67,68 +67,51 @@ namespace Relevamiento.Clases
         public string Tipo { get; set; }
 
     }
-    public class Distribuidora
-    {
-        //[PrimaryKey, AutoIncrement]
-        public string Id { get; set; }
-        //public int Id { get; set; }
-        public string Provincia { get; set; }
-        public string Nombre { get; set; }
-        public string Direccion { get; set; }
-        public string FormattedText
-        {
-            get
-            {
-                return String.Format("{0}: {1}", Nombre, Id);
-            }
-        }
-    }
 
+    //public class Local
+    //{
+    //    [PrimaryKey, AutoIncrement]
+    //    public int Id { get; set; }
+    //    public string Provincia { get; set; }
+    //    public string TipoLocal { get; set; }
+    //    public string Distribuidor { get; set; }
+    //    public string Nombre { get; set; }
+    //    public string Calle { get; set; }
+    //    public string Numero { get; set; }
+    //    public string Localidad { get; set; }
 
-    public class Local
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string Provincia { get; set; }
-        public string TipoLocal { get; set; }
-        public string Distribuidor { get; set; }
-        public string Nombre { get; set; }
-        public string Calle { get; set; }
-        public string Numero { get; set; }
-        public string Localidad { get; set; }
+    //    public string Direccion
+    //    {
+    //        get
+    //        {
+    //            return String.Format("{0} {1}, ({2})", Calle, Numero, Localidad);
+    //        }
+    //    }
+    //    public string FormattedText
+    //    {
+    //        get
+    //        {
+    //            return String.Format("Local: {0} - Direccion: {1}, ({2})", Nombre, Direccion, Provincia);
+    //        }
+    //    }
+    //    //[OneToMany(CascadeOperations = CascadeOperation.CascadeInsert)]
+    //    //public List<ListaProductos> ListadoProductos { get; set; }
 
-        public string Direccion
-        {
-            get
-            {
-                return String.Format("{0} {1}, ({2})", Calle, Numero, Localidad);
-            }
-        }
-        public string FormattedText
-        {
-            get
-            {
-                return String.Format("Local: {0} - Direccion: {1}, ({2})", Nombre, Direccion, Provincia);
-            }
-        }
-        //[OneToMany(CascadeOperations = CascadeOperation.CascadeInsert)]
-        //public List<ListaProductos> ListadoProductos { get; set; }
+    //}
 
-    }
+    //public class TipoProductos
+    //{
+    //    [PrimaryKey, AutoIncrement]
+    //    public int Id { get; set; }
 
-    public class TipoProductos
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+    //    public string TipoProducto { get; set; }
 
-        public string TipoProducto { get; set; }
-
-    }
+    //}
 
     public class ListaProductos
     {
         [PrimaryKey, AutoIncrement]
-       [ForeignKey(typeof(Local))]
+       // [ForeignKey(typeof(Local))]
         public int Id { get; set; }
 
         public string Producto { get; set; }
@@ -152,85 +135,98 @@ namespace Relevamiento.Clases
 
     }
 
-//    public class ERP_ASESORES{
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public string DESCRIPCION { get; set; }
-//        public string _EMAIL { get; set; }
-//        public string _IMEI { get; set; }
-//        public bool _IMEI_ADMIN { get; set; }
-//    }
+    public class ERP_ASESORES{
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public string DESCRIPCION { get; set; }
+        public string _EMAIL { get; set; }
+        public string _IMEI { get; set; }
+        public bool _IMEI_ADMIN { get; set; }
+    }
 
-//    public class _TIP_COM
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public string DESCRIPCION { get; set; }
-//    }
-//    public class _TIP_ART
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public string DESCRIPCION { get; set; }
-//    }
+    public class _TIP_COM
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public string DESCRIPCION { get; set; }
+    }
+    public class _TIP_ART
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public string DESCRIPCION { get; set; }
+    }
 
-//    public class ERP_EMPRESAS
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public int FK_ERP_ASESORES { get; set; }
-//        public int FK_ERP_ASESORES2 { get; set; }
-//        public int FK_ERP_ASESORES3 { get; set; }
-//        public string NOM_FANTASIA { get; set; }
-//        public string Z_FK_ERP_PROVINCIAS { get; set; }
-//        public string Z_FK_ERP_PARTIDOS { get; set; }
-//        public string Z_FK_ERP_LOCALIDADES { get; set; }
+    public class ERP_EMPRESAS
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public int FK_ERP_ASESORES { get; set; }
+        public int FK_ERP_ASESORES2 { get; set; }
+        public int FK_ERP_ASESORES3 { get; set; }
+        public string NOM_FANTASIA { get; set; }
+        public string Z_FK_ERP_PROVINCIAS { get; set; }
+        public string Z_FK_ERP_PARTIDOS { get; set; }
+        public string Z_FK_ERP_LOCALIDADES { get; set; }
+        public string FormattedText
+        {
+            get
+            {
+                return String.Format("{0}: {1}", NOM_FANTASIA, ID);
+            }
+        }
+    }
 
-//    }
+    public class _COMERCIO
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        [ForeignKey(typeof(_TIP_COM))]
+        public int FK_TIP_COM { get; set; }
+        [ForeignKey(typeof(ERP_LOCALIDADES))]
+        public string FK_ERP_LOCALIDADES { get; set; }
+        [ForeignKey(typeof(ERP_LOCALIDADES))]
+        public int FK_ERP_PROVINCIAS { get; set; }
+        public string NOMBRE { get; set; }
+        public string CALLE { get; set; }
+        public string NUMERO { get; set; }
+        public int LATITUD { get; set; }
+        public int LONGITUD { get; set; }
 
-//    public class _COMERCIO
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public int FK_TIP_COM { get; set; }
-//        public int FK_ERP_LOCALIDADES { get; set; }
-//        public int FK_ERP_PROVINCIAS { get; set; }
-//        public string NOMBRE { get; set; }
-//        public string CALLE { get; set; }
-//        public string NUMERO { get; set; }
-//        public int LATITUD { get; set; }
-//        public int LONGITUD { get; set; }
+    }
 
-//    }
+    public class _ARTICULOS
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        [ForeignKey(typeof(_TIP_ART))]
+        public int FK_TIP_ART { get; set; }
+        public string DESCRIPCION { get; set; }
 
-//    public class _ARTICULOS
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public int FK_TIP_ART { get; set; }
-//        public string DESCRIPCION { get; set; }
-//    }
+        public int Precio { get; set; }
+        public bool Existe { get; set; }
+    }
 
-//public class ERP_LOCALIDADES
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        public string DESCRIPCION { get; set; }
-//        public int FK_ERP_PARTIDOS { get; set; }
-//        public string Z_FK_ERP_PARTIDOS { get; set; }
-//        public int FK_ERP_PROVINCIAS { get; set; }
-//        public string Z_FK_ERP_PROVINCIAS { get; set; }
-//    }
+public class ERP_LOCALIDADES
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        public string DESCRIPCION { get; set; }
+        public int FK_ERP_PARTIDOS { get; set; }
+        public string Z_FK_ERP_PARTIDOS { get; set; }
+        public int FK_ERP_PROVINCIAS { get; set; }
+        public string Z_FK_ERP_PROVINCIAS { get; set; }
+    }
 
-//    public class TbRequest
-//    {
-//        [PrimaryKey, AutoIncrement]
-//        public int ID { get; set; }
-//        //req_codigo(imei_id)
+    public class TbRequest
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        //req_codigo(imei_id)
 
-//        public string req_json { get; set; }
-//        public bool req_estado { get; set; }
-//    }
+        public string req_json { get; set; }
+        public bool req_estado { get; set; }
+    }
 
 
 

@@ -19,8 +19,8 @@ namespace Relevamiento.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Tabbed : TabbedPage
     {
-        public Local localARelevar;
-        public Tabbed(Local nuevolocal)
+        public _COMERCIO localARelevar;
+        public Tabbed(_COMERCIO nuevolocal)
         {
             InitializeComponent();
             localARelevar = nuevolocal;
@@ -28,12 +28,13 @@ namespace Relevamiento.Vistas
 
         async private void BtnFinalizar_Clicked(object sender, EventArgs e)
         {
-            List<ListaProductos> ListaAguas = Aguas.listaAguas;
-            List<ListaProductos> ListaFernet = Fernet.listaFernets;
-            List<ListaProductos> ListaGaseosas = Gaseosas.listaGaseosas;
-            List<ListaProductos> ListaJugos = Jugos.listaJugos;
-            List<ListaProductos> ListaSaborizadas = Saborizadas.listaSaborizadas;
-            List<ListaProductos> ListaSodas = Sodas.listaSodas;
+            List<ListaProductos> ListaTotal = Aguas.listaAguas;
+            ListaTotal.AddRange(Fernet.listaFernets);
+            ListaTotal.AddRange(Gaseosas.listaGaseosas);
+            ListaTotal.AddRange(Jugos.listaJugos);
+            ListaTotal.AddRange(Saborizadas.listaSaborizadas);
+            ListaTotal.AddRange(Sodas.listaSodas);
+
             var location = await Geolocation.GetLastKnownLocationAsync();
             if (location != null)
             {
@@ -43,16 +44,12 @@ namespace Relevamiento.Vistas
             bool respuesta = await DisplayAlert("ATENCION", "Desea finalizar el relevamiento?", "Si", "No");
             if (respuesta)
             {
-
-
-
-
                 ComerciO c3 = new ComerciO()
                 {
                     fK_TIP_COM = 2,
-                    nombre = localARelevar.Nombre,
-                    calle = localARelevar.Calle,
-                    numero = localARelevar.Numero,
+                    nombre = localARelevar.NOMBRE,
+                    calle = localARelevar.CALLE,
+                    numero = localARelevar.NUMERO,
                     fK_ERP_LOCALIDADES = 3,
                     fK_ERP_PROVINCIAS = 1,
                     latitud = "999999.332",

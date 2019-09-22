@@ -10,8 +10,8 @@ namespace Relevamiento.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BusquedaDistribuidor : ContentPage
     {
-        public Distribuidora DistribuidorSeleccionado;
-        public List<Distribuidora> lista_distribuidores;
+        public ERP_EMPRESAS DistribuidorSeleccionado;
+        public List<ERP_EMPRESAS> lista_distribuidores;
         public BusquedaDistribuidor()
         {
             InitializeComponent();
@@ -31,46 +31,42 @@ namespace Relevamiento.Vistas
         {
             DistribuidorList.IsVisible = false;
             DatosDistribuidor.IsVisible = true;
-            DistribuidorSeleccionado = e.Item as Distribuidora;
-            LblNombreFantasia.Text = "Nombre: " + DistribuidorSeleccionado.Nombre.ToString();
-            LblCodigo.Text = "Codigo: " + DistribuidorSeleccionado.Id.ToString();
+            DistribuidorSeleccionado = e.Item as ERP_EMPRESAS;
+            LblNombreFantasia.Text = "Nombre: " + DistribuidorSeleccionado.NOM_FANTASIA.ToString();
+            LblCodigo.Text = "Codigo: " + DistribuidorSeleccionado.ID.ToString();
         }
 
-        public List<Distribuidora> TraerDatos2()
+        public List<ERP_EMPRESAS> TraerDatos2()
         {
-            List<Distribuidora> listaDatos = new List<Distribuidora>();
-            Distribuidora d1 = new Distribuidora()
+            List<ERP_EMPRESAS> listaDatos = new List<ERP_EMPRESAS>();
+            ERP_EMPRESAS d1 = new ERP_EMPRESAS()
             {
-                Id = "99999",
-                Provincia = "Buenos Aires",
-                Nombre = "Prueba",
-                Direccion = "Coronel Aguirre 2407"
+                ID = 99999,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires",
+                NOM_FANTASIA = "Prueba"
             };
             listaDatos.Add(d1);
 
-            d1 = new Distribuidora()
+            d1 = new ERP_EMPRESAS()
             {
-                Id = "0003",
-                Provincia = "Buenos Aires",
-                Nombre = "REFRES NOW S.A",
-                Direccion = "Brig. Juan M. de Rosas 25150"
+                ID = 0003,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires",
+                NOM_FANTASIA = "REFRES NOW S.A"
             };
             listaDatos.Add(d1);
-            d1 = new Distribuidora()
+            d1 = new ERP_EMPRESAS()
             {
-                Id = "934",
-                Provincia = "Buenos Aires",
-                Nombre = "GASPAR CAMPOS",
-                Direccion = "Gaspar Campos 4061"
+                ID = 934,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires",
+                NOM_FANTASIA = "GASPAR CAMPOS"
             };
             listaDatos.Add(d1);
 
-			d1 = new Distribuidora()
+			d1 = new ERP_EMPRESAS()
 			{
-				Id = "16009|200564|20507|20666|20789|20957",
-				Provincia = "Buenos Aires",
-				Nombre = "MAZUCA ROBERTO",
-				Direccion = "Gaspar Campos 4061"
+				ID = 16009|200564|20507|20666|20789|20957,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires",
+                NOM_FANTASIA = "MAZUCA ROBERTO"
 			};
 			listaDatos.Add(d1);
 

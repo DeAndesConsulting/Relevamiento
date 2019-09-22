@@ -15,7 +15,7 @@ namespace Relevamiento
     {
         public static RelevamientO releva = new RelevamientO();
         public static List<Comercios> comercios = new List<Comercios>();
-        public  static Distribuidora distribuidorseleccionado;
+        public  static ERP_EMPRESAS distribuidorseleccionado;
         public static List<ComerciO> listacom = new List<ComerciO>();
         public static List<RelevamientoArticulO> relarts = new List<RelevamientoArticulO>();
         public static string RutaBD;
@@ -25,28 +25,28 @@ namespace Relevamiento
             RutaBD = rutaBD;
             VersionTracking.Track();
             bool firsttime = VersionTracking.IsFirstLaunchForCurrentVersion;
-            if (firsttime == true)
-            {
+            //if (firsttime == true)
+            //{
 
-                List<ListaProductos> lista_productos;
+                List<_ARTICULOS> lista_productos;
                 lista_productos = TraerProductos();
-                List<Distribuidora> ListaDistribuidores;
+                List<ERP_EMPRESAS> ListaDistribuidores;
                 ListaDistribuidores = TraerDatos2();
                 using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))
                 {
                     conexion.CreateTable<Provincia>();
                     conexion.CreateTable<TipoLocal>();
-                    conexion.CreateTable<Distribuidora>();
-                    conexion.CreateTable<Local>();
-                    conexion.CreateTable<TipoProductos>();
-                    conexion.CreateTable<ListaProductos>();
+                    conexion.CreateTable<ERP_EMPRESAS>();
+                    conexion.CreateTable<_COMERCIO>();
+                    conexion.CreateTable<_TIP_ART>();
+                    conexion.CreateTable<_ARTICULOS>();
                     conexion.CreateTable<Relevado>();
                 }
                 SQLiteAsyncConnection conn = new SQLiteAsyncConnection(App.RutaBD);
                 conn.InsertAllAsync(lista_productos);
                 conn.InsertAllAsync(ListaDistribuidores);
 
-            }
+            //}
 
 
             //MainPage = new NavigationPage(new Vistas.Login());
@@ -70,760 +70,612 @@ namespace Relevamiento
                     status = results[Permission.Phone];
             }
         }
-        public List<ListaProductos> TraerProductos()
+        public List<_ARTICULOS> TraerProductos()
         {
-            List<ListaProductos> listaProductos = new List<ListaProductos>();
-            ListaProductos d2 = new ListaProductos()
+            List<_ARTICULOS> listaProductos = new List<_ARTICULOS>();
+            _ARTICULOS d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Manaos 300",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+                DESCRIPCION = "Manaos 300",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Manaos 1250",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Manaos 1250",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Manaos 2250",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Manaos 2250",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Manaos 600",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Manaos 600",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Manaos sin Azucar",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Manaos sin Azucar",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cantidad de sabores 2250",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Cantidad de sabores 2250",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Beach",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Beach",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cabalgata",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Cabalgata",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Caribe",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Caribe",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cimes",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Cimes",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Coca Cola",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Coca Cola",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cordoba",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Cordoba",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cunnington",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Cunnington",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Doble Cola",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Doble Cola",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Frutafiel",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Frutafiel",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Goliat",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Goliat",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Marinaro",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Marinaro",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Mocoreta",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Mocoreta",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Pepsi Cola",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Pepsi Cola",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Prity",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Prity",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Rafting",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Rafting",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Secco",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Secco",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Talca",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Talca",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Torasso",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Torasso",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Otras",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 0,
+                ID = 1,
+               DESCRIPCION = "Otras",
+                FK_TIP_ART = 0,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Villamanaos 2000",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Villamanaos 2000",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Villamanaos 6000",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Villamanaos 6000",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Agua de misiones",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Agua de misiones",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Celier",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Celier",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cimes",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Cimes",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Exaltacion de la cruz",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Exaltacion de la cruz",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Glaciar",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Glaciar",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Kin",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Kin",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Sierra de los padres",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Sierra de los padres",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Villa del sur",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Villa del sur",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Villavicencio",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Villavicencio",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Otras",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 1,
+                ID = 1,
+               DESCRIPCION = "Otras",
+                FK_TIP_ART = 1,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Placer 1500",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Placer 1500",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Placer 500",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Placer 500",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Baggio Fresh",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Baggio Fresh",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Levite",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Levite",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cimes",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Cimes",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Aquarius",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Aquarius",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Bio Balance",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Bio Balance",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Celier",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Celier",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Livra",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Livra",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Ser",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Ser",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Style",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Style",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Otras",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 2,
+                ID = 1,
+               DESCRIPCION = "Otras",
+                FK_TIP_ART = 2,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Manaos 2000",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Manaos 2000",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cimes",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Cimes",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Aubal",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Aubal",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Exaltacion de la cruz",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Exaltacion de la cruz",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Ives",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Ives",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Vitalisima",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Vitalisima",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Sierra de los padres",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Sierra de los padres",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Torasso",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Torasso",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Saldan",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Saldan",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Nihull",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Nihull",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Mass",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Mass",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Penty",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Penty",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Otras",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 3,
+                ID = 1,
+               DESCRIPCION = "Otras",
+                FK_TIP_ART = 3,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Pindapoy",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Pindapoy",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Baggio Pronto",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Baggio Pronto",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Cepita",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Cepita",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Bio Frut",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Bio Frut",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Capilla mendocina",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Capilla mendocina",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Tutti",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Tutti",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Puro Sol",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Puro Sol",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Citric",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Citric",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Otros",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 4,
+                ID = 1,
+               DESCRIPCION = "Otros",
+                FK_TIP_ART = 4,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "F-Nandito VII",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 5,
+                ID = 1,
+               DESCRIPCION = "F-Nandito VII",
+                FK_TIP_ART = 5,
             };
             listaProductos.Add(d2);
 
-            d2 = new ListaProductos()
+            d2 = new _ARTICULOS()
             {
-                Id = 1,
-                Producto = "Fernando",
-                Precio = 0,
-                Existe = false,
-                TipoProducto = 5,
+                ID = 1,
+               DESCRIPCION = "Fernando",
+                FK_TIP_ART = 5,
             };
             listaProductos.Add(d2);
             return listaProductos;
         }
 
-        public List<Distribuidora> TraerDatos2()
+        public List<ERP_EMPRESAS> TraerDatos2()
         {
-            List<Distribuidora> listaDatos = new List<Distribuidora>();
+            List<ERP_EMPRESAS> listaDatos = new List<ERP_EMPRESAS>();
 
-            Distribuidora d1 = new Distribuidora()
+            ERP_EMPRESAS d1 = new ERP_EMPRESAS()
             {
-                Id = "1",
-                Provincia = "Buenos Aires",
-                Nombre = "Hola",
-                Direccion = "Av lola 2211"
+                ID = 1,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires",
+                NOM_FANTASIA = "Hola"
             };
             listaDatos.Add(d1);
 
-            d1 = new Distribuidora()
+            d1 = new ERP_EMPRESAS()
             {
-                Id = "2",
-                Provincia = "Buenos Aires",
-                Nombre = "REFRES NOW S.A",
-                Direccion = "Brig. Juan M. de Rosas 25150"
+                ID = 2,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires",
+                NOM_FANTASIA = "REFRES NOW S.A"
             };
             listaDatos.Add(d1);
             return listaDatos;

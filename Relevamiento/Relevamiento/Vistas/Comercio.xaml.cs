@@ -100,8 +100,6 @@ namespace Relevamiento.Vistas
 
         private async void btnFinalizarClicked(object sender, EventArgs e)
         {
-
-            string URL = "https://jsonplaceholder.typicode.com/posts";
             App.releva.FK_ERP_EMPRESAS = "2";
             App.releva.FK_ERP_ASESORES = 2;
             App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
@@ -132,6 +130,9 @@ namespace Relevamiento.Vistas
 			//Serializo la repsuesta que viene en formato json al tipo de clase
 			//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
 			ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+
+			//Dato a guardar en tabla tbRequest
+			string requestBody = JsonConvert.SerializeObject(respuesta);
 
 			//-------------- CODIGO LEO POST -------------
 			//httpClient = new HttpClient();

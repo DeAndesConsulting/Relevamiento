@@ -20,6 +20,8 @@ namespace Relevamiento.Vistas
             InitializeComponent();
             int Aguas = 1;
 
+			//Se inserto comentarios para gabito
+
                    listaAguas = TraerProductos();
                 AguasListView.ItemsSource = listaAguas.Where(c => c.TipoProducto.ToString().ToLower().Contains(Aguas.ToString()));
         }

@@ -44,98 +44,98 @@ namespace Relevamiento.Vistas
             bool respuesta = await DisplayAlert("ATENCION", "Desea finalizar el relevamiento?", "Si", "No");
             if (respuesta)
             {
-                ComerciO c3 = new ComerciO()
+                ItrisComercioEntity c3 = new ItrisComercioEntity()
                 {
-                    fK_TIP_COM = 2,
-                    nombre = localARelevar.NOMBRE,
-                    calle = localARelevar.CALLE,
-                    numero = localARelevar.NUMERO,
-                    fK_ERP_LOCALIDADES = 3,
-                    fK_ERP_PROVINCIAS = 1,
-                    latitud = "999999.332",
-                    longitud = "99999.963"
+					FK_TIP_COM = 2,
+                    NOMBRE = localARelevar.NOMBRE,
+                    CALLE = localARelevar.CALLE,
+                    NUMERO = localARelevar.NUMERO,
+                    FK_ERP_LOCALIDADES = 3,
+                    FK_ERP_PROVINCIAS = 1,
+                    LATITUD = "999999.332",
+                    LONGITUD = "99999.963"
                 };
                 App.listacom.Add(c3);
 
 
 
-                RelevamientoArticulO rla = new RelevamientoArticulO()
+                ItrisRelevamientoArticuloEntity rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 1,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 1,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
 
-                rla = new RelevamientoArticulO()
+                rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 2,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 2,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
-                rla = new RelevamientoArticulO()
+                rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 3,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 3,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
-                rla = new RelevamientoArticulO()
+                rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 4,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 4,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
-                rla = new RelevamientoArticulO()
+                rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 5,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 5,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
-                rla = new RelevamientoArticulO()
+                rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 6,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 6,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
-                rla = new RelevamientoArticulO()
+                rla = new ItrisRelevamientoArticuloEntity()
                 {
-                    fK_ARTICULOS = 7,
-                    existe = true,
-                    precio = 55.55
-
-                };
-                App.relarts.Add(rla);
-
-                rla = new RelevamientoArticulO()
-                {
-                    fK_ARTICULOS = 8,
-                    existe = true,
-                    precio = 55.55
-
-                };
-                App.relarts.Add(rla);
-                rla = new RelevamientoArticulO()
-                {
-                    fK_ARTICULOS = 9,
-                    existe = true,
-                    precio = 55.55
+                    FK_ARTICULOS = 7,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
                 };
                 App.relarts.Add(rla);
 
+                rla = new ItrisRelevamientoArticuloEntity()
+                {
+                    FK_ARTICULOS = 8,
+                    EXISTE = true,
+                    PRECIO = 55.55
 
-                Comercios cs3 = new Comercios()
+                };
+                App.relarts.Add(rla);
+                rla = new ItrisRelevamientoArticuloEntity()
+                {
+                    FK_ARTICULOS = 9,
+                    EXISTE = true,
+                    PRECIO = 55.55
+
+                };
+                App.relarts.Add(rla);
+
+
+                ItrisComercioArticulo cs3 = new ItrisComercioArticulo()
                 {
                     comercio = c3,
                     relevamientoArticulo = App.relarts,

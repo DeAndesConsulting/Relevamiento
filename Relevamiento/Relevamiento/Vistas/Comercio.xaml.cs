@@ -102,11 +102,11 @@ namespace Relevamiento.Vistas
         {
 
             string URL = "https://jsonplaceholder.typicode.com/posts";
-            App.releva.fK_ERP_EMPRESAS = "2";
-            App.releva.fK_ERP_ASESORES = 2;
-            App.releva.fecha = DateTime.Now;
-            App.releva.codigo = "ASD123ADSASD";
-            Relevamientos relevamientos = new Relevamientos();
+            App.releva.FK_ERP_EMPRESAS = "2";
+            App.releva.FK_ERP_ASESORES = 2;
+            App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            App.releva.CODIGO = "ASD123ADSASD";
+            ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
             relevamientos.relevamiento = App.releva;
             relevamientos.comercios = App.comercios;
             relevamientos.codigoRequest = "123456789-8";
@@ -131,7 +131,7 @@ namespace Relevamiento.Vistas
 
 			//Serializo la repsuesta que viene en formato json al tipo de clase
 			//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
-			Relevamientos respuesta = JsonConvert.DeserializeObject<Relevamientos>(stringResponse);
+			ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
 
 			//-------------- CODIGO LEO POST -------------
 			//httpClient = new HttpClient();

@@ -2,48 +2,96 @@
 using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Relevamiento.Clases
 {
-
-    public class RelevamientO
+	[DataContract]
+    public class ItrisRelevamientoEntity
     {
-        public string fK_ERP_EMPRESAS { get; set; }
-        public int fK_ERP_ASESORES { get; set; }
-        public DateTime fecha { get; set; }
-        public string codigo { get; set; }
+		[DataMember(EmitDefaultValue = false)]
+		public int ID { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string FK_ERP_EMPRESAS { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_ERP_ASESORES { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string FECHA { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string CODIGO { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public bool ENVIADO_POR_MAIL { get; set; }
+	}
+
+	[DataContract]
+	public class ItrisComercioEntity
+    {
+		[DataMember(EmitDefaultValue = false)]
+		public int ID { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_TIP_COM { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string NOMBRE { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string CALLE { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string NUMERO { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_ERP_LOCALIDADES { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_ERP_PROVINCIAS { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string LATITUD { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string LONGITUD { get; set; }
+	}
+
+	[DataContract]
+	public class ItrisRelevamientoArticuloEntity
+    {
+		[DataMember(EmitDefaultValue = false)]
+		public int ID { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_RELEVAMIENTO { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_ARTICULOS { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public int FK_COMERCIO { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public bool EXISTE { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public double PRECIO { get; set; }
+	}
+
+	public class ItrisComercioArticulo
+    {
+        public ItrisComercioEntity comercio { get; set; }
+        public List<ItrisRelevamientoArticuloEntity> relevamientoArticulo { get; set; }
     }
 
-    public class ComerciO
+    public class ItrisPlanillaEntity
     {
-        public int fK_TIP_COM { get; set; }
-        public string nombre { get; set; }
-        public string calle { get; set; }
-        public string numero { get; set; }
-        public int fK_ERP_LOCALIDADES { get; set; }
-        public int fK_ERP_PROVINCIAS { get; set; }
-        public string latitud { get; set; }
-        public string longitud { get; set; }
-    }
-
-    public class RelevamientoArticulO
-    {
-        public int fK_ARTICULOS { get; set; }
-        public bool existe { get; set; }
-        public double precio { get; set; }
-    }
-
-    public class Comercios
-    {
-        public ComerciO comercio { get; set; }
-        public List<RelevamientoArticulO> relevamientoArticulo { get; set; }
-    }
-
-    public class Relevamientos
-    {
-        public RelevamientO relevamiento { get; set; }
-        public List<Comercios> comercios { get; set; }
+        public ItrisRelevamientoEntity relevamiento { get; set; }
+        public List<ItrisComercioArticulo> comercios { get; set; }
         public string codigoRequest { get; set; }
     }
 

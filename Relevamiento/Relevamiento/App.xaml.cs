@@ -13,11 +13,11 @@ namespace Relevamiento
 {
     public partial class App : Application
     {
-        public static RelevamientO releva = new RelevamientO();
-        public static List<Comercios> comercios = new List<Comercios>();
+        public static ItrisRelevamientoEntity releva = new ItrisRelevamientoEntity();
+        public static List<ItrisComercioArticulo> comercios = new List<ItrisComercioArticulo>();
         public  static ERP_EMPRESAS distribuidorseleccionado;
-        public static List<ComerciO> listacom = new List<ComerciO>();
-        public static List<RelevamientoArticulO> relarts = new List<RelevamientoArticulO>();
+        public static List<ItrisComercioEntity> listacom = new List<ItrisComercioEntity>();
+        public static List<ItrisRelevamientoArticuloEntity> relarts = new List<ItrisRelevamientoArticuloEntity>();
         public static string RutaBD;
         public App(string rutaBD)
         {

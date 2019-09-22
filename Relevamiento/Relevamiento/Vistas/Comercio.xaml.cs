@@ -112,15 +112,40 @@ namespace Relevamiento.Vistas
             relevamientos.codigoRequest = "123456789-8";
             var post = relevamientos;
             var myHttpClient = new HttpClient();
- //           var response = await myHttpClient.PostAsync(URL, relevamientos);
 
-            //var json = await response.Content.ReadAsStringAsync();
-               var json = JsonConvert.SerializeObject(relevamientos, Formatting.Indented);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await myHttpClient.PostAsync(URL, content);
-        }
+			//URL para hacer el post
+			string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
-        private async void btnSiguienteClicked(object sender, EventArgs e)
+			//String content que serealiza la clase a string
+			StringContent stringContent =
+				new StringContent(JsonConvert.SerializeObject(relevamientos), Encoding.UTF8, "application/json");
+
+			//variable que se utiliza para tomar la respuesta
+			HttpResponseMessage httpResponseMessage;
+
+			//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
+			httpResponseMessage = await myHttpClient.PostAsync(new Uri(urlPost), stringContent);
+
+			//Obtengo el mensaje de respuesta del server
+			var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+			//Serializo la repsuesta que viene en formato json al tipo de clase
+			//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
+			Relevamientos respuesta = JsonConvert.DeserializeObject<Relevamientos>(stringResponse);
+
+			//-------------- CODIGO LEO POST -------------
+			//httpClient = new HttpClient();
+			//StringContent stringContent =
+			//	new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+			//httpResponseMessage = await httpClient.PostAsync(new Uri(urlRequest), stringContent);
+
+			//var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
+			//response = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+			//-------------- CODIGO LEO POST -------------
+		}
+
+		private async void btnSiguienteClicked(object sender, EventArgs e)
         {
             if (ValidarDatos())
             {

@@ -39,7 +39,7 @@
                     </Picker>
                     <Entry x:Name="EntryLocalidad" Placeholder="Localidad o Pueblo"/>
                     <Label x:Name="LabelLocalidad" TextColor="Red" Text="Debe ingresar una localidad" IsVisible="False" FontSize="Small"/>
-                    <Picker Title="Tipo de local" x:Name="pickerTipoLocal" ItemDisplayBinding="{Binding Tipo}"/>
+                    <Picker Title="Tipo de local" x:Name="pickerTipoLocal" ItemDisplayBinding="{Binding DESCRIPCION}" SelectedIndexChanged="PickerTipoLocal_SelectedIndexChanged"/>
                     <Label x:Name="LabelTipoLocal" TextColor="Red" Text="Debe seleccionar un tipo de local" IsVisible="False" FontSize="Small"/>
                     <Entry Placeholder="Nombre del local" x:Name="entryNombreLocal"/>
                     <Label x:Name="LabelNombreLocal" TextColor="Red" Text="Debe ingresar un nombre" IsVisible="False" FontSize="Small"/>

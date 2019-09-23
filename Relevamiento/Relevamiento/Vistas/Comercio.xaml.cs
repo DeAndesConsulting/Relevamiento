@@ -21,10 +21,11 @@ namespace Relevamiento.Vistas
     {
         //public Distribuidora distribuidorseleccionado;
         public _COMERCIO ComercioSeleccionado;
+        public _TIP_COM TipoSeleccionado;
         public Comercio(ERP_EMPRESAS Distribuidor)
         {
             InitializeComponent();
-            List<TipoLocal> lista_locales = new List<TipoLocal>();
+            List<_TIP_COM> lista_locales = new List<_TIP_COM>();
             lista_locales = TraerLocales();
             pickerTipoLocal.ItemsSource = lista_locales.ToList();
             PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
@@ -60,33 +61,33 @@ namespace Relevamiento.Vistas
             }
             return validar;
         }
-        public List<TipoLocal> TraerLocales()
+        public List<_TIP_COM> TraerLocales()
         {
-            List<TipoLocal> ListaComercios = new List<TipoLocal>();
+            List<_TIP_COM> ListaComercios = new List<_TIP_COM>();
 
-            TipoLocal d3 = new TipoLocal()
+            _TIP_COM d3 = new _TIP_COM()
             {
-                Id = 1,
-                Tipo = "Almacen"
+                ID = 1,
+                DESCRIPCION = "Almacen"
             };
             ListaComercios.Add(d3);
 
-            d3 = new TipoLocal()
+            d3 = new _TIP_COM()
             {
-                Id = 2,
-                Tipo = "Chino"
+                ID = 2,
+                DESCRIPCION = "Chino"
             };
             ListaComercios.Add(d3);
-            d3 = new TipoLocal()
+            d3 = new _TIP_COM()
             {
-                Id = 3,
-                Tipo = "Despensa",
+                ID = 3,
+                DESCRIPCION = "Despensa",
             };
             ListaComercios.Add(d3);
-            d3 = new TipoLocal()
+            d3 = new _TIP_COM()
             {
-                Id = 4,
-                Tipo = "Kiosco",
+                ID = 4,
+                DESCRIPCION = "Kiosco",
             };
             ListaComercios.Add(d3);
 
@@ -100,8 +101,8 @@ namespace Relevamiento.Vistas
 
         private async void btnFinalizarClicked(object sender, EventArgs e)
         {
-            App.releva.FK_ERP_EMPRESAS = "2";
-            App.releva.FK_ERP_ASESORES = 2;
+            App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
+            App.releva.FK_ERP_ASESORES = App.distribuidorseleccionado.FK_ERP_ASESORES;
             App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             App.releva.CODIGO = "ASD123ADSASD";
             ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
@@ -153,8 +154,8 @@ namespace Relevamiento.Vistas
 
                 _COMERCIO nuevoLocal = new _COMERCIO()
                 {
-                    //   FK_ERP_PROVINCIAS = PickerProvincia.Items[PickerProvincia.SelectedIndex],
-                    //FK_TIP_COM = pickerTipoLocal.Items[pickerTipoLocal.SelectedIndex],
+                       FK_ERP_PROVINCIAS = 1,
+                    FK_TIP_COM = TipoSeleccionado.ID,
                     //  Distribuidor = App.distribuidorseleccionado.NOM_FANTASIA,
                     NOMBRE = entryNombreLocal.Text,
                     CALLE = entryCalleLocal.Text,
@@ -163,6 +164,14 @@ namespace Relevamiento.Vistas
                 };
                 await Navigation.PushAsync(new Tabbed(nuevoLocal));
             }
+        }
+
+        private void PickerTipoLocal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var picker = sender as Picker;
+
+            var selectedTipo = picker.ItemsSource[picker.SelectedIndex] as _TIP_COM;
+            TipoSeleccionado = selectedTipo;
         }
     }
 }

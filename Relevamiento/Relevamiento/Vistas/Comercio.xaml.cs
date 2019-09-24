@@ -21,12 +21,15 @@ namespace Relevamiento.Vistas
     {
         //public Distribuidora distribuidorseleccionado;
         public _COMERCIO ComercioSeleccionado;
+        public ERP_LOCALIDADES LocalidadSeleccionada;
         public _TIP_COM TipoSeleccionado;
+        public List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
         public Comercio(ERP_EMPRESAS Distribuidor)
         {
             InitializeComponent();
             List<_TIP_COM> lista_locales = new List<_TIP_COM>();
             lista_locales = TraerLocales();
+            ListaLocalidades = TraerLocalidades();
             pickerTipoLocal.ItemsSource = lista_locales.ToList();
             PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
             App.distribuidorseleccionado = Distribuidor;
@@ -61,6 +64,35 @@ namespace Relevamiento.Vistas
             }
             return validar;
         }
+
+        public List<ERP_LOCALIDADES> TraerLocalidades()
+        {
+            List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
+            ERP_LOCALIDADES l1 = new ERP_LOCALIDADES()
+            {
+
+                ID = 3058,
+                DESCRIPCION = "CIUDAD AUTONOMA BUENOS AIRES",
+                FK_ERP_PARTIDOS = 7,
+                Z_FK_ERP_PARTIDOS = "CAPITAL FEDERAL",
+                FK_ERP_PROVINCIAS = 0,
+                Z_FK_ERP_PROVINCIAS = "Capital Federal"
+            };
+            ListaLocalidades.Add(l1);
+            l1 = new ERP_LOCALIDADES()
+            {
+
+                ID = 3065,
+                DESCRIPCION = "CIUDADELA",
+                FK_ERP_PARTIDOS = 140,
+                Z_FK_ERP_PARTIDOS = "TRES DE FEBRERO",
+                FK_ERP_PROVINCIAS = 1,
+                Z_FK_ERP_PROVINCIAS = "Buenos Aires"
+            };
+            ListaLocalidades.Add(l1);
+            return ListaLocalidades;
+        }
+
         public List<_TIP_COM> TraerLocales()
         {
             List<_TIP_COM> ListaComercios = new List<_TIP_COM>();
@@ -108,7 +140,7 @@ namespace Relevamiento.Vistas
             ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
             relevamientos.relevamiento = App.releva;
             relevamientos.comercios = App.comercios;
-            relevamientos.codigoRequest = "123456789-8";
+            relevamientos.codigoRequest = "1123456789-8";
             var post = relevamientos;
             var myHttpClient = new HttpClient();
 
@@ -154,9 +186,8 @@ namespace Relevamiento.Vistas
 
                 _COMERCIO nuevoLocal = new _COMERCIO()
                 {
-                       FK_ERP_PROVINCIAS = 1,
+                    FK_ERP_PROVINCIAS = 1,
                     FK_TIP_COM = TipoSeleccionado.ID,
-                    //  Distribuidor = App.distribuidorseleccionado.NOM_FANTASIA,
                     NOMBRE = entryNombreLocal.Text,
                     CALLE = entryCalleLocal.Text,
                     NUMERO = entryNumeroLocal.Text,
@@ -172,6 +203,37 @@ namespace Relevamiento.Vistas
 
             var selectedTipo = picker.ItemsSource[picker.SelectedIndex] as _TIP_COM;
             TipoSeleccionado = selectedTipo;
+        }
+
+        public void LocalidadSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(LocalidadSearch.Text))
+            {
+                List<ERP_LOCALIDADES> temp = new List<ERP_LOCALIDADES>();
+
+                temp = ListaLocalidades.Where(c => c.DESCRIPCION.ToString().ToLower().Contains(LocalidadSearch.Text)).ToList();
+                if (temp.Count != 0)
+                {
+                    LocalidadList.IsVisible = true;
+                    LocalidadList.ItemsSource = temp;
+                }
+
+            }
+            else LocalidadList.IsVisible = false;
+        }
+
+        public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            LocalidadList.IsVisible = false;
+            LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;
+            PickerProvincia.SelectedItem = LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS;
+        }
+
+        private void PickerProvincia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //var picker = sender as Picker;
+            //var provincia = picker.SelectedItem.ToString();
+            //LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS = provincia;
         }
     }
 }

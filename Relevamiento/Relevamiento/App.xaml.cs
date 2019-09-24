@@ -16,8 +16,8 @@ namespace Relevamiento
         public static ItrisRelevamientoEntity releva = new ItrisRelevamientoEntity();
         public static List<ItrisComercioArticulo> comercios = new List<ItrisComercioArticulo>();
         public  static ERP_EMPRESAS distribuidorseleccionado;
-        public static List<ItrisComercioEntity> listacom = new List<ItrisComercioEntity>();
-        public static List<ItrisRelevamientoArticuloEntity> relarts = new List<ItrisRelevamientoArticuloEntity>();
+        //public static List<ItrisComercioEntity> listacom = new List<ItrisComercioEntity>();
+        //public static List<ItrisRelevamientoArticuloEntity> relarts = new List<ItrisRelevamientoArticuloEntity>();
         public static string RutaBD;
         public App(string rutaBD)
         {
@@ -25,8 +25,8 @@ namespace Relevamiento
             RutaBD = rutaBD;
             VersionTracking.Track();
             bool firsttime = VersionTracking.IsFirstLaunchForCurrentVersion;
-            //if (firsttime == true)
-            //{
+            if (firsttime == true)
+            {
 
                 List<_ARTICULOS> lista_productos;
                 lista_productos = TraerProductos();
@@ -46,7 +46,7 @@ namespace Relevamiento
                 conn.InsertAllAsync(lista_productos);
                 conn.InsertAllAsync(ListaDistribuidores);
 
-            //}
+            }
 
 
             //MainPage = new NavigationPage(new Vistas.Login());

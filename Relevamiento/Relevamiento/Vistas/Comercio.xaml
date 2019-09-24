@@ -8,7 +8,7 @@
             <ScrollView Orientation="Vertical" VerticalOptions="Start">
                 <StackLayout>
                     <Label Text="Datos del Comercio" FontSize="Medium"/>
-                    <Picker x:Name="PickerProvincia" Title="Provincia">
+                    <Picker x:Name="PickerProvincia" Title="Provincia" SelectedIndexChanged="PickerProvincia_SelectedIndexChanged">
                         <Picker.ItemsSource >
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Buenos Aires</x:String>
@@ -38,6 +38,22 @@
                         </Picker.ItemsSource>
                     </Picker>
                     <Entry x:Name="EntryLocalidad" Placeholder="Localidad o Pueblo"/>
+                    <SearchBar x:Name="LocalidadSearch" TextChanged="LocalidadSearch_TextChanged" Placeholder="Localidad o Pueblo"/>
+                    <ListView x:Name="LocalidadList" SeparatorColor="White" ItemTapped="LocalidadList_ItemTapped"
+                      ItemsSource="{Binding .}" IsVisible="False" HasUnevenRows="true">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label x:Name="LblBusqueda" Text="{Binding DESCRIPCION}" FontSize="Medium"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                     <Label x:Name="LabelLocalidad" TextColor="Red" Text="Debe ingresar una localidad" IsVisible="False" FontSize="Small"/>
                     <Picker Title="Tipo de local" x:Name="pickerTipoLocal" ItemDisplayBinding="{Binding DESCRIPCION}" SelectedIndexChanged="PickerTipoLocal_SelectedIndexChanged"/>
                     <Label x:Name="LabelTipoLocal" TextColor="Red" Text="Debe seleccionar un tipo de local" IsVisible="False" FontSize="Small"/>

@@ -5,6 +5,7 @@ using Relevamiento.Clases;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Relevamiento.Vistas
 {
@@ -36,6 +37,7 @@ namespace Relevamiento.Vistas
         async Task<string> GetImei()
         {
             //Verify Permission
+   
             var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
             if (status != PermissionStatus.Granted)
             {
@@ -43,6 +45,14 @@ namespace Relevamiento.Vistas
                 //Best practice to always check that the key exists
                 if (results.ContainsKey(Permission.Phone))
                     status = results[Permission.Phone];
+            }
+            status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            if (status != PermissionStatus.Granted)
+            {
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+                //Best practice to always check that the key exists
+                if (results.ContainsKey(Permission.Location))
+                    status = results[Permission.Location];
             }
             //Get Imei
             string imei = DependencyService.Get<IServiceImei>().GetImei();

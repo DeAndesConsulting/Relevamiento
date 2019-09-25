@@ -7,7 +7,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Aguas"/>
-            <ListView x:Name="AguasListView" SeparatorColor="White"
+            <ListView x:Name="AguasListView" 
                           HasUnevenRows="True" ItemsSource="{Binding .}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -21,8 +21,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label x:Name="lblProducto" Text="{Binding Produto}" Grid.Column="0" FontSize="Medium"
-                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Producto}" Grid.Column="0" FontSize="Medium" FontAttributes="Bold"/>
                                 <CheckBox x:Name="AguasCheck" Grid.Column="1" Grid.Row="0" VerticalOptions="Start"
                                           HorizontalOptions="Start" IsChecked="{Binding Existe}"/>
                                 <Entry x:Name="EntryPrecio" BindingContext="{x:Reference AguasCheck}" IsVisible="{Binding Path=IsChecked}"

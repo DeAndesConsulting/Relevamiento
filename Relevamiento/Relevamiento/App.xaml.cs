@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Relevamiento.Clases;
@@ -25,8 +26,8 @@ namespace Relevamiento
             RutaBD = rutaBD;
             VersionTracking.Track();
             bool firsttime = VersionTracking.IsFirstLaunchForCurrentVersion;
-            if (firsttime == true)
-            {
+            //if (firsttime == true)
+            //{
 
                 List<_ARTICULOS> lista_productos;
                 lista_productos = TraerProductos();
@@ -46,7 +47,7 @@ namespace Relevamiento
                 conn.InsertAllAsync(lista_productos);
                 conn.InsertAllAsync(ListaDistribuidores);
 
-            }
+            //}
 
 
             //MainPage = new NavigationPage(new Vistas.Login());
@@ -58,18 +59,7 @@ namespace Relevamiento
             };
         }
 
-        async void ObtenerPermisos(object sender, EventArgs e)
-        {
-            //Verify Permission
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
-            if (status != PermissionStatus.Granted)
-            {
-                var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
-                //Best practice to always check that the key exists
-                if (results.ContainsKey(Permission.Phone))
-                    status = results[Permission.Phone];
-            }
-        }
+
         public List<_ARTICULOS> TraerProductos()
         {
             List<_ARTICULOS> listaProductos = new List<_ARTICULOS>();

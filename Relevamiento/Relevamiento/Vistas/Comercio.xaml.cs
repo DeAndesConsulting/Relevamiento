@@ -5,12 +5,15 @@
 
 using Newtonsoft.Json;
 using Relevamiento.Clases;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -140,9 +143,16 @@ namespace Relevamiento.Vistas
             ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
             relevamientos.relevamiento = App.releva;
             relevamientos.comercios = App.comercios;
-            relevamientos.codigoRequest = "1123456789-8";
+
+			//Obtengo el imei del equipo para el request
+			string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
+			//Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
+			relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
             var post = relevamientos;
-            var myHttpClient = new HttpClient();
+
+			
+			HttpClient httpClient = new HttpClient();
+			httpClient.Timeout = TimeSpan.FromMinutes(30);
 
 			//URL para hacer el post
 			string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
@@ -155,7 +165,7 @@ namespace Relevamiento.Vistas
 			HttpResponseMessage httpResponseMessage;
 
 			//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
-			httpResponseMessage = await myHttpClient.PostAsync(new Uri(urlPost), stringContent);
+			httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
 
 			//Obtengo el mensaje de respuesta del server
 			var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
@@ -166,17 +176,6 @@ namespace Relevamiento.Vistas
 
 			//Dato a guardar en tabla tbRequest
 			string requestBody = JsonConvert.SerializeObject(respuesta);
-
-			//-------------- CODIGO LEO POST -------------
-			//httpClient = new HttpClient();
-			//StringContent stringContent =
-			//	new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-
-			//httpResponseMessage = await httpClient.PostAsync(new Uri(urlRequest), stringContent);
-
-			//var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
-			//response = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
-			//-------------- CODIGO LEO POST -------------
 		}
 
 		private async void btnSiguienteClicked(object sender, EventArgs e)
@@ -235,5 +234,35 @@ namespace Relevamiento.Vistas
             //var provincia = picker.SelectedItem.ToString();
             //LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS = provincia;
         }
-    }
+
+		#region Metodos para generar codigo del POST para el relevamiento
+
+		/// <summary>
+		/// Metodo de obtencion de IMEI
+		/// </summary>
+		/// <returns></returns>
+		private async Task<string> GetImei()
+		{
+			//Verifico permisos en el equipo
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
+			if (status != PermissionStatus.Granted)
+			{
+				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+				//como buena practica siempre es bueno chequear tener los permisos
+				if (results.ContainsKey(Permission.Phone))
+					status = results[Permission.Phone];
+			}
+
+			return DependencyService.Get<IServiceImei>().GetImei();
+		}
+
+		private string GetMaxIdTbRequest()
+		{
+			int maxId = 1;
+			return maxId.ToString();
+		}
+
+		#endregion
+
+	}
 }

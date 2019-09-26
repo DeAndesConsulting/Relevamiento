@@ -37,7 +37,6 @@
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
-                    <Entry x:Name="EntryLocalidad" Placeholder="Localidad o Pueblo"/>
                     <SearchBar x:Name="LocalidadSearch" TextChanged="LocalidadSearch_TextChanged" Placeholder="Localidad o Pueblo"/>
                     <ListView x:Name="LocalidadList" SeparatorColor="White" ItemTapped="LocalidadList_ItemTapped"
                       ItemsSource="{Binding .}" IsVisible="False" HasUnevenRows="true">

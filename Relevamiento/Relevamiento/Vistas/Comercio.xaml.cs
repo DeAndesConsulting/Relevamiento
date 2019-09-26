@@ -20,7 +20,7 @@ namespace Relevamiento.Vistas
     public partial class Comercio : ContentPage
     {
         //public Distribuidora distribuidorseleccionado;
-        public _COMERCIO ComercioSeleccionado;
+        public _COMERCIO ComercioSeleccionado = new _COMERCIO();
         public ERP_LOCALIDADES LocalidadSeleccionada;
         public _TIP_COM TipoSeleccionado;
         public List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
@@ -29,7 +29,11 @@ namespace Relevamiento.Vistas
             InitializeComponent();
             List<_TIP_COM> lista_locales = new List<_TIP_COM>();
             lista_locales = TraerLocales();
-            ListaLocalidades = TraerLocalidades();
+            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+            {
+                ListaLocalidades = conexion.Query<ERP_LOCALIDADES>("select * from ERP_LOCALIDADES where Z_FK_ERP_PROVINCIAS = ?", Distribuidor.Z_FK_ERP_PROVINCIAS).ToList();
+
+            }
             pickerTipoLocal.ItemsSource = lista_locales.ToList();
             PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
             App.distribuidorseleccionado = Distribuidor;
@@ -65,33 +69,7 @@ namespace Relevamiento.Vistas
             return validar;
         }
 
-        public List<ERP_LOCALIDADES> TraerLocalidades()
-        {
-            List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
-            ERP_LOCALIDADES l1 = new ERP_LOCALIDADES()
-            {
 
-                ID = 3058,
-                DESCRIPCION = "CIUDAD AUTONOMA BUENOS AIRES",
-                FK_ERP_PARTIDOS = 7,
-                Z_FK_ERP_PARTIDOS = "CAPITAL FEDERAL",
-                FK_ERP_PROVINCIAS = 0,
-                Z_FK_ERP_PROVINCIAS = "Capital Federal"
-            };
-            ListaLocalidades.Add(l1);
-            l1 = new ERP_LOCALIDADES()
-            {
-
-                ID = 3065,
-                DESCRIPCION = "CIUDADELA",
-                FK_ERP_PARTIDOS = 140,
-                Z_FK_ERP_PARTIDOS = "TRES DE FEBRERO",
-                FK_ERP_PROVINCIAS = 1,
-                Z_FK_ERP_PROVINCIAS = "Buenos Aires"
-            };
-            ListaLocalidades.Add(l1);
-            return ListaLocalidades;
-        }
 
         public List<_TIP_COM> TraerLocales()
         {
@@ -217,7 +195,7 @@ namespace Relevamiento.Vistas
                     LocalidadList.IsVisible = true;
                     LocalidadList.ItemsSource = temp;
                 }
-
+                else LocalidadList.IsVisible = false;
             }
             else LocalidadList.IsVisible = false;
         }
@@ -227,13 +205,21 @@ namespace Relevamiento.Vistas
             LocalidadList.IsVisible = false;
             LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;
             PickerProvincia.SelectedItem = LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS;
+            ComercioSeleccionado.FK_ERP_PROVINCIAS = LocalidadSeleccionada.FK_ERP_PROVINCIAS;
+            ComercioSeleccionado.FK_ERP_LOCALIDADES = LocalidadSeleccionada.DESCRIPCION;
+            LocalidadSearch.Text = LocalidadSeleccionada.DESCRIPCION;
+
         }
 
         private void PickerProvincia_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //var picker = sender as Picker;
-            //var provincia = picker.SelectedItem.ToString();
-            //LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS = provincia;
+            var picker = sender as Picker;
+            var provincia = picker.SelectedItem.ToString();
+            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+            {
+                ListaLocalidades = conexion.Query<ERP_LOCALIDADES>("select * from ERP_LOCALIDADES where Z_FK_ERP_PROVINCIAS = ?", provincia).ToList();
+
+            }
         }
     }
 }

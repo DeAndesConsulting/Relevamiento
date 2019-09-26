@@ -15,7 +15,7 @@
                                 <x:String>Catamarca</x:String>
                                 <x:String>Chaco</x:String>
                                 <x:String>Chubut</x:String>
-                                <x:String>Ciudad de Buenos Aires</x:String>
+                                <x:String>Capital Federal</x:String>
                                 <x:String>Cordoba</x:String>
                                 <x:String>Corrientes</x:String>
                                 <x:String>Entre Rios</x:String>
@@ -31,6 +31,7 @@
                                 <x:String>San Juan</x:String>
                                 <x:String>San Luis</x:String>
                                 <x:String>Santa Cruz</x:String>
+                                <x:String>Santa Fe</x:String>
                                 <x:String>Santiago del Estero</x:String>
                                 <x:String>Tierra del Fuego</x:String>
                                 <x:String>Tucuman</x:String>

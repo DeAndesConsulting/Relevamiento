@@ -207,8 +207,8 @@ namespace Relevamiento.Clases
 
     public class ERP_EMPRESAS
     {
-        [PrimaryKey, AutoIncrement]
-        public int ID { get; set; }
+        [PrimaryKey]
+        public string ID { get; set; }
         public int FK_ERP_ASESORES { get; set; }
         public int FK_ERP_ASESORES2 { get; set; }
         public int FK_ERP_ASESORES3 { get; set; }

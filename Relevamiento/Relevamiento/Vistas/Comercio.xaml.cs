@@ -46,7 +46,7 @@ namespace Relevamiento.Vistas
                 LabelCalleLocal.IsVisible = true;
                 validar = false;
             }
-            if (string.IsNullOrEmpty(EntryLocalidad.Text))
+            if (string.IsNullOrEmpty(LocalidadSearch.Text))
             {
                 LabelLocalidad.IsVisible = true;
                 validar = false;
@@ -169,7 +169,7 @@ namespace Relevamiento.Vistas
                     NOMBRE = entryNombreLocal.Text,
                     CALLE = entryCalleLocal.Text,
                     NUMERO = entryNumeroLocal.Text,
-                    FK_ERP_LOCALIDADES = EntryLocalidad.Text,
+                    FK_ERP_LOCALIDADES = LocalidadSearch.Text,
                 };
                 await Navigation.PushAsync(new Tabbed(nuevoLocal));
             }

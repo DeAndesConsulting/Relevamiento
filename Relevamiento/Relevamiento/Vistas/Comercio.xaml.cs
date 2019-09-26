@@ -112,48 +112,55 @@ namespace Relevamiento.Vistas
             await Navigation.PopAsync();
         }
 
-        private async void btnFinalizarClicked(object sender, EventArgs e)
-        {
-            App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
-            App.releva.FK_ERP_ASESORES = App.distribuidorseleccionado.FK_ERP_ASESORES;
-            App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-            App.releva.CODIGO = "ASD123ADSASD";
-            ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
-            relevamientos.relevamiento = App.releva;
-            relevamientos.comercios = App.comercios;
+		private async void btnFinalizarClicked(object sender, EventArgs e)
+		{
+			try
+			{
+				App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
+				App.releva.FK_ERP_ASESORES = 11;// App.distribuidorseleccionado.FK_ERP_ASESORES;
+				App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+				App.releva.CODIGO = "ASD123ADSASD";
+				ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
+				relevamientos.relevamiento = App.releva;
+				relevamientos.comercios = App.comercios;
 
-			//Obtengo el imei del equipo para el request
-			string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
-			//Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
-			relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
-            var post = relevamientos;
+				//Obtengo el imei del equipo para el request
+				string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
+				//Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
+				relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
+				var post = relevamientos;
 
-			
-			HttpClient httpClient = new HttpClient();
-			httpClient.Timeout = TimeSpan.FromMinutes(30);
 
-			//URL para hacer el post
-			string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
+				HttpClient httpClient = new HttpClient();
+				httpClient.Timeout = TimeSpan.FromMinutes(30);
 
-			//String content que serealiza la clase a string
-			StringContent stringContent =
-				new StringContent(JsonConvert.SerializeObject(relevamientos), Encoding.UTF8, "application/json");
+				//URL para hacer el post
+				string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
-			//variable que se utiliza para tomar la respuesta
-			HttpResponseMessage httpResponseMessage;
+				//String content que serealiza la clase a string
+				StringContent stringContent =
+					new StringContent(JsonConvert.SerializeObject(relevamientos), Encoding.UTF8, "application/json");
 
-			//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
-			httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
+				//variable que se utiliza para tomar la respuesta
+				HttpResponseMessage httpResponseMessage;
 
-			//Obtengo el mensaje de respuesta del server
-			var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
+				//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
+				httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
 
-			//Serializo la repsuesta que viene en formato json al tipo de clase
-			//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
-			ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+				//Obtengo el mensaje de respuesta del server
+				var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
-			//Dato a guardar en tabla tbRequest
-			string requestBody = JsonConvert.SerializeObject(respuesta);
+				//Serializo la repsuesta que viene en formato json al tipo de clase
+				//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
+				ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+
+				//Dato a guardar en tabla tbRequest
+				string requestBody = JsonConvert.SerializeObject(respuesta);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 
 		private async void btnSiguienteClicked(object sender, EventArgs e)

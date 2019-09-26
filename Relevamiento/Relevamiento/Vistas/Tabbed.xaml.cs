@@ -42,13 +42,16 @@ namespace Relevamiento.Vistas
                 ItrisRelevamientoArticuloEntity rla = new ItrisRelevamientoArticuloEntity();
                 foreach (var obj in ListaTotal)
                 {
-                    rla = new ItrisRelevamientoArticuloEntity()
-                    {
-                        ID = obj.Id,
-                        EXISTE = obj.Existe,
-                        PRECIO = obj.Precio
-                    };
-                    relarts.Add(rla);
+					if (obj.Existe)
+					{
+						rla = new ItrisRelevamientoArticuloEntity()
+						{
+							FK_ARTICULOS = obj.Id,
+							EXISTE = obj.Existe,
+							PRECIO = obj.Precio
+						};
+						relarts.Add(rla);
+					}
                 }
 
             }

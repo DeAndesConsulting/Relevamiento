@@ -41,7 +41,7 @@ namespace Relevamiento.Vistas
             PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
             App.distribuidorseleccionado = Distribuidor;
         }
-            public bool ValidarDatos()
+        public bool ValidarDatos()
         {
             bool validar = true;
             if (string.IsNullOrEmpty(entryCalleLocal.Text))
@@ -67,7 +67,7 @@ namespace Relevamiento.Vistas
             if (pickerTipoLocal.SelectedIndex == -1)
             {
                 LabelTipoLocal.IsVisible = true;
-              validar = false;
+                validar = false;
             }
             return validar;
         }
@@ -112,58 +112,92 @@ namespace Relevamiento.Vistas
             await Navigation.PopAsync();
         }
 
-		private async void btnFinalizarClicked(object sender, EventArgs e)
-		{
-			try
-			{
-				App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
-				App.releva.FK_ERP_ASESORES = 11;// App.distribuidorseleccionado.FK_ERP_ASESORES;
-				App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-				App.releva.CODIGO = "ASD123ADSASD";
-				ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
-				relevamientos.relevamiento = App.releva;
-				relevamientos.comercios = App.comercios;
+        private async void btnFinalizarClicked(object sender, EventArgs e)
+        {
 
-				//Obtengo el imei del equipo para el request
-				string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
-				//Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
-				relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
-				var post = relevamientos;
+            App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
+            App.releva.FK_ERP_ASESORES = 11;// App.distribuidorseleccionado.FK_ERP_ASESORES;
+            App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            App.releva.CODIGO = "ASD123ADSASD";
+            ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
+            relevamientos.relevamiento = App.releva;
+            relevamientos.comercios = App.comercios;
 
+            //Obtengo el imei del equipo para el request
+            string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
+            //Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
+            //relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
+            relevamientos.codigoRequest = "123456789-9";
+            //var post = relevamientos; //no se esta usando
 
-				HttpClient httpClient = new HttpClient();
-				httpClient.Timeout = TimeSpan.FromMinutes(30);
+            string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
 
-				//URL para hacer el post
-				string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
+            TbRequest tbRequests = new TbRequest()
+            {
+                req_codigo = relevamientos.codigoRequest,
+                req_json = jsonRelevamiento,
+                req_estado = false
+            };
 
-				//String content que serealiza la clase a string
-				StringContent stringContent =
-					new StringContent(JsonConvert.SerializeObject(relevamientos), Encoding.UTF8, "application/json");
+            //INSERT
+            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+            {
+                int result = conexion.Insert(tbRequests);
+            }
 
-				//variable que se utiliza para tomar la respuesta
-				HttpResponseMessage httpResponseMessage;
+            if (CheckNetworkState.hasConnectivity)
+            {
+                await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+            }
+        }
 
-				//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
-				httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
+        private async Task SendPostRelevamiento(string jsonRelevamiento, TbRequest tbRequestToUpdate)
+        {
+            try
+            {
+                //String content que serealiza la clase a string
+                StringContent stringContent =
+                        new StringContent(jsonRelevamiento, Encoding.UTF8, "application/json");
 
-				//Obtengo el mensaje de respuesta del server
-				var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                HttpClient httpClient = new HttpClient();
+                httpClient.Timeout = TimeSpan.FromMinutes(30);
 
-				//Serializo la repsuesta que viene en formato json al tipo de clase
-				//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
-				ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+                //URL para hacer el post
+                string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
-				//Dato a guardar en tabla tbRequest
-				string requestBody = JsonConvert.SerializeObject(respuesta);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
+                //variable que se utiliza para tomar la respuesta
+                HttpResponseMessage httpResponseMessage;
 
-		private async void btnSiguienteClicked(object sender, EventArgs e)
+                //Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
+                httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
+
+                if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    //Obtengo el mensaje de respuesta del server
+                    var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+                    //Serializo la repsuesta que viene en formato json al tipo de clase
+                    //ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
+                    ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+
+                    //Dato a guardar en tabla tbRequest
+                    string requestBody = JsonConvert.SerializeObject(respuesta);
+
+                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    {
+                        tbRequestToUpdate.req_json = requestBody;
+                        tbRequestToUpdate.req_estado = true;
+                        int result = conexion.Update(tbRequestToUpdate);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private async void btnSiguienteClicked(object sender, EventArgs e)
         {
             if (ValidarDatos())
             {
@@ -228,34 +262,34 @@ namespace Relevamiento.Vistas
             }
         }
 
-		#region Metodos para generar codigo del POST para el relevamiento
+        #region Metodos para generar codigo del POST para el relevamiento
 
-		/// <summary>
-		/// Metodo de obtencion de IMEI
-		/// </summary>
-		/// <returns></returns>
-		private async Task<string> GetImei()
-		{
-			//Verifico permisos en el equipo
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
-			if (status != PermissionStatus.Granted)
-			{
-				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
-				//como buena practica siempre es bueno chequear tener los permisos
-				if (results.ContainsKey(Permission.Phone))
-					status = results[Permission.Phone];
-			}
+        /// <summary>
+        /// Metodo de obtencion de IMEI
+        /// </summary>
+        /// <returns></returns>
+        private async Task<string> GetImei()
+        {
+            //Verifico permisos en el equipo
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
+            if (status != PermissionStatus.Granted)
+            {
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+                //como buena practica siempre es bueno chequear tener los permisos
+                if (results.ContainsKey(Permission.Phone))
+                    status = results[Permission.Phone];
+            }
 
-			return DependencyService.Get<IServiceImei>().GetImei();
-		}
+            return DependencyService.Get<IServiceImei>().GetImei();
+        }
 
-		private string GetMaxIdTbRequest()
-		{
-			int maxId = 1;
-			return maxId.ToString();
-		}
+        private string GetMaxIdTbRequest()
+        {
+            int maxId = 1;
+            return maxId.ToString();
+        }
 
-		#endregion
+        #endregion
 
-	}
+    }
 }

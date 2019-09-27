@@ -270,8 +270,7 @@ public class ERP_LOCALIDADES
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        //req_codigo(imei_id)
-
+        public string req_codigo { get; set; }
         public string req_json { get; set; }
         public bool req_estado { get; set; }
     }

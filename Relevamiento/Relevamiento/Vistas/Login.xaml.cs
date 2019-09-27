@@ -76,6 +76,7 @@ namespace Relevamiento.Vistas
                 //await Navigation.PushAsync(new Busqueda());
                 User.NombreUsuario = entryName.Text;
                 User.NumeroImei = await GetImei();
+                CheckNetworkState.isLoged = true;
                 await Navigation.PushAsync(new Principal(User));
             }
         }

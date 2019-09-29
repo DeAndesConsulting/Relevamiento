@@ -12,7 +12,7 @@ namespace Relevamiento.Vistas
     public partial class BusquedaDistribuidor : ContentPage
     {
         public ERP_EMPRESAS DistribuidorSeleccionado;
-        public List<ERP_EMPRESAS> lista_distribuidores;
+        public List<ERP_EMPRESAS> lista_distribuidores = new List<ERP_EMPRESAS>();
         public BusquedaDistribuidor()
         {
             InitializeComponent();

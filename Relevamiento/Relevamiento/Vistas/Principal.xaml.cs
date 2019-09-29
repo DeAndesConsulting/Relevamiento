@@ -23,5 +23,12 @@ namespace Relevamiento.Vistas
         {
             await Navigation.PushAsync(new EstadoPage());
         }
-    }
+		async private void BtnTest2_Clicked(object sender, EventArgs e)
+		{
+//			await Navigation.PushAsync(new VitRel());
+		}
+
+
+	}
+
 }

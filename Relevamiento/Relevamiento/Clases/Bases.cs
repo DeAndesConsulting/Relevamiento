@@ -265,24 +265,4 @@ public class ERP_LOCALIDADES
         public int FK_ERP_PROVINCIAS { get; set; }
         public string Z_FK_ERP_PROVINCIAS { get; set; }
     }
-
-    public class TbRequest
-    {
-        [PrimaryKey, AutoIncrement]
-        public int ID { get; set; }
-        public string req_codigo { get; set; }
-        public string req_json { get; set; }
-        public bool req_estado { get; set; }
-    }
-
-
-
-
-
-
-
-
-
-
-
 }

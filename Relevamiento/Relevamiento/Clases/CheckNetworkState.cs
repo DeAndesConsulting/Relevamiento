@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Relevamiento.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;

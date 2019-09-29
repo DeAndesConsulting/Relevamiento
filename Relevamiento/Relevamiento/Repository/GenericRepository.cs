@@ -8,44 +8,41 @@ namespace Relevamiento.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, new()
     {
-        public bool Insert(T obj)
+        private readonly SQLiteConnection db;
+
+        public GenericRepository()
         {
-            using (SQLite.SQLiteConnection db = new SQLiteConnection(App.RutaBD))
-            {
-                return db.Insert(obj) > 0 ? true : false;
-            }
+            db = new SQLiteConnection(App.RutaBD);
+        }
+
+        public bool Insert(T obj)
+        {           
+            var rs = db.Insert(obj) > 0 ? true : false;
+            return rs;
         }
 
         public bool Delete(T obj)
         {
-            using (SQLite.SQLiteConnection db = new SQLiteConnection(App.RutaBD))
-            {
-                return db.Delete(obj) > 0 ? true : false;
-            }
+            var rs = db.Delete(obj) > 0 ? true : false;
+            return rs;
         }
 
         public T GetById(int id)
         {
-            using (SQLite.SQLiteConnection db = new SQLiteConnection(App.RutaBD))
-            {
-                return db.Get<T>(id);
-            }
+            var rs = db.Get<T>(id);
+            return rs;
         }
 
         public IEnumerable<T> GetAll()
         {
-            using (SQLite.SQLiteConnection db = new SQLiteConnection(App.RutaBD))
-            {
-                return db.Table<T>();
-            }
+            var rs = db.Table<T>();
+            return rs;
         }
 
         public bool Update(T obj)
         {
-            using (SQLite.SQLiteConnection db = new SQLiteConnection(App.RutaBD))
-            {
-                return db.Update(obj) > 0 ? true : false;
-            }
+            var rs = db.Update(obj) > 0 ? true : false;
+            return rs;
         }
     }
 }

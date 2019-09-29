@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Relevamiento.Models;
+using Relevamiento.Services.Data;
 
 namespace Relevamiento.Vistas
 {
@@ -127,28 +128,36 @@ namespace Relevamiento.Vistas
             //Obtengo el imei del equipo para el request
             string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
             //Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
-            //relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
-            relevamientos.codigoRequest = "123456789-9";
+            relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
+            //relevamientos.codigoRequest = "123456789-9";
             //var post = relevamientos; //no se esta usando
 
             string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
 
-            TbRequest tbRequests = new TbRequest()
-            {
-                req_codigo = relevamientos.codigoRequest,
-                req_json = jsonRelevamiento,
-                req_estado = false
-            };
+            var tbRequestDataService = new TbRequestDataService();
 
-            //INSERT
-            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+            if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
             {
-                int result = conexion.Insert(tbRequests);
+                TbRequest tbRequests = new TbRequest()
+                {
+                    req_codigo = relevamientos.codigoRequest,
+                    req_json = jsonRelevamiento,
+                    req_estado = false
+                };
+
+                if (tbRequestDataService.Insert(tbRequests))
+                    await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
+                else
+                    await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+
+                if (CheckNetworkState.hasConnectivity)
+                    await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+                else
+                    await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
             }
-
-            if (CheckNetworkState.hasConnectivity)
+            else
             {
-                await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+                await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
             }
         }
 
@@ -174,6 +183,8 @@ namespace Relevamiento.Vistas
 
                 if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Created)
                 {
+                    await DisplayAlert("Aviso", "Se ha enviado el relevamiento", "Ok");
+                    
                     //Obtengo el mensaje de respuesta del server
                     var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
@@ -184,13 +195,18 @@ namespace Relevamiento.Vistas
                     //Dato a guardar en tabla tbRequest
                     string requestBody = JsonConvert.SerializeObject(respuesta);
 
-                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-                    {
-                        tbRequestToUpdate.req_json = requestBody;
-                        tbRequestToUpdate.req_estado = true;
-                        int result = conexion.Update(tbRequestToUpdate);
-                    }
+                    var tbRequestDataService = new TbRequestDataService();
+
+                    tbRequestToUpdate.req_json = requestBody;
+                    tbRequestToUpdate.req_estado = true;
+
+                    if (tbRequestDataService.Update(tbRequestToUpdate))
+                        await DisplayAlert("Aviso", "Se ha actualizado el relevamiento relevamiento", "Ok");
+                    else
+                        await DisplayAlert("Aviso", "NO se ha podido actualizar el relevamiento relevamiento", "Ok");
                 }
+                else
+                    await DisplayAlert("Aviso", "NO se ha podido enviar el relevamiento", "Ok");
             }
             catch (Exception ex)
             {
@@ -202,7 +218,6 @@ namespace Relevamiento.Vistas
         {
             if (ValidarDatos())
             {
-
                 _COMERCIO nuevoLocal = new _COMERCIO()
                 {
                     FK_ERP_PROVINCIAS = 1,

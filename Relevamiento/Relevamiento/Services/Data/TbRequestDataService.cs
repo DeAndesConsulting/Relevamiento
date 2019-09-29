@@ -15,15 +15,33 @@ namespace Relevamiento.Services.Data
             _genericRepository = new GenericRepository<TbRequest>();
         }
 
-        public TbRequest getByReqCodigo(string reqCodigo)
+        public TbRequest getByCodigo(string reqCodigo)
         {
-            return _genericRepository.GetAll()
+            var result = _genericRepository.GetAll()
                 .Where(tbRequest => tbRequest.req_codigo == reqCodigo).FirstOrDefault();
+
+            return result;
         }
 
-        public bool isReqCodigoAlreadyInserted(string reqCodigo)
+        public bool isInserted(string reqCodigo)
         {
-            return getByReqCodigo(reqCodigo) != null ? true : false;
+            var result = getByCodigo(reqCodigo) != null ? true : false;
+
+            return result;
+        }
+
+        public bool Insert(TbRequest tbRequest)
+        {
+            var result = _genericRepository.Insert(tbRequest);
+
+            return result;
+        }
+
+        public bool Update(TbRequest tbRequest)
+        {
+            var result = _genericRepository.Update(tbRequest);
+
+            return result;
         }
     }
 }

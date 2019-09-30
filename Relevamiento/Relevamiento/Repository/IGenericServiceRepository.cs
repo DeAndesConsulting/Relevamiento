@@ -12,5 +12,6 @@ namespace Relevamiento.Repository
         Task<T> PutAsync<T>(string uri, T data, string authToken = "");
         Task DeleteAsync(string uri, string authToken = "");
         Task<R> PostAsync<T, R>(string uri, T data, string authToken = "");
+        Task<T> PostGetAllAsync<T>(string uri, T data, string authToken = "");
     }
 }

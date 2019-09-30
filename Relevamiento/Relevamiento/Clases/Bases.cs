@@ -187,9 +187,9 @@ namespace Relevamiento.Clases
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public string DESCRIPCION { get; set; }
-        public string _EMAIL { get; set; }
-        public string _IMEI { get; set; }
-        public bool _IMEI_ADMIN { get; set; }
+        public string c_EMAIL { get; set; }
+        public string c_IMEI { get; set; }
+        public bool c_IMEI_ADMIN { get; set; }
     }
 
     public class _TIP_COM

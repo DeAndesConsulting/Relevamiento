@@ -6,7 +6,7 @@ namespace Relevamiento.Clases
 {
     public class ApiEndpoints
     {
-        public const string BaseApiUrl = "http://iserver.itris.com.ar:7101/DACServicesTest/";
-        public const string ErpAsesores = "api/ServiceErpAsesores/Syncrhonize";
+        public const string BaseApiUrl = "http://iserver.itris.com.ar:7101/";
+        public const string ErpAsesores = "DACServicesTest/api/ServiceErpAsesores/Syncrhonize";
     }
 }

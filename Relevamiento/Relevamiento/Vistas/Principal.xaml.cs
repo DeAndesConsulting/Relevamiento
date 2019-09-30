@@ -1,7 +1,10 @@
 ﻿using Relevamiento.Clases;
+using Relevamiento.Services.Middleware;
 using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Linq;
 
 namespace Relevamiento.Vistas
 {
@@ -28,7 +31,19 @@ namespace Relevamiento.Vistas
 //			await Navigation.PushAsync(new VitRel());
 		}
 
+        protected async override void OnAppearing()
+        {
+            var erpAsesoresService = new ErpAsesoresService();
+            List<ERP_ASESORES> erpAsesores = await erpAsesoresService.PostGetAllErpAsesoresAsync();
 
-	}
+            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
+            {
+                var countAsesores = conexion.Table<ERP_ASESORES>().Count();
+
+                if (countAsesores == 0)
+                    erpAsesores.ForEach(asesor => conexion.Insert(asesor));
+            }   
+        }
+    }
 
 }

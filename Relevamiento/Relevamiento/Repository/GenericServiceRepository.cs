@@ -94,7 +94,7 @@ namespace Relevamiento.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<T> PostGetAllAsync<T>(string uri, T data, string authToken = "")
+        public async Task<T> PostGetAllAsync<T>(string uri, T data, string operationType, string authToken = "")
         {
             try
             {
@@ -116,9 +116,9 @@ namespace Relevamiento.Repository
 
                     object oJson = JsonConvert.DeserializeObject(jsonResult);
                     JObject obj = JObject.Parse(oJson.ToString());
-                    string listCreate = obj["listaCreate"].ToString();
+                    string _operationType = obj[operationType].ToString();
 
-                    var json = JsonConvert.DeserializeObject<T>(listCreate);
+                    var json = JsonConvert.DeserializeObject<T>(_operationType);
                     return json;
                 }
 

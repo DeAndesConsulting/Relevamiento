@@ -35,7 +35,7 @@ namespace Relevamiento.Services.Middleware
                 Path = ApiEndpoints.ErpAsesores
             };
 
-            var result = await _genericServiceRepository.PostGetAllAsync<List<ERP_ASESORES>>(builder.ToString(), new List<ERP_ASESORES>());
+            var result = await _genericServiceRepository.PostGetAllAsync<List<ERP_ASESORES>>(builder.ToString(), new List<ERP_ASESORES>(), "listaCreate");
 
             return result;
         }

@@ -26,10 +26,11 @@ namespace Relevamiento.Vistas
         {
             await Navigation.PushAsync(new EstadoPage());
         }
-		async private void BtnTest2_Clicked(object sender, EventArgs e)
+		async private void SincronizarRegistros_Clicked(object sender, EventArgs e)
 		{
-//			await Navigation.PushAsync(new VitRel());
-		}
+            //await Navigation.PushAsync(new VitRel());
+            UpdateListAsesores();
+        }
 
         protected override void OnAppearing()
         {
@@ -40,7 +41,7 @@ namespace Relevamiento.Vistas
         private async void CreateListEmpresas()
         {
             var erpEmpresasService = new ErpEmpresasService();
-            List<ERP_EMPRESAS> erpEmpresas = await erpEmpresasService.PostGetAllErpEmpresasAsync();
+            List<ERP_EMPRESAS> erpEmpresas = await erpEmpresasService.PostGetAllErpEmpresasAsync(new List<ERP_EMPRESAS>(), "listaCreate");
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
@@ -54,7 +55,7 @@ namespace Relevamiento.Vistas
         private async void CreateListAsesores()
         {
             var erpAsesoresService = new ErpAsesoresService();
-            List<ERP_ASESORES> erpAsesores = await erpAsesoresService.PostGetAllErpAsesoresAsync();
+            List<ERP_ASESORES> erpAsesores = await erpAsesoresService.PostGetAllErpAsesoresAsync(new List<ERP_ASESORES>(), "listaCreate");
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
@@ -62,6 +63,26 @@ namespace Relevamiento.Vistas
 
                 if (countAsesores == 0)
                     erpAsesores.ForEach(asesor => conexion.Insert(asesor));
+            }
+        }
+
+        private async void UpdateListAsesores()
+        {
+            List<ERP_ASESORES> lstAsesores;
+            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
+            {
+                lstAsesores = conexion.Table<ERP_ASESORES>().ToList();
+            }
+
+            var erpAsesoresService = new ErpAsesoresService();
+            List<ERP_ASESORES> erpAsesores = await erpAsesoresService.PostGetAllErpAsesoresAsync(lstAsesores, "listaUpdate");
+
+            if (erpAsesores.Count() > 0)
+            {
+                using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
+                {
+                    erpAsesores.ForEach(asesor => conexion.Update(asesor));
+                }
             }
         }
     }

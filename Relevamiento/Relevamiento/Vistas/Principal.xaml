@@ -8,7 +8,7 @@
             <Label x:Name="lblUsuario"  HorizontalOptions="Center"/>
             <Button x:Name="BtnRelevamiento1" Clicked="BtnRelevamiento" Text="Relevamiento"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
             <Button x:Name="BtnEstado" Clicked="BtnEstado_Clicked" Text="Estados"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
-            <Button x:Name="BtnEstado2" Clicked="BtnTest2_Clicked" Text="Test"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+            <Button x:Name="btnSincronizarRegistros" Clicked="SincronizarRegistros_Clicked" Text="Sincronizar Registros"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
 
         </StackLayout>
     </ContentPage.Content>

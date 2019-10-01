@@ -28,14 +28,14 @@ namespace Relevamiento.Services.Middleware
             return erpAsesores;
         }
 
-        public async Task<List<ERP_ASESORES>> PostGetAllErpAsesoresAsync()
+        public async Task<List<ERP_ASESORES>> PostGetAllErpAsesoresAsync(List<ERP_ASESORES> lstAsesores, string operationType)
         {
             UriBuilder builder = new UriBuilder(ApiEndpoints.BaseApiUrl)
             {
                 Path = ApiEndpoints.ErpAsesores
             };
 
-            var result = await _genericServiceRepository.PostGetAllAsync<List<ERP_ASESORES>>(builder.ToString(), new List<ERP_ASESORES>(), "listaCreate");
+            var result = await _genericServiceRepository.PostGetAllAsync<List<ERP_ASESORES>>(builder.ToString(), lstAsesores, operationType);
 
             return result;
         }

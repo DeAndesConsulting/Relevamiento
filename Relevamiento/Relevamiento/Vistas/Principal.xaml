@@ -9,7 +9,36 @@
             <Button x:Name="BtnRelevamiento1" Clicked="BtnRelevamiento" Text="Relevamiento"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
             <Button x:Name="BtnEstado" Clicked="BtnEstado_Clicked" Text="Estados"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
             <Button x:Name="btnSincronizarRegistros" Clicked="SincronizarRegistros_Clicked" Text="Sincronizar Registros"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
-
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackLayout>
+                    <Label Text="Asesores Create:" />
+                    <Label Text="Asesores Update:" />
+                    <Label Text="Asesores Delete:" />
+                </StackLayout>
+                <StackLayout Grid.Column="1">
+                    <Label x:Name="lblAsesoresCreate" />
+                    <Label x:Name="lblAsesoresUpdate" />
+                    <Label x:Name="lblAsesoresDelete" />
+                </StackLayout>
+                <StackLayout Grid.Row="1">
+                    <Label Text="Empresas Create:" />
+                    <Label Text="Empresas Update:" />
+                    <Label Text="Empresas Delete:" />
+                </StackLayout>
+                <StackLayout Grid.Row="1" Grid.Column="1">
+                    <Label x:Name="lblEmpresasCreate" />
+                    <Label x:Name="lblEmpresasUpdate" />
+                    <Label x:Name="lblEmpresasDelete" />
+                </StackLayout>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -52,7 +52,7 @@ namespace Relevamiento.Repository
             }
         }
 
-        public async Task<T> PostAsync<T>(string uri, T data, string authToken = "")
+        /*public async Task<T> PostAsync<T>(string uri, T data, string authToken = "")
         {
             try
             {
@@ -87,14 +87,14 @@ namespace Relevamiento.Repository
                 Debug.WriteLine($"{ e.GetType().Name + " : " + e.Message}");
                 throw;
             }
-        }
+        }*/
 
-        public Task<R> PostAsync<T, R>(string uri, T data, string authToken = "")
+        /*public Task<R> PostAsync<T, R>(string uri, T data, string authToken = "")
         {
             throw new NotImplementedException();
-        }
+        }*/
 
-        public async Task<T> PostGetAllAsync<T>(string uri, T data, string operationType, string authToken = "")
+        public async Task<R> PostAsync<T, R>(string uri, T data, string authToken = "")
         {
             try
             {
@@ -114,11 +114,11 @@ namespace Relevamiento.Repository
                 {
                     jsonResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    object oJson = JsonConvert.DeserializeObject(jsonResult);
-                    JObject obj = JObject.Parse(oJson.ToString());
-                    string _operationType = obj[operationType].ToString();
+                    //object oJson = JsonConvert.DeserializeObject(jsonResult);
+                    //JObject obj = JObject.Parse(oJson.ToString());
+                    //string _operationType = obj[operationType].ToString();
 
-                    var json = JsonConvert.DeserializeObject<T>(_operationType);
+                    var json = JsonConvert.DeserializeObject<R>(jsonResult);
                     return json;
                 }
 

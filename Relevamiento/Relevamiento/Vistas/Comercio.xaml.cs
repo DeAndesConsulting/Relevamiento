@@ -116,49 +116,65 @@ namespace Relevamiento.Vistas
 
         private async void btnFinalizarClicked(object sender, EventArgs e)
         {
+			try
+			{
+				string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
 
-            App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
-            App.releva.FK_ERP_ASESORES = 11;// App.distribuidorseleccionado.FK_ERP_ASESORES;
-            App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-            App.releva.CODIGO = "ASD123ADSASD";
-            ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
-            relevamientos.relevamiento = App.releva;
-            relevamientos.comercios = App.comercios;
+				ERP_ASESORES asesor = new ERP_ASESORES();
+				int maxRequestId = 1;
+				using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+				{
+					//TbRequest maxRequest = new TbRequest();
+					asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+					TbRequest maxRequest = conexion.Table<TbRequest>().OrderByDescending(r => r.ID).FirstOrDefault();
+					if (maxRequest != null)
+						maxRequestId = maxRequest.ID + 1;
+				}
 
-            //Obtengo el imei del equipo para el request
-            string phoneImei = Task.Run(async () => await this.GetImei()).GetAwaiter().GetResult().ToString();
-            //Seteo el IMEI y el maximo identificador de la tabla tbRequest local SQLite
-            relevamientos.codigoRequest = string.Format("{0}-{1}", phoneImei, GetMaxIdTbRequest());
-            //relevamientos.codigoRequest = "123456789-9";
-            //var post = relevamientos; //no se esta usando
+				App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
+				App.releva.FK_ERP_ASESORES = asesor.ID;
+				App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+				string codigoRequest = string.Format("{0}-{1}", imeiTelefono, maxRequestId.ToString());
+				//Obtengo el imei del equipo para el request
 
-            string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
+				App.releva.CODIGO = "ASD123ADSASD";
+				ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
+				relevamientos.relevamiento = App.releva;
+				relevamientos.comercios = App.comercios;
+				relevamientos.codigoRequest = codigoRequest;// "123456789-9"; //<-- Usar este codigo para test (no va a itris)
 
-            var tbRequestDataService = new TbRequestDataService();
+				string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
 
-            if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
-            {
-                TbRequest tbRequests = new TbRequest()
-                {
-                    req_codigo = relevamientos.codigoRequest,
-                    req_json = jsonRelevamiento,
-                    req_estado = false
-                };
+				var tbRequestDataService = new TbRequestDataService();
 
-                if (tbRequestDataService.Insert(tbRequests))
-                    await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
-                else
-                    await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+				if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
+				{
+					TbRequest tbRequests = new TbRequest()
+					{
+						req_codigo = relevamientos.codigoRequest,
+						req_json = jsonRelevamiento,
+						req_estado = false
+					};
 
-                if (CheckNetworkState.hasConnectivity)
-                    await SendPostRelevamiento(jsonRelevamiento, tbRequests);
-                else
-                    await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
-            }
-            else
-            {
-                await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
-            }
+					if (tbRequestDataService.Insert(tbRequests))
+						await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
+					else
+						await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+
+					if (CheckNetworkState.hasConnectivity)
+						await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+					else
+						await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
+				}
+				else
+				{
+					await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
         }
 
         private async Task SendPostRelevamiento(string jsonRelevamiento, TbRequest tbRequestToUpdate)

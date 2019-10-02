@@ -18,13 +18,18 @@
                 </Grid.RowDefinitions>
                 <Image Source="logo3.png" Scale="1" Opacity="0.8" Margin="0,5"/>
                 <StackLayout Grid.Row="1">
-                    <Entry x:Name="entryName" Placeholder="Usuario" PlaceholderColor="Gray" TextColor="Gray" TextChanged="EntryName_TextChanged"/>
+                    <!--<Entry x:Name="entryName" Placeholder="Usuario" PlaceholderColor="Gray" TextColor="Gray" TextChanged="EntryName_TextChanged"/>
                     <Label x:Name="lblusufail" TextColor="Red" FontSize="Small" IsVisible="False"/>
                     <Entry x:Name="entryPass" IsPassword="True" Placeholder="Contraseña" PlaceholderColor="Gray" TextColor="Gray" TextChanged="EntryPass_TextChanged"/>
                     <Label x:Name="lblpwfail" TextColor="Red" FontSize="Small" IsVisible="False"/>
                     <Label x:Name="txtFail" IsVisible="False" Text="Usuario o contraseña incorrectas!" TextColor="Red" HorizontalTextAlignment="Center" FontAttributes="Bold"></Label>
                     <Label x:Name="DevieId"/>
-                    <Button Text="Ingresar" Clicked="Button_Clicked" TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+                    <Button Text="Ingresar" Clicked="Button_Clicked" TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>-->
+
+                    <ActivityIndicator Color="Gray" x:Name="aiLogin"></ActivityIndicator>
+                    <Label x:Name="lblMensaje" TextColor="Gray" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="lblImei" IsVisible="False"/>
+
                     <!--<Button Text="Ingresar" Clicked="ObtenerImei" BorderColor="Aqua" BorderWidth="1" BorderRadius="60"/>-->
                 </StackLayout>
             </Grid>

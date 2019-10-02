@@ -27,6 +27,7 @@ namespace Relevamiento.Vistas
         {
             await Navigation.PushAsync(new EstadoPage());
         }
+
 		async private void SincronizarRegistros_Clicked(object sender, EventArgs e)
 		{
             var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
@@ -37,7 +38,6 @@ namespace Relevamiento.Vistas
 
         protected override void OnAppearing()
         {
-
         }
     }
 

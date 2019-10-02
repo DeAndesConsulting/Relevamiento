@@ -44,7 +44,7 @@ namespace Relevamiento.Services.Middleware
             return result;
         }
 
-        public async void SynchronizeEmpresas()
+        public async Task SynchronizeEmpresas()
         {
             var empresasServiceModel = await GetListEmpresas(CreateListAsesores());
 

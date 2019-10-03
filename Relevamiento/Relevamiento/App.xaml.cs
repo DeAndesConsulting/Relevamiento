@@ -25,6 +25,10 @@ namespace Relevamiento
 		public App(string rutaBD)
 		{
 			InitializeComponent();
+
+			//Linea para obtener permisos
+			Task.Run(async() => await ObtenerPermisos()).GetAwaiter().GetResult();
+
 			RutaBD = rutaBD;
 			VersionTracking.Track();
 			bool firsttime = VersionTracking.IsFirstLaunchForCurrentVersion;
@@ -731,6 +735,28 @@ namespace Relevamiento
 			}
 			return ListaLocalidades;
 		}
+
+		private async Task ObtenerPermisos()
+		{
+			//Verify Permission
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
+			if (status != PermissionStatus.Granted)
+			{
+				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+				//Best practice to always check that the key exists
+				if (results.ContainsKey(Permission.Phone))
+					status = results[Permission.Phone];
+			}
+			status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+			if (status != PermissionStatus.Granted)
+			{
+				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+				//Best practice to always check that the key exists
+				if (results.ContainsKey(Permission.Location))
+					status = results[Permission.Location];
+			}
+		}
+
 
 		protected override void OnStart()
 		{

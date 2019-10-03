@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.IO;
+using Plugin.CurrentActivity;
 
 namespace Relevamiento.Droid
 {
@@ -19,7 +20,10 @@ namespace Relevamiento.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            string nombreArchivo = "Relevamiento.sqlite";
+			//Linea para abrir popup de permisos
+			CrossCurrentActivity.Current.Activity = this;
+			//Linea para abrir popup de permisos
+			string nombreArchivo = "Relevamiento.sqlite";
             string ruta = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
      
             string ruta_db = Path.Combine(ruta, nombreArchivo);

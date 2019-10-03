@@ -92,7 +92,7 @@ namespace Relevamiento.Vistas
 			{
 				//Get Imei
 				//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
-				string imeiTelefono = await GetImei();
+				string imeiTelefono = Task.Run(async() => await GetImei()).GetAwaiter().GetResult();
 				//DevieId.Text = "IMEI = " + imeiTelefono;
 
 				List<ERP_ASESORES> listaAsesores = new List<ERP_ASESORES>();
@@ -135,23 +135,24 @@ namespace Relevamiento.Vistas
 
 		async Task<string> GetImei()
 		{
-			//Verify Permission
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
-			if (status != PermissionStatus.Granted)
-			{
-				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
-				//Best practice to always check that the key exists
-				if (results.ContainsKey(Permission.Phone))
-					status = results[Permission.Phone];
-			}
-			status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-			if (status != PermissionStatus.Granted)
-			{
-				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-				//Best practice to always check that the key exists
-				if (results.ContainsKey(Permission.Location))
-					status = results[Permission.Location];
-			}
+			////Verify Permission
+			//var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
+			//if (status != PermissionStatus.Granted)
+			//{
+			//	var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+			//	//Best practice to always check that the key exists
+			//	if (results.ContainsKey(Permission.Phone))
+			//		status = results[Permission.Phone];
+			//}
+			//status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+			//if (status != PermissionStatus.Granted)
+			//{
+			//	var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+			//	//Best practice to always check that the key exists
+			//	if (results.ContainsKey(Permission.Location))
+			//		status = results[Permission.Location];
+			//}
+
 			//Get Imei
 			string imei = DependencyService.Get<IServiceImei>().GetImei();
 			return imei;

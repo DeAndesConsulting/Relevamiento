@@ -20,14 +20,18 @@ namespace Relevamiento.Vistas
 		{
 			InitializeComponent();
 
-            aiLogin.IsVisible = true;
+			aiLogin.IsVisible = true;
 			aiLogin.IsRunning = true;
 			aiLogin.IsEnabled = true;
 			lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
 
 			//OK		
-			Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
-			//Task.Run(async() => await ValidarEquipo());
+			//Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
+
+			//TEST
+			Task.Run(async() => await CargaDeDatosInicial());
+			string sarasa = "asd";
+
 
 			//test formulario principal
 			//ERP_ASESORES asesor = new ERP_ASESORES();
@@ -128,23 +132,25 @@ namespace Relevamiento.Vistas
 
 				if (asesor != null)
 				{
-					aiLogin.IsVisible = false;
-					aiLogin.IsRunning = false;
-					aiLogin.IsEnabled = false;
-
 					Usuario User = new Usuario();
 					User.NombreUsuario = asesor.DESCRIPCION;
 					User.NumeroImei = asesor.c_IMEI;
 					CheckNetworkState.isLoged = true;
-					await Navigation.PushAsync(new Principal(User));
+
+					//aiLogin.IsVisible = false;
+					//aiLogin.IsRunning = false;
+					//aiLogin.IsEnabled = false;
+
+					//await Navigation.PushAsync(new Principal(User));
+					Device.BeginInvokeOnMainThread(async () => await Navigation.PushAsync(new Principal(User)));
 				}
 				else
 				{
-					aiLogin.IsVisible = false;
+					lblMensaje.Text = "Este equipo no se encuentra habilitado para utilizar la aplicacion. \n Por favor contacte un administrador.";
+					lblMensaje.TextColor = Color.Red;
 					aiLogin.IsRunning = false;
 					aiLogin.IsEnabled = false;
-					lblMensaje.TextColor = Color.Red;
-					lblMensaje.Text = "Este equipo no se encuentra habilitado para utilizar la aplicacion. \n Por favor contacte un administrador.";
+					aiLogin.IsVisible = false;
 				}
 			}
 			catch (Exception ex)

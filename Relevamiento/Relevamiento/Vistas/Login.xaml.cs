@@ -91,7 +91,8 @@ namespace Relevamiento.Vistas
 			try
 			{
 				//Get Imei
-				string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
+				//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
+				string imeiTelefono = await GetImei();
 				//DevieId.Text = "IMEI = " + imeiTelefono;
 
 				List<ERP_ASESORES> listaAsesores = new List<ERP_ASESORES>();

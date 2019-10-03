@@ -19,7 +19,8 @@ namespace Relevamiento.Vistas
 		public Login()
 		{
 			InitializeComponent();
-			aiLogin.IsVisible = true;
+
+            aiLogin.IsVisible = true;
 			aiLogin.IsRunning = true;
 			aiLogin.IsEnabled = true;
 			lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
@@ -45,11 +46,28 @@ namespace Relevamiento.Vistas
 			//test formulario principal
 		}
 
-		private async Task CargaDeDatosInicial()
+        protected async override void OnAppearing()
+        {
+            //base.OnAppearing();
+            //PermissionStatus status = await CrossPermissions.Current.RequestPermissionAsync<CalendarPermission>();
+            //await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+            //await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+            //ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.Camera }, REQUEST_LOCATION);
+
+            await AskForPermissions();
+        }
+
+        private async Task AskForPermissions()
+        {
+            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+        }
+
+        private async Task CargaDeDatosInicial()
 		{
-			try
+            try
 			{
-				await Synchronize();
+                await Synchronize();
 				//Task.Run(async() => await Synchronize()).GetAwaiter();
 				//await ValidarEquipo();
 			}
@@ -88,7 +106,9 @@ namespace Relevamiento.Vistas
 		//public void ValidarEquipo()
 		public async Task ValidarEquipo()
 		{
-			try
+            //await AskForPermissions();
+
+            try
 			{
 				//Get Imei
 				//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
@@ -136,7 +156,7 @@ namespace Relevamiento.Vistas
 		async Task<string> GetImei()
 		{
 			////Verify Permission
-			//var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
 			//if (status != PermissionStatus.Granted)
 			//{
 			//	var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);

@@ -27,7 +27,7 @@ namespace Relevamiento
 			InitializeComponent();
 
 			//Linea para obtener permisos
-			Task.Run(async() => await ObtenerPermisos()).GetAwaiter().GetResult();
+			//Task.Run(async() => await ObtenerPermisos()).GetAwaiter().GetResult();
 
 			RutaBD = rutaBD;
 			VersionTracking.Track();

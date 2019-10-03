@@ -16,7 +16,8 @@ namespace Relevamiento.Vistas
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Login : ContentPage
 	{
-		public Login()
+        private bool _isAlreadySynchronized = false;
+        public Login()
 		{
 			InitializeComponent();
 
@@ -25,28 +26,30 @@ namespace Relevamiento.Vistas
 			aiLogin.IsEnabled = true;
 			lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
 
-			//OK		
-			//Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
+        //OK		
+        //Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
 
-			//TEST
-			Task.Run(async() => await CargaDeDatosInicial());
+        //Task.Run(async () => await AskForPermissions());
 
-			//test formulario principal
-			//ERP_ASESORES asesor = new ERP_ASESORES();
-			//using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-			//{
-			//	var listaAsesores = conexion.Table<ERP_ASESORES>().ToList();
-			//	//listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
-			//	asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == "358240051111110").FirstOrDefault();
-			//}
+        //TEST
+        //Task.Run(async() => await CargaDeDatosInicial());
 
-			//Usuario User = new Usuario();
-			//User.NombreUsuario = asesor.DESCRIPCION;
-			//User.NumeroImei = asesor.c_IMEI;
-			//CheckNetworkState.isLoged = true;
-			//Navigation.PushAsync(new Principal(User));
-			//test formulario principal
-		}
+        //test formulario principal
+        //ERP_ASESORES asesor = new ERP_ASESORES();
+        //using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+        //{
+        //	var listaAsesores = conexion.Table<ERP_ASESORES>().ToList();
+        //	//listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
+        //	asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == "358240051111110").FirstOrDefault();
+        //}
+
+        //Usuario User = new Usuario();
+        //User.NombreUsuario = asesor.DESCRIPCION;
+        //User.NumeroImei = asesor.c_IMEI;
+        //CheckNetworkState.isLoged = true;
+        //Navigation.PushAsync(new Principal(User));
+        //test formulario principal
+    }
 
         protected async override void OnAppearing()
         {
@@ -55,8 +58,13 @@ namespace Relevamiento.Vistas
             //await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
             //await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
             //ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.Camera }, REQUEST_LOCATION);
-
+            
             await AskForPermissions();
+            if (!_isAlreadySynchronized)
+            {
+                await CargaDeDatosInicial();
+                _isAlreadySynchronized = true;
+            }
         }
 
         private async Task AskForPermissions()

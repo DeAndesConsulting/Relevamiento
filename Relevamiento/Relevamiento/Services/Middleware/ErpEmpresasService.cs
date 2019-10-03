@@ -36,7 +36,7 @@ namespace Relevamiento.Services.Middleware
         {
             UriBuilder builder = new UriBuilder(ApiEndpoints.BaseApiUrl)
             {
-                Path = ApiEndpoints.ErpAsesores
+                Path = ApiEndpoints.ErpEmpresas
             };
 
             var result = await _genericServiceRepository.PostAsync<List<ERP_EMPRESAS>, EmpresasServiceModel>(builder.ToString(), lstEmpresas);
@@ -46,14 +46,14 @@ namespace Relevamiento.Services.Middleware
 
         public async Task SynchronizeEmpresas()
         {
-            var empresasServiceModel = await GetListEmpresas(CreateListAsesores());
+            var empresasServiceModel = await GetListEmpresas(CreateListEmpresas());
 
-            UpdateAsesores(empresasServiceModel);
-            DeleteAsesores(empresasServiceModel);
-            CreateAsesores(empresasServiceModel);
+            UpdateEmpresas(empresasServiceModel);
+            DeleteEmpresas(empresasServiceModel);
+            CreateEmpresas(empresasServiceModel);
         }
 
-        public void CreateAsesores(EmpresasServiceModel empresasServiceModel)
+        public void CreateEmpresas(EmpresasServiceModel empresasServiceModel)
         {
             if (!isAlreadyCreated())
             {
@@ -65,7 +65,7 @@ namespace Relevamiento.Services.Middleware
             }
         }
 
-        public void UpdateAsesores(EmpresasServiceModel empresasServiceModel)
+        public void UpdateEmpresas(EmpresasServiceModel empresasServiceModel)
         {
             if (isAlreadyCreated())
             {
@@ -80,7 +80,7 @@ namespace Relevamiento.Services.Middleware
             }
         }
 
-        public void DeleteAsesores(EmpresasServiceModel empresasServiceModel)
+        public void DeleteEmpresas(EmpresasServiceModel empresasServiceModel)
         {
             if (isAlreadyCreated())
             {
@@ -97,17 +97,17 @@ namespace Relevamiento.Services.Middleware
 
         public bool isAlreadyCreated()
         {
-            int countAsesores;
+            int countEmpresas;
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
-                countAsesores = conexion.Table<ERP_EMPRESAS>().Count();
+                countEmpresas = conexion.Table<ERP_EMPRESAS>().Count();
             }
 
-            return countAsesores > 0 ? true : false;
+            return countEmpresas > 0 ? true : false;
         }
 
-        public List<ERP_EMPRESAS> CreateListAsesores()
+        public List<ERP_EMPRESAS> CreateListEmpresas()
         {
             if (isAlreadyCreated())
             {

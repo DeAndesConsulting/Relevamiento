@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Relevamiento.Vistas.Aguas"
-             Title="Aguas"
-             BackgroundColor="#FFECA9">
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+                          BackgroundColor="#FFECA9"
+             x:Class="Relevamiento.Vistas.ComerciosRelevados">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Aguas"/>
-            <ListView x:Name="AguasListView" 
-                          HasUnevenRows="True" ItemsSource="{Binding .}" >
+            <Label Text="Listado de Comercios"/>
+            <ListView x:Name="ListadoRel" 
+                          HasUnevenRows="True" ItemsSource="{Binding .}" ItemTapped="ListadoRel_ItemTapped" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -18,14 +20,8 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding Producto}" Grid.Column="0" FontSize="Medium" FontAttributes="Bold"/>
-                                <CheckBox x:Name="AguasCheck" Grid.Column="1" Grid.Row="0" VerticalOptions="Start"
-                                          HorizontalOptions="Start" IsChecked="{Binding Existe}"/>
-                                <Entry x:Name="EntryPrecio" Text="{Binding Precio}"
-                                       Grid.Column="2" Grid.Row="0" Keyboard="Numeric" HorizontalOptions="FillAndExpand"/>
+                                <Label Text="{Binding comercio.NOMBRE}" Grid.Column="0" Grid.Row="0" FontSize="Medium" FontAttributes="Bold"></Label>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

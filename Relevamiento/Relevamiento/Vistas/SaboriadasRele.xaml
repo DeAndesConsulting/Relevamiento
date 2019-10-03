@@ -20,7 +20,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding Producto}" Grid.Column="0" FontSize="Medium" FontAttributes="Bold"/>
+                                <Label Text="{Binding DESCRIPCION}" Grid.Column="0" FontSize="Medium" FontAttributes="Bold"/>
                                 <CheckBox x:Name="SaborizadasCheck" Grid.Column="1" Grid.Row="0" VerticalOptions="Start" 
                                        IsEnabled="False"   HorizontalOptions="Start" IsChecked="{Binding Existe}"/>
                                 <Entry x:Name="EntryPrecio"

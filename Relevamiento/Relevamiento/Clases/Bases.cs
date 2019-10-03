@@ -251,7 +251,7 @@ namespace Relevamiento.Clases
         public int FK_TIP_ART { get; set; }
         public string DESCRIPCION { get; set; }
 
-        public int Precio { get; set; }
+        public double Precio { get; set; }
         public bool Existe { get; set; }
     }
 

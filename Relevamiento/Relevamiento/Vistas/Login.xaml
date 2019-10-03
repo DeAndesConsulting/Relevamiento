@@ -27,7 +27,7 @@
                     <Button Text="Ingresar" Clicked="Button_Clicked" TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>-->
 
                     <ActivityIndicator Color="Gray" x:Name="aiLogin"></ActivityIndicator>
-                    <Label x:Name="lblMensaje" TextColor="Gray" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="lblMensaje" TextColor="Gray" HorizontalTextAlignment="Center" ></Label>
                     <Label x:Name="lblImei" IsVisible="False"/>
 
                     <!--<Button Text="Ingresar" Clicked="ObtenerImei" BorderColor="Aqua" BorderWidth="1" BorderRadius="60"/>-->

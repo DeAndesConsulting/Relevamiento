@@ -55,8 +55,8 @@ namespace Relevamiento
 				if (!TableExists("ERP_EMPRESAS"))
 				{
 					conexion.CreateTable<ERP_EMPRESAS>();
-					ListaDistribuidores = TraerEmpresas();
-					conexion.InsertAll(ListaDistribuidores);
+					//ListaDistribuidores = TraerEmpresas();
+					//conexion.InsertAll(ListaDistribuidores);
 				}
                 conexion.DropTable<ERP_ASESORES>();
                 if (!TableExists("ERP_ASESORES"))

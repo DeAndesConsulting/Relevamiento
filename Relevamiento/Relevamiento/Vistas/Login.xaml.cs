@@ -30,8 +30,6 @@ namespace Relevamiento.Vistas
 
 			//TEST
 			Task.Run(async() => await CargaDeDatosInicial());
-			string sarasa = "asd";
-
 
 			//test formulario principal
 			//ERP_ASESORES asesor = new ERP_ASESORES();
@@ -94,8 +92,8 @@ namespace Relevamiento.Vistas
 
 				var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
 				Task.Run(async () => await  asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
-				//var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
-				//Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
+				var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
+				Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
 
 				//valido equipo
 				Task.Run(async() => await ValidarEquipo()).GetAwaiter().GetResult();

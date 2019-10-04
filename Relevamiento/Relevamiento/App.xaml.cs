@@ -52,21 +52,21 @@ namespace Relevamiento
 					lista_productos = TraerProductos();
 					conexion.InsertAll(lista_productos);
 				}
-                conexion.DropTable<ERP_EMPRESAS>();
+                //conexion.DropTable<ERP_EMPRESAS>();
                 if (!TableExists("ERP_EMPRESAS"))
 				{
 					conexion.CreateTable<ERP_EMPRESAS>();
 					//ListaDistribuidores = TraerEmpresas();
 					//conexion.InsertAll(ListaDistribuidores);
 				}
-                conexion.DropTable<ERP_ASESORES>();
+                //conexion.DropTable<ERP_ASESORES>();
                 if (!TableExists("ERP_ASESORES"))
 				{
 					conexion.CreateTable<ERP_ASESORES>();
 					//listaAsesores = TraerAsesores();
 					//conexion.InsertAll(listaAsesores);
 				}
-                conexion.DropTable<ERP_LOCALIDADES>();
+                //conexion.DropTable<ERP_LOCALIDADES>();
                 if (!TableExists("ERP_LOCALIDADES"))
 				{
 					conexion.CreateTable<ERP_LOCALIDADES>();

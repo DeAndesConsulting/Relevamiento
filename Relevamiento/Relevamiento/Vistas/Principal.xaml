@@ -13,6 +13,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -37,6 +38,16 @@
                     <Label x:Name="lblEmpresasCreate" />
                     <Label x:Name="lblEmpresasUpdate" />
                     <Label x:Name="lblEmpresasDelete" />
+                </StackLayout>
+                <StackLayout Grid.Row="2">
+                    <Label Text="Localidades Create:" />
+                    <Label Text="Localidades Update:" />
+                    <Label Text="Localidades Delete:" />
+                </StackLayout>
+                <StackLayout Grid.Row="2" Grid.Column="1">
+                    <Label x:Name="lblLocalidadesCreate" />
+                    <Label x:Name="lblLocalidadesUpdate" />
+                    <Label x:Name="lblLocalidadesDelete" />
                 </StackLayout>
             </Grid>
         </StackLayout>

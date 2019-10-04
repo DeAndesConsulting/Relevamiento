@@ -9,5 +9,6 @@ namespace Relevamiento.Clases
         public const string BaseApiUrl = "http://iserver.itris.com.ar:7101/";
         public const string ErpAsesores = "DACServicesTest/api/ServiceErpAsesores/Synchronize";
         public const string ErpEmpresas = "DACServicesTest/api/ServiceErpEmpresas/Synchronize";
+        public const string ErpLocalidades = "DACServicesTest/api/ServiceErpLocalidades/Synchronize"; 
     }
 }

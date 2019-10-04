@@ -10,6 +10,7 @@ using System.ComponentModel;
 using SQLite;
 using System.Collections.Generic;
 using Relevamiento.Services.Middleware;
+using System.Linq;
 
 namespace Relevamiento.Vistas
 {
@@ -19,7 +20,7 @@ namespace Relevamiento.Vistas
         private bool _isAlreadySynchronized = false;
         public Login()
 		{
-			InitializeComponent();
+            InitializeComponent();
 
 			aiLogin.IsVisible = true;
 			aiLogin.IsRunning = true;
@@ -62,7 +63,7 @@ namespace Relevamiento.Vistas
             await AskForPermissions();
             if (!_isAlreadySynchronized)
             {
-                await CargaDeDatosInicial();
+                Task.Run(async () => await CargaDeDatosInicial());
                 _isAlreadySynchronized = true;
             }
         }
@@ -91,21 +92,29 @@ namespace Relevamiento.Vistas
 		{
 			try
 			{
-				Label lblAsesoresCreate = new Label();
-				Label lblAsesoresUpdate = new Label();
-				Label lblAsesoresDelete = new Label();
-				Label lblEmpresasCreate = new Label();
-				Label lblEmpresasUpdate = new Label();
-				Label lblEmpresasDelete = new Label();
+                if (CheckNetworkState.hasConnectivity)
+                {
+                    var asesoresService = new ErpAsesoresService();
+                    Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
+                    var empresasService = new ErpEmpresasService();
+                    Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
 
-				var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
-				Task.Run(async () => await  asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
-				var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
-				Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
+                    var countLocalidades = 0;
+                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    {
+                        countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+                    }
 
-				//valido equipo
-				Task.Run(async() => await ValidarEquipo()).GetAwaiter().GetResult();
-				//ValidarEquipo();
+                    if (countLocalidades == 0)
+                    {
+                        var localidadesService = new ErpLocalidadesService();
+                        Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
+                    }
+                }
+                
+                //valido equipo
+                Task.Run(async () => await ValidarEquipo()).GetAwaiter().GetResult();
+                //ValidarEquipo();                
 			}
 			catch (Exception ex)
 			{
@@ -126,13 +135,13 @@ namespace Relevamiento.Vistas
 				//DevieId.Text = "IMEI = " + imeiTelefono;
 
 				List<ERP_ASESORES> listaAsesores = new List<ERP_ASESORES>();
-				List<ERP_EMPRESAS> listaEmpresas = new List<ERP_EMPRESAS>();
+				//List<ERP_EMPRESAS> listaEmpresas = new List<ERP_EMPRESAS>();
 				ERP_ASESORES asesor = new ERP_ASESORES();
 				//validacion con asesores
 				using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
 				{
 					listaAsesores = conexion.Table<ERP_ASESORES>().ToList();
-					listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
+					//listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
 					asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
 				}
 
@@ -152,7 +161,11 @@ namespace Relevamiento.Vistas
 				}
 				else
 				{
-					lblMensaje.Text = "Este equipo no se encuentra habilitado para utilizar la aplicacion. \n Por favor contacte un administrador.";
+                    if(listaAsesores.Count() == 0)
+                        lblMensaje.Text = "No se ha podido inicializar la aplicacion por falta de conexion a internet.";
+                    else
+                        lblMensaje.Text = "Este equipo no se encuentra habilitado para utilizar la aplicacion. \n Por favor contacte un administrador.";
+
 					lblMensaje.TextColor = Color.Red;
 					aiLogin.IsRunning = false;
 					aiLogin.IsEnabled = false;

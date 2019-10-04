@@ -34,6 +34,8 @@ namespace Relevamiento.Vistas
             asesoresService.SynchronizeAsesores();
             var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
             empresasService.SynchronizeEmpresas();
+            var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
+            localidadesService.SynchronizeLocalidades();
         }
 
         protected override void OnAppearing()

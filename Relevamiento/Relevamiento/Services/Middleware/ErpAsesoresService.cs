@@ -61,7 +61,8 @@ namespace Relevamiento.Services.Middleware
                 using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                 {
                     asesoresServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
-                    _lblAsesoresCreate.Text = "Created";
+                    if(_lblAsesoresCreate != null)
+                        _lblAsesoresCreate.Text = "Created";
                 }
             }
         }
@@ -75,7 +76,8 @@ namespace Relevamiento.Services.Middleware
                     using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                     {
                         asesoresServiceModel.listaUpdate.ForEach(m => conexion.Update(m));
-                        _lblAsesoresUpdate.Text = "Updated";
+                        if (_lblAsesoresUpdate != null)
+                            _lblAsesoresUpdate.Text = "Updated";
                     }
                 }
             }
@@ -90,7 +92,8 @@ namespace Relevamiento.Services.Middleware
                     using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                     {
                         asesoresServiceModel.listaDelete.ForEach(m => conexion.Delete(m));
-                        _lblAsesoresDelete.Text = "Deleted";
+                        if (_lblAsesoresDelete != null)
+                            _lblAsesoresDelete.Text = "Deleted";
                     }
                 }
             }

@@ -60,7 +60,8 @@ namespace Relevamiento.Services.Middleware
                 using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                 {
                     empresasServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
-                    _lblEmpresasCreate.Text = "Created";
+                    if(_lblEmpresasCreate != null)
+                        _lblEmpresasCreate.Text = "Created";
                 }
             }
         }
@@ -74,7 +75,8 @@ namespace Relevamiento.Services.Middleware
                     using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                     {
                         empresasServiceModel.listaUpdate.ForEach(m => conexion.Update(m));
-                        _lblEmpresasUpdate.Text = "Updated";
+                        if (_lblEmpresasUpdate != null)
+                            _lblEmpresasUpdate.Text = "Updated";
                     }
                 }
             }
@@ -89,7 +91,8 @@ namespace Relevamiento.Services.Middleware
                     using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                     {
                         empresasServiceModel.listaDelete.ForEach(m => conexion.Delete(m));
-                        _lblEmpresasDelete.Text = "Deleted";
+                        if (_lblEmpresasDelete != null)
+                            _lblEmpresasDelete.Text = "Deleted";
                     }
                 }
             }

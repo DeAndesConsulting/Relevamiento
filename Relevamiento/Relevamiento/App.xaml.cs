@@ -52,7 +52,8 @@ namespace Relevamiento
 					lista_productos = TraerProductos();
 					conexion.InsertAll(lista_productos);
 				}
-				if (!TableExists("ERP_EMPRESAS"))
+                conexion.DropTable<ERP_EMPRESAS>();
+                if (!TableExists("ERP_EMPRESAS"))
 				{
 					conexion.CreateTable<ERP_EMPRESAS>();
 					//ListaDistribuidores = TraerEmpresas();
@@ -65,11 +66,12 @@ namespace Relevamiento
 					//listaAsesores = TraerAsesores();
 					//conexion.InsertAll(listaAsesores);
 				}
-				if (!TableExists("ERP_LOCALIDADES"))
+                conexion.DropTable<ERP_LOCALIDADES>();
+                if (!TableExists("ERP_LOCALIDADES"))
 				{
 					conexion.CreateTable<ERP_LOCALIDADES>();
-					ListaLocalidades = TraerLocalidades();
-					conexion.InsertAll(ListaLocalidades);
+					//ListaLocalidades = TraerLocalidades();
+					//conexion.InsertAll(ListaLocalidades);
 				}
 
 				conexion.CreateTable<Relevado>();

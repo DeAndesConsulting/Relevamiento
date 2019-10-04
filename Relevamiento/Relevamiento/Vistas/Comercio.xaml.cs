@@ -170,7 +170,8 @@ namespace Relevamiento.Vistas
 				{
 					await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
 				}
-			}
+                PopUntilDestination(typeof(Principal));
+            }
 			catch (Exception ex)
 			{
 				throw ex;
@@ -293,7 +294,31 @@ namespace Relevamiento.Vistas
 
             }
         }
+        void PopUntilDestination(Type DestinationPage)
+        {
+            int LeastFoundIndex = 0;
+            int PagesToRemove = 0;
 
+            for (int index = Navigation.NavigationStack.Count - 2; index > 0; index--)
+            {
+                if (Navigation.NavigationStack[index].GetType().Equals(DestinationPage))
+                {
+                    break;
+                }
+                else
+                {
+                    LeastFoundIndex = index;
+                    PagesToRemove++;
+                }
+            }
+
+            for (int index = 0; index < PagesToRemove; index++)
+            {
+                Navigation.RemovePage(Navigation.NavigationStack[LeastFoundIndex]);
+            }
+
+            Navigation.PopAsync();
+        }
         #region Metodos para generar codigo del POST para el relevamiento
 
         /// <summary>

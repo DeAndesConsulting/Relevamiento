@@ -8,6 +8,7 @@
             <Label Text="Relevamiento finalizado!"/>
             <Label x:Name="LblDistribuidor"/>
             <Label x:Name="LblLocal"/>
+            <Label x:Name="LblEmail"/>
             <Button x:Name="btnVolver" Clicked="BtnVolver_Clicked" Text="Volver"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
         </StackLayout>
     </ContentPage.Content>

@@ -4,7 +4,9 @@
  */
 
 
+using Newtonsoft.Json;
 using Relevamiento.Clases;
+using Relevamiento.Models;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,16 +16,22 @@ namespace Relevamiento.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Finalizado : ContentPage
     {
-        public Finalizado(Relevado LocalRelevado)
+        public Finalizado(TbRequest tbRequests)
         {
             InitializeComponent();
-            LblDistribuidor.Text = "Distribuidor:" + LocalRelevado.NombreDistribuidor;
-            LblLocal.Text = "Direccion:" + LocalRelevado.Direccion;
+            ItrisPlanillaEntity respuesta2 = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(tbRequests.req_json);
+            LblDistribuidor.Text = "Distribuidor:" +respuesta2.relevamiento.FK_ERP_EMPRESAS;
+            LblLocal.Text = "Fecha" + respuesta2.relevamiento.FECHA;
+            if (!tbRequests.req_estado)
+            {
+                LblEmail.Text = "pendiente";
+            }
+            else LblEmail.Text = "enviado";
         }
-
+        
         private void BtnVolver_Clicked(object sender, EventArgs e)
         {
-            PopUntilDestination(typeof(Comercio));
+            PopUntilDestination(typeof(Principal));
         }
 
         void PopUntilDestination(Type DestinationPage)

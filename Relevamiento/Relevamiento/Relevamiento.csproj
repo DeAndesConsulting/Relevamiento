@@ -5,6 +5,7 @@
     <ProduceAssemblyReference>true</ProduceAssemblyReference>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <Win32Resource />
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

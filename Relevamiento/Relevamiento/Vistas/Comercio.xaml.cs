@@ -163,6 +163,9 @@ namespace Relevamiento.Vistas
 						req_estado = false
 					};
 
+					//Se updatea el estado del registro de la planilla enviada
+					tbRequestDataService.Insert(tbRequests);
+
 					//Se comenta codigo porque son mensajes debug
 					//if (tbRequestDataService.Insert(tbRequests))
 					//	await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
@@ -225,13 +228,16 @@ namespace Relevamiento.Vistas
                     tbRequestToUpdate.req_json = requestBody;
                     tbRequestToUpdate.req_estado = true;
 
+					//Se updatea el estado del registro de la planilla enviada
+					tbRequestDataService.Update(tbRequestToUpdate);
+
 					//Se comenta codigo porque son mensajes debug
-                    //if (tbRequestDataService.Update(tbRequestToUpdate))
-                    //    await DisplayAlert("Aviso", "Se ha actualizado el relevamiento relevamiento", "Ok");
-                    //else
-                    //    await DisplayAlert("Aviso", "NO se ha podido actualizar el relevamiento relevamiento", "Ok");
-                }
-                else
+					//if (tbRequestDataService.Update(tbRequestToUpdate))
+					//    await DisplayAlert("Aviso", "Se ha actualizado el relevamiento relevamiento", "Ok");
+					//else
+					//    await DisplayAlert("Aviso", "NO se ha podido actualizar el relevamiento relevamiento", "Ok");
+				}
+				else
                     await DisplayAlert("Aviso", "NO se ha podido enviar el relevamiento", "Ok");
             }
             catch (Exception ex)

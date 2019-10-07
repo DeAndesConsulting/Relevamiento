@@ -74,8 +74,6 @@ namespace Relevamiento.Vistas
             return validar;
         }
 
-
-
         public List<_TIP_COM> TraerLocales()
         {
             List<_TIP_COM> ListaComercios = new List<_TIP_COM>();
@@ -118,23 +116,32 @@ namespace Relevamiento.Vistas
         {
 			try
 			{
-				string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
+				//Comento acceso al imei politicas android
+				//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
 
 				ERP_ASESORES asesor = new ERP_ASESORES();
 				int maxRequestId = 1;
 				using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
 				{
 					//TbRequest maxRequest = new TbRequest();
-					asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+
+					//Se obtiene asesor mediante el imei del equipo. Por politicas de privacidad se obtiene mediante descripcion asesor.
+					//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+					//Nuevo metodo de obtener asesore por descripcion (google play)				
+					//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
 					TbRequest maxRequest = conexion.Table<TbRequest>().OrderByDescending(r => r.ID).FirstOrDefault();
 					if (maxRequest != null)
 						maxRequestId = maxRequest.ID + 1;
 				}
 
 				App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
-				App.releva.FK_ERP_ASESORES = asesor.ID;
+				
+				//Asesor previo politica			
+				//App.releva.FK_ERP_ASESORES = asesor.ID;
+				App.releva.FK_ERP_ASESORES = App.globalAsesor.ID;
+
 				App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-				string codigoRequest = string.Format("{0}-{1}", imeiTelefono, maxRequestId.ToString());
+				string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), maxRequestId.ToString());
 				//Obtengo el imei del equipo para el request
 
 				App.releva.CODIGO = "ASD123ADSASD";
@@ -156,10 +163,11 @@ namespace Relevamiento.Vistas
 						req_estado = false
 					};
 
-					if (tbRequestDataService.Insert(tbRequests))
-						await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
-					else
-						await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+					//Se comenta codigo porque son mensajes debug
+					//if (tbRequestDataService.Insert(tbRequests))
+					//	await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
+					//else
+					//	await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
 
 					if (CheckNetworkState.hasConnectivity)
 						await SendPostRelevamiento(jsonRelevamiento, tbRequests);
@@ -217,10 +225,11 @@ namespace Relevamiento.Vistas
                     tbRequestToUpdate.req_json = requestBody;
                     tbRequestToUpdate.req_estado = true;
 
-                    if (tbRequestDataService.Update(tbRequestToUpdate))
-                        await DisplayAlert("Aviso", "Se ha actualizado el relevamiento relevamiento", "Ok");
-                    else
-                        await DisplayAlert("Aviso", "NO se ha podido actualizar el relevamiento relevamiento", "Ok");
+					//Se comenta codigo porque son mensajes debug
+                    //if (tbRequestDataService.Update(tbRequestToUpdate))
+                    //    await DisplayAlert("Aviso", "Se ha actualizado el relevamiento relevamiento", "Ok");
+                    //else
+                    //    await DisplayAlert("Aviso", "NO se ha podido actualizar el relevamiento relevamiento", "Ok");
                 }
                 else
                     await DisplayAlert("Aviso", "NO se ha podido enviar el relevamiento", "Ok");

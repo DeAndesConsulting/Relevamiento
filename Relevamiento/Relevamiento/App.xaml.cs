@@ -19,6 +19,8 @@ namespace Relevamiento
 		public static ItrisRelevamientoEntity releva = new ItrisRelevamientoEntity();
 		public static List<ItrisComercioArticulo> comercios = new List<ItrisComercioArticulo>();
 		public static ERP_EMPRESAS distribuidorseleccionado;
+		//se agrega este objeto por politicas play;
+		public static ERP_ASESORES globalAsesor = new ERP_ASESORES();
 		//public static List<ItrisComercioEntity> listacom = new List<ItrisComercioEntity>();
 		//public static List<ItrisRelevamientoArticuloEntity> relarts = new List<ItrisRelevamientoArticuloEntity>();
 		public static string RutaBD;

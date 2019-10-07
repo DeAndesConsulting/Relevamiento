@@ -18,6 +18,8 @@ namespace Relevamiento.Vistas
 	public partial class Login : ContentPage
 	{
         private bool _isAlreadySynchronized = false;
+		private bool _mostrarControles = false;
+
         public Login()
 		{
             InitializeComponent();
@@ -96,25 +98,26 @@ namespace Relevamiento.Vistas
                 {
                     var asesoresService = new ErpAsesoresService();
                     Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
-                    var empresasService = new ErpEmpresasService();
-                    Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
+					var empresasService = new ErpEmpresasService();
+					Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
 
-                    var countLocalidades = 0;
+					var countLocalidades = 0;
                     using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
                     {
                         countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
                     }
 
-                    if (countLocalidades == 0)
-                    {
-                        var localidadesService = new ErpLocalidadesService();
-                        Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
-                    }
-                }
+					if (countLocalidades == 0)
+					{
+						var localidadesService = new ErpLocalidadesService();
+						Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
+					}
+				}
                 
-                //valido equipo
-                Task.Run(async () => await ValidarEquipo()).GetAwaiter().GetResult();
-                //ValidarEquipo();                
+                //valido equipo con IMEI. Por politicas no se usa por el momento, gestionarlas
+                //Task.Run(async () => await ValidarEquipo()).GetAwaiter().GetResult();
+				//Se valida por nombre de usuario y sin pass por el tema de arriba, descomentar y se usa la anterior
+                ValidarEquipo(true);
 			}
 			catch (Exception ex)
 			{
@@ -237,37 +240,74 @@ namespace Relevamiento.Vistas
 
 		//}
 
-		//async void Button_Clicked(object sender, EventArgs e)
-		//{
-		//    Usuario User = new Usuario();
-		//    if (string.IsNullOrEmpty(entryName.Text))
-		//    {
-		//        lblusufail.Text = "Debe ingresar un usuario";
-		//        lblusufail.IsVisible = true;
-		//    }
-		//    if (string.IsNullOrEmpty(entryName.Text))
-		//    {
-		//        lblpwfail.Text = "Debe ingresar una contraseña";
-		//        lblusufail.IsVisible = true;
-		//    }
-		//    if (entryName.Text == "Admin" && entryPass.Text == "a" )
-		//    {
-		//        //await Navigation.PushAsync(new Busqueda());
-		//        User.NombreUsuario = entryName.Text;
-		//        User.NumeroImei = await GetImei();
-		//        CheckNetworkState.isLoged = true;
-		//        await Navigation.PushAsync(new Principal(User));
-		//    }
-		//}
+		#region Validacion usuario y password
+		public void ValidarEquipo(bool parametro)
+		{
+			try
+			{
+				//Device.BeginInvokeOnMainThread(() => { GridAct.IsVisible = false; });
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					//Muestro los controles de login
+					sloLogin.IsVisible = true;
+					//Oculto controles de sync
+					lblMensaje.IsVisible = false;
+					aiLogin.IsVisible = false;
+				});
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 
-		//private void EntryName_TextChanged(object sender, TextChangedEventArgs e)
-		//{
-		//    lblusufail.IsVisible = false;
-		//}
+		}
 
-		//private void EntryPass_TextChanged(object sender, TextChangedEventArgs e)
-		//{
-		//    lblpwfail.IsVisible = false;
-		//}
+		async void Button_Clicked(object sender, EventArgs e)
+		{
+			Usuario User = new Usuario();
+			if (string.IsNullOrEmpty(entryName.Text))
+			{
+				lblusufail.Text = "Debe ingresar un usuario";
+				lblusufail.IsVisible = true;
+			}
+			//if (string.IsNullOrEmpty(entryName.Text))
+			//{
+			//	lblpwfail.Text = "Debe ingresar una contraseña";
+			//	lblusufail.IsVisible = true;
+			//}
+			if (!string.IsNullOrEmpty(entryName.Text))
+			{
+				//validacion con asesores
+				//ERP_ASESORES asesor = new ERP_ASESORES();
+				using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+				{
+					App.globalAsesor = conexion.Table<ERP_ASESORES>().Where(a => a.DESCRIPCION == entryName.Text.ToUpper()).FirstOrDefault();
+				}
+
+				if (App.globalAsesor != null)
+				{
+					User.NombreUsuario = App.globalAsesor.DESCRIPCION;
+					CheckNetworkState.isLoged = true;
+					await Navigation.PushAsync(new Principal(User));
+				}
+				else
+				{
+					lblpwfail.Text = "Usuario incorrecto.";
+					lblusufail.IsVisible = true;
+				}
+			}
+		}
+
+		private void EntryName_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			lblusufail.IsVisible = false;
+		}
+
+		private void EntryPass_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			lblpwfail.IsVisible = false;
+		}
+		#endregion
+
 	}
 }

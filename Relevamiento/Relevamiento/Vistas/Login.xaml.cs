@@ -11,6 +11,7 @@ using SQLite;
 using System.Collections.Generic;
 using Relevamiento.Services.Middleware;
 using System.Linq;
+using Relevamiento.Models;
 
 namespace Relevamiento.Vistas
 {
@@ -19,6 +20,7 @@ namespace Relevamiento.Vistas
 	{
         private bool _isAlreadySynchronized = false;
 		private bool _mostrarControles = false;
+        private GenericDataConfig genericDataConfig = new GenericDataConfig();
 
         public Login()
 		{
@@ -29,30 +31,42 @@ namespace Relevamiento.Vistas
 			aiLogin.IsEnabled = true;
 			lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
 
-        //OK		
-        //Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
 
-        //Task.Run(async () => await AskForPermissions());
+            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
+            {
+                genericDataConfig = conexion.Table<GenericDataConfig>().FirstOrDefault();
 
-        //TEST
-        //Task.Run(async() => await CargaDeDatosInicial());
+                if (genericDataConfig.lastSynchronized.Day != DateTime.Today.Day)
+                {
+                    genericDataConfig.isSynchronized = false;
+                }
+            }
 
-        //test formulario principal
-        //ERP_ASESORES asesor = new ERP_ASESORES();
-        //using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-        //{
-        //	var listaAsesores = conexion.Table<ERP_ASESORES>().ToList();
-        //	//listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
-        //	asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == "358240051111110").FirstOrDefault();
-        //}
+            
+            //OK		
+            //Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
 
-        //Usuario User = new Usuario();
-        //User.NombreUsuario = asesor.DESCRIPCION;
-        //User.NumeroImei = asesor.c_IMEI;
-        //CheckNetworkState.isLoged = true;
-        //Navigation.PushAsync(new Principal(User));
-        //test formulario principal
-    }
+            //Task.Run(async () => await AskForPermissions());
+
+            //TEST
+            //Task.Run(async() => await CargaDeDatosInicial());
+
+            //test formulario principal
+            //ERP_ASESORES asesor = new ERP_ASESORES();
+            //using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+            //{
+            //	var listaAsesores = conexion.Table<ERP_ASESORES>().ToList();
+            //	//listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
+            //	asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == "358240051111110").FirstOrDefault();
+            //}
+
+            //Usuario User = new Usuario();
+            //User.NombreUsuario = asesor.DESCRIPCION;
+            //User.NumeroImei = asesor.c_IMEI;
+            //CheckNetworkState.isLoged = true;
+            //Navigation.PushAsync(new Principal(User));
+            //test formulario principal
+        }
 
         protected async override void OnAppearing()
         {
@@ -68,6 +82,9 @@ namespace Relevamiento.Vistas
                 Task.Run(async () => await CargaDeDatosInicial());
                 _isAlreadySynchronized = true;
             }
+
+           
+            
         }
 
         private async Task AskForPermissions()
@@ -94,7 +111,7 @@ namespace Relevamiento.Vistas
 		{
 			try
 			{
-                if (CheckNetworkState.hasConnectivity)
+                if (CheckNetworkState.hasConnectivity && !genericDataConfig.isSynchronized)
                 {
                     var asesoresService = new ErpAsesoresService();
                     Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
@@ -112,7 +129,14 @@ namespace Relevamiento.Vistas
 						var localidadesService = new ErpLocalidadesService();
 						Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
 					}
-				}
+
+                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    {
+                        genericDataConfig.isSynchronized = true;
+                        genericDataConfig.lastSynchronized = DateTime.Today;
+                        conexion.Update(genericDataConfig);
+                    }
+                }
                 
                 //valido equipo con IMEI. Por politicas no se usa por el momento, gestionarlas
                 //Task.Run(async () => await ValidarEquipo()).GetAwaiter().GetResult();

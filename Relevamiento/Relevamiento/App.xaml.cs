@@ -78,7 +78,23 @@ namespace Relevamiento
 
 				conexion.CreateTable<Relevado>();
 				conexion.CreateTable<TbRequest>();
+                conexion.CreateTable<GenericDataConfig>();
+
+                //first time
+                if(conexion.Table<GenericDataConfig>().Count() == 0)
+                {
+                    var genericDataConfig = new GenericDataConfig()
+                    {
+                        ID = 1,
+                        isSynchronized = false,
+                        lastSynchronized = DateTime.Today
+                    };
+
+                    conexion.Insert(genericDataConfig);
+                }
 			}
+
+
 
 			//DROP DE TABLAS
 			/*using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))

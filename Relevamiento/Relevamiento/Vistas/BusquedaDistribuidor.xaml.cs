@@ -18,7 +18,20 @@ namespace Relevamiento.Vistas
             InitializeComponent();
             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
             {
-                lista_distribuidores = conexion.Query<ERP_EMPRESAS>("select * from ERP_EMPRESAS").ToList();
+                //lista_distribuidores = conexion.Query<ERP_EMPRESAS>("select * from ERP_EMPRESAS").ToList();
+                if (!App.globalAsesor.c_IMEI_ADMIN)
+                {
+                    lista_distribuidores = conexion.Table<ERP_EMPRESAS>()
+                        .Where(m => m.FK_ERP_ASESORES == App.globalAsesor.ID
+                        || m.FK_ERP_ASESORES2 == App.globalAsesor.ID
+                        || m.FK_ERP_ASESORES3 == App.globalAsesor.ID)
+                        .ToList();
+                }
+                else
+                {
+                    lista_distribuidores = conexion.Table<ERP_EMPRESAS>().ToList();
+                }
+                
             }
         }
 
@@ -26,7 +39,8 @@ namespace Relevamiento.Vistas
         {
             DistribuidorList.IsVisible = true;
             ToolbarItems.Clear();
-            DistribuidorList.ItemsSource = lista_distribuidores.Where(c => c.FormattedText.ToString().ToLower().Contains(DistribuidorSearch.Text));
+            //DistribuidorList.ItemsSource = lista_distribuidores.Where(c => c.FormattedText.ToString().ToLower().Contains(DistribuidorSearch.Text));
+            DistribuidorList.ItemsSource = lista_distribuidores.Where(c => c.FormattedText.IndexOf(DistribuidorSearch.Text, StringComparison.OrdinalIgnoreCase) != -1);
         }
 
         public void DistribuidorList_ItemTapped(object sender, ItemTappedEventArgs e)

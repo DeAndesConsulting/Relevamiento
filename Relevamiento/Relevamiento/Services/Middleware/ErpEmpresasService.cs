@@ -48,6 +48,7 @@ namespace Relevamiento.Services.Middleware
         {
             var empresasServiceModel = await GetListEmpresas(CreateListEmpresas());
 
+            //Respetar el orden para una mejor performance
             UpdateEmpresas(empresasServiceModel);
             DeleteEmpresas(empresasServiceModel);
             CreateEmpresas(empresasServiceModel);
@@ -116,6 +117,15 @@ namespace Relevamiento.Services.Middleware
             {
                 using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
                 {
+                    if (!App.globalAsesor.c_IMEI_ADMIN)
+                    {
+                        return conexion.Table<ERP_EMPRESAS>()
+                        .Where(m => m.FK_ERP_ASESORES == App.globalAsesor.ID
+                        || m.FK_ERP_ASESORES2 == App.globalAsesor.ID
+                        || m.FK_ERP_ASESORES2 == App.globalAsesor.ID)
+                        .ToList();
+                    }
+                    
                     return conexion.Table<ERP_EMPRESAS>().ToList();
                 }
             }

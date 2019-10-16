@@ -48,6 +48,7 @@ namespace Relevamiento.Services.Middleware
         {
             var localidadesServiceModel = await GetListLocalidades(CreateListLocalidades());
 
+            //Respetar el orden para una mejor performance
             UpdateLocalidades(localidadesServiceModel);
             DeleteLocalidades(localidadesServiceModel);
             CreateLocalidades(localidadesServiceModel);

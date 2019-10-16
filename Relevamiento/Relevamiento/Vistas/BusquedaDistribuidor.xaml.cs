@@ -30,8 +30,7 @@ namespace Relevamiento.Vistas
                 else
                 {
                     lista_distribuidores = conexion.Table<ERP_EMPRESAS>().ToList();
-                }
-                
+                }                
             }
         }
 

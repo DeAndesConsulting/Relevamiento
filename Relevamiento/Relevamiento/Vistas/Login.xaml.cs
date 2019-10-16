@@ -107,7 +107,7 @@ namespace Relevamiento.Vistas
                         countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
                     }
 
-					if (countLocalidades == 0)
+					if (countLocalidades < 21683)
 					{
 						var localidadesService = new ErpLocalidadesService();
 						Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();

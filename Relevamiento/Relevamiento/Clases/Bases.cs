@@ -7,7 +7,16 @@ using System.Text;
 
 namespace Relevamiento.Clases
 {
-	[DataContract]
+    public class EstadosRel
+    {
+        public ItrisRelevamientoEntity relevamiento { get; set; }
+        public List<ItrisComercioArticulo> comercios { get; set; }
+        public string codigoRequest { get; set; }
+        public bool req_estado { get; set; }
+        public ERP_EMPRESAS Empresa { get; set; }
+        public Provincia provincia { get; set; }
+    }
+    [DataContract]
     public class ItrisRelevamientoEntity
     {
 		[DataMember(EmitDefaultValue = false)]

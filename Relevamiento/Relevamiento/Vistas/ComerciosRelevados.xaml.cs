@@ -13,7 +13,7 @@ namespace Relevamiento.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ComerciosRelevados : ContentPage
     {
-        public ComerciosRelevados(ItrisPlanillaEntity RelevamientoVer)
+        public ComerciosRelevados(EstadosRel RelevamientoVer)
         {
             InitializeComponent();
             ListadoRel.ItemsSource = RelevamientoVer.comercios;

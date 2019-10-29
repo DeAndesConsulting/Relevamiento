@@ -13,14 +13,16 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Text="Nombre del Distribuidor" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Fecha" Grid.Row="0" Grid.Column="1" FontAttributes="Bold"/>
-                <!--<Label Text="Entregado" Grid.Row="0" Grid.Column="2" FontAttributes="Bold"/>-->
+                <Label Text="Fecha" Grid.Row="0" Grid.Column="2" FontAttributes="Bold"/>
+                <Label Text="Entregado" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"/>
+                <Label Text="Localidad" FontAttributes="Bold" Grid.Column="1"/>
             </Grid>
             <ListView x:Name="EstadoListView"
                           HasUnevenRows="True"
@@ -37,18 +39,18 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding relevamiento.FK_ERP_EMPRESAS}" Grid.Column="0"/>
-                                <Label Text="{Binding relevamiento.FECHA}" Grid.Column="1" FontAttributes="Bold"/>
-                                <!--<Label Text="{Binding Status}" Grid.Column="2" Grid.Row="0" IsVisible="False"/>
-                                <Image Source="no.png" Grid.Column="2">
+                                <Label Text="{Binding Empresa.NOM_FANTASIA}" Grid.Column="0"/>
+                                <Label Text="{Binding relevamiento.FECHA}" Grid.Column="2" FontAttributes="Bold"/>
+                                <Image Source="no.png" Grid.Column="3">
                                     <Image.Triggers>
-                                        <DataTrigger TargetType="Image" Binding="{Binding relevamiento.ENVIADO_POR_MAIL}" Value="True">
+                                        <DataTrigger TargetType="Image" Binding="{Binding req_estado}" Value="True">
                                             <Setter Property="Source" Value="si.png"></Setter>
                                         </DataTrigger>
                                     </Image.Triggers>
-                                </Image>-->
+                                </Image>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

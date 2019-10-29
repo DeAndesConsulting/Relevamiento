@@ -7,7 +7,7 @@
 >
   <!--Pages can be added as references or inline-->
     <TabbedPage.ToolbarItems>
-        <ToolbarItem Name="Finalizar" Order="Primary" Icon="Microsoft.png" Text="Finalizar" Priority="0" Clicked="BtnFinalizar_Clicked"/>
+        <ToolbarItem Name="Finalizar comercio" Order="Primary" Icon="Microsoft.png" Text="Finalizar" Priority="0" Clicked="BtnFinalizar_Clicked"/>
         <ToolbarItem Name="Cancelar" Order="Primary" Icon="Microsoft.png" Text="Cancelar" Priority="0" Clicked="BtnCancelar_Clicked"/>
     </TabbedPage.ToolbarItems>
     <local:Gaseosas></local:Gaseosas>

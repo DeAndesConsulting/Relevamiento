@@ -19,6 +19,8 @@ namespace Relevamiento.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Tabbed : TabbedPage
     {
+        public string LATITUD;
+        public string LONGITUD;
         public List<ItrisComercioEntity> listacom = new List<ItrisComercioEntity>();
         public List<ItrisRelevamientoArticuloEntity> relarts = new List<ItrisRelevamientoArticuloEntity>();
         public _COMERCIO localARelevar;
@@ -59,8 +61,13 @@ namespace Relevamiento.Vistas
             var location = await Geolocation.GetLastKnownLocationAsync();
             if (location != null)
             {
-                /*Guardar de alguna forma la ubicacion
-                 * */
+                LATITUD = location.Latitude.ToString();
+                LONGITUD = location.Longitude.ToString();
+            }
+            else
+            {
+                LATITUD = "0";
+                LONGITUD = "0";
             }
             bool respuesta = await DisplayAlert("ATENCION", "Desea finalizar el relevamiento?", "Si", "No");
             if (respuesta)
@@ -71,10 +78,11 @@ namespace Relevamiento.Vistas
                     NOMBRE = localARelevar.NOMBRE,
                     CALLE = localARelevar.CALLE,
                     NUMERO = localARelevar.NUMERO,
-                    FK_ERP_LOCALIDADES = 3,
-                    FK_ERP_PROVINCIAS = 1,
-                    LATITUD = "999999.332",
-                    LONGITUD = "99999.963"
+                    FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.ID,
+                    FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS,
+                    LATITUD = LATITUD,
+                    LONGITUD = LONGITUD
+
                 };
                 listacom.Add(c3);
 

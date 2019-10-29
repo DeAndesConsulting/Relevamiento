@@ -11,6 +11,7 @@ namespace Relevamiento.Vistas
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BusquedaDistribuidor : ContentPage
     {
+        public static ERP_LOCALIDADES LocalidadSeleccionada = new ERP_LOCALIDADES();
         public ERP_EMPRESAS DistribuidorSeleccionado;
         public List<ERP_EMPRESAS> lista_distribuidores = new List<ERP_EMPRESAS>();
         public BusquedaDistribuidor()

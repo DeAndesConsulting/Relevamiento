@@ -26,13 +26,16 @@ namespace Relevamiento.Vistas
     {
         //public Distribuidora distribuidorseleccionado;
         public _COMERCIO ComercioSeleccionado = new _COMERCIO();
-        public ERP_LOCALIDADES LocalidadSeleccionada;
         public _TIP_COM TipoSeleccionado;
         public List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
         public Comercio(ERP_EMPRESAS Distribuidor)
         {
             InitializeComponent();
             List<_TIP_COM> lista_locales = new List<_TIP_COM>();
+            if (!string.IsNullOrEmpty(BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION))
+            {
+                LocalidadSearch.Text = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
+            }
             lista_locales = TraerLocales();
             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
             {
@@ -291,11 +294,11 @@ namespace Relevamiento.Vistas
         public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             LocalidadList.IsVisible = false;
-            LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;
-            PickerProvincia.SelectedItem = LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS;
-            ComercioSeleccionado.FK_ERP_PROVINCIAS = LocalidadSeleccionada.FK_ERP_PROVINCIAS;
-            ComercioSeleccionado.FK_ERP_LOCALIDADES = LocalidadSeleccionada.DESCRIPCION;
-            LocalidadSearch.Text = LocalidadSeleccionada.DESCRIPCION;
+            BusquedaDistribuidor.LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;
+            PickerProvincia.SelectedItem = BusquedaDistribuidor.LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS;
+            ComercioSeleccionado.FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS;
+            ComercioSeleccionado.FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
+            LocalidadSearch.Text = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
 
         }
 

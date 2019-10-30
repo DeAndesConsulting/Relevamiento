@@ -112,7 +112,10 @@ namespace Relevamiento.Vistas
 
         private async void btnCancelarClicked(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            if(await DisplayAlert("Aviso", "Ud. va a cancelar todos los relevamientos de la localidad, ¿desea continuar?", "Si", "No"))
+            {
+                await Navigation.PopAsync();
+            }
         }
 
         private async void btnFinalizarClicked(object sender, EventArgs e)

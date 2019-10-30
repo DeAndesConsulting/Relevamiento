@@ -170,11 +170,11 @@ namespace Relevamiento.Clases
         [PrimaryKey, AutoIncrement]
        // [ForeignKey(typeof(Local))]
         public int Id { get; set; }
-
         public string Producto { get; set; }
         public int Precio { get; set; }
         public bool Existe { get; set; }
         public int TipoProducto { get; set; }
+        public string ProductosPropios { get; set; }
     }
 
     public class Relevado

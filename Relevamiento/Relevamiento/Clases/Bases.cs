@@ -174,7 +174,6 @@ namespace Relevamiento.Clases
         public int Precio { get; set; }
         public bool Existe { get; set; }
         public int TipoProducto { get; set; }
-        public string ProductosPropios { get; set; }
     }
 
     public class Relevado
@@ -259,7 +258,7 @@ namespace Relevamiento.Clases
         [ForeignKey(typeof(_TIP_ART))]
         public int FK_TIP_ART { get; set; }
         public string DESCRIPCION { get; set; }
-
+        public bool ARTICULO_PROPIO { get; set; }
         public double Precio { get; set; }
         public bool Existe { get; set; }
     }

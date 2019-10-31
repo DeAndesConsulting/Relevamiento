@@ -14,37 +14,48 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackLayout>
+                    <Label Text="Articulos Create:" />
+                    <Label Text="Articulos Update:" />
+                    <Label Text="Articulos Delete:" />
+                </StackLayout>
+                <StackLayout Grid.Column="1">
+                    <Label x:Name="lblArticulosCreate" />
+                    <Label x:Name="lblArticulosUpdate" />
+                    <Label x:Name="lblArticulosDelete" />
+                </StackLayout>
+                <StackLayout Grid.Row="1">
                     <Label Text="Asesores Create:" />
                     <Label Text="Asesores Update:" />
                     <Label Text="Asesores Delete:" />
                 </StackLayout>
-                <StackLayout Grid.Column="1">
+                <StackLayout Grid.Row="1" Grid.Column="1">
                     <Label x:Name="lblAsesoresCreate" />
                     <Label x:Name="lblAsesoresUpdate" />
                     <Label x:Name="lblAsesoresDelete" />
                 </StackLayout>
-                <StackLayout Grid.Row="1">
+                <StackLayout Grid.Row="2">
                     <Label Text="Empresas Create:" />
                     <Label Text="Empresas Update:" />
                     <Label Text="Empresas Delete:" />
                 </StackLayout>
-                <StackLayout Grid.Row="1" Grid.Column="1">
+                <StackLayout Grid.Row="2" Grid.Column="1">
                     <Label x:Name="lblEmpresasCreate" />
                     <Label x:Name="lblEmpresasUpdate" />
                     <Label x:Name="lblEmpresasDelete" />
                 </StackLayout>
-                <StackLayout Grid.Row="2">
+                <StackLayout Grid.Row="3">
                     <Label Text="Localidades Create:" />
                     <Label Text="Localidades Update:" />
                     <Label Text="Localidades Delete:" />
                 </StackLayout>
-                <StackLayout Grid.Row="2" Grid.Column="1">
+                <StackLayout Grid.Row="3" Grid.Column="1">
                     <Label x:Name="lblLocalidadesCreate" />
                     <Label x:Name="lblLocalidadesUpdate" />
                     <Label x:Name="lblLocalidadesDelete" />

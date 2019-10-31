@@ -30,6 +30,8 @@ namespace Relevamiento.Vistas
 
 		async private void SincronizarRegistros_Clicked(object sender, EventArgs e)
 		{
+            var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
+            articulosService.SynchronizeArticulos();
             var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
             asesoresService.SynchronizeAsesores();
             var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);

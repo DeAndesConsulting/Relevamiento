@@ -48,11 +48,13 @@ namespace Relevamiento
 				conexion.CreateTable<TipoLocal>();
 				conexion.CreateTable<_COMERCIO>();
 				conexion.CreateTable<_TIP_ART>();
-				if (!TableExists("_ARTICULOS"))
+                
+                //conexion.DropTable<_ARTICULOS>();
+                if (!TableExists("_ARTICULOS"))
 				{
 					conexion.CreateTable<_ARTICULOS>();
-					lista_productos = TraerProductos();
-					conexion.InsertAll(lista_productos);
+					//lista_productos = TraerProductos();
+					//conexion.InsertAll(lista_productos);
 				}
                 //conexion.DropTable<ERP_EMPRESAS>();
                 if (!TableExists("ERP_EMPRESAS"))

@@ -126,12 +126,11 @@ namespace Relevamiento.Vistas
 		{
 			try
 			{
-                //if (isMonday() && CheckNetworkState.hasConnectivity && !genericDataConfig.isSynchronized)
-                if(true)
+                if (isMonday() && CheckNetworkState.hasConnectivity && !genericDataConfig.isSynchronized)
                 {
                     var articulosService = new ArticulosService();
                     Task.Run(async () => await articulosService.SynchronizeArticulos()).GetAwaiter().GetResult();
-                    /*var asesoresService = new ErpAsesoresService();
+                    var asesoresService = new ErpAsesoresService();
                     Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
 					var empresasService = new ErpEmpresasService();
 					Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
@@ -153,7 +152,7 @@ namespace Relevamiento.Vistas
                         genericDataConfig.isSynchronized = true;
                         genericDataConfig.lastSynchronized = DateTime.Today;
                         conexion.Update(genericDataConfig);
-                    }*/
+                    }
                 }
                 
                 //valido equipo con IMEI. Por politicas no se usa por el momento, gestionarlas

@@ -69,7 +69,7 @@ namespace Relevamiento.Vistas
                 LATITUD = "0";
                 LONGITUD = "0";
             }
-            bool respuesta = await DisplayAlert("ATENCION", "Desea finalizar el relevamiento?", "Si", "No");
+            bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el relevamiento de este comercio?", "Si", "No");
             if (respuesta)
             {
                 ItrisComercioEntity c3 = new ItrisComercioEntity()

@@ -20,7 +20,7 @@ namespace Relevamiento.Vistas
 	{
         private bool _isAlreadySynchronized = false;
 		private bool _mostrarControles = false;
-        private GenericDataConfig genericDataConfig = new GenericDataConfig();
+        private GenericDataConfig _genericDataConfig = new GenericDataConfig();
 
         public Login()
 		{
@@ -34,11 +34,11 @@ namespace Relevamiento.Vistas
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
-                genericDataConfig = conexion.Table<GenericDataConfig>().FirstOrDefault();
+                _genericDataConfig = conexion.Table<GenericDataConfig>().FirstOrDefault();
 
-                if (genericDataConfig.lastSynchronized.Day != DateTime.Today.Day)
+                if (_genericDataConfig.lastSynchronized.Day != DateTime.Today.Day)
                 {
-                    genericDataConfig.isSynchronized = false;
+                    _genericDataConfig.isSynchronized = false;
                 }
             }
 
@@ -126,7 +126,7 @@ namespace Relevamiento.Vistas
 		{
 			try
 			{
-                if (isMonday() && CheckNetworkState.hasConnectivity && !genericDataConfig.isSynchronized)
+                if (isMonday() && CheckNetworkState.hasConnectivity && !_genericDataConfig.isSynchronized)
                 {
                     var articulosService = new ArticulosService();
                     Task.Run(async () => await articulosService.SynchronizeArticulos()).GetAwaiter().GetResult();
@@ -149,9 +149,9 @@ namespace Relevamiento.Vistas
 
                     using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
                     {
-                        genericDataConfig.isSynchronized = true;
-                        genericDataConfig.lastSynchronized = DateTime.Today;
-                        conexion.Update(genericDataConfig);
+                        _genericDataConfig.isSynchronized = true;
+                        _genericDataConfig.lastSynchronized = DateTime.Today;
+                        conexion.Update(_genericDataConfig);
                     }
                 }
                 

@@ -28,24 +28,26 @@ namespace Relevamiento.Vistas
         public _COMERCIO ComercioSeleccionado = new _COMERCIO();
         public _TIP_COM TipoSeleccionado;
         public List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
-        public Comercio(ERP_EMPRESAS Distribuidor)
-        {
-            InitializeComponent();
-            List<_TIP_COM> lista_locales = new List<_TIP_COM>();
-            if (!string.IsNullOrEmpty(BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION))
-            {
-                LocalidadSearch.Text = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
-            }
-            lista_locales = TraerLocales();
-            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-            {
-                ListaLocalidades = conexion.Query<ERP_LOCALIDADES>("select * from ERP_LOCALIDADES where Z_FK_ERP_PROVINCIAS = ?", Distribuidor.Z_FK_ERP_PROVINCIAS).ToList();
 
-            }
-            pickerTipoLocal.ItemsSource = lista_locales.ToList();
-            PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
-            App.distribuidorseleccionado = Distribuidor;
-        }
+		public Comercio(ERP_EMPRESAS Distribuidor)
+		{
+			InitializeComponent();
+			List<_TIP_COM> lista_locales = new List<_TIP_COM>();
+			if (!string.IsNullOrEmpty(BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION))
+			{
+				LocalidadSearch.Text = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
+			}
+			lista_locales = TraerLocales();
+			using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+			{
+				ListaLocalidades = conexion.Query<ERP_LOCALIDADES>("select * from ERP_LOCALIDADES where Z_FK_ERP_PROVINCIAS = ?", Distribuidor.Z_FK_ERP_PROVINCIAS).ToList();
+
+			}
+			pickerTipoLocal.ItemsSource = lista_locales.ToList();
+			PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
+			App.distribuidorseleccionado = Distribuidor;
+		}
+
         public bool ValidarDatos()
         {
             bool validar = true;
@@ -264,7 +266,8 @@ namespace Relevamiento.Vistas
                     CALLE = entryCalleLocal.Text,
                     NUMERO = entryNumeroLocal.Text,
                     FK_ERP_LOCALIDADES = LocalidadSearch.Text,
-                };
+					HORA_VISITA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+				};
                 await Navigation.PushAsync(new Tabbed(nuevoLocal));
             }
         }

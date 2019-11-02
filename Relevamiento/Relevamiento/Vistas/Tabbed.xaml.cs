@@ -81,8 +81,8 @@ namespace Relevamiento.Vistas
                     FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.ID,
                     FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS,
                     LATITUD = LATITUD,
-                    LONGITUD = LONGITUD
-
+                    LONGITUD = LONGITUD,
+					HORA_VISITA = localARelevar.HORA_VISITA
                 };
                 listacom.Add(c3);
 

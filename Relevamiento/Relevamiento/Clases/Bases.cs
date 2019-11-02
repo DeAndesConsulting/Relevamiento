@@ -67,6 +67,9 @@ namespace Relevamiento.Clases
 
 		[DataMember(EmitDefaultValue = false)]
 		public string LONGITUD { get; set; }
+
+		[DataMember(EmitDefaultValue = false)]
+		public string HORA_VISITA { get; set; }
 	}
 
 	[DataContract]
@@ -171,7 +174,8 @@ namespace Relevamiento.Clases
        // [ForeignKey(typeof(Local))]
         public int Id { get; set; }
         public string Producto { get; set; }
-        public int Precio { get; set; }
+        //public int Precio { get; set; }
+        public double Precio { get; set; }
         public bool Existe { get; set; }
         public int TipoProducto { get; set; }
     }
@@ -248,8 +252,8 @@ namespace Relevamiento.Clases
         public string NUMERO { get; set; }
         public int LATITUD { get; set; }
         public int LONGITUD { get; set; }
-
-    }
+		public string HORA_VISITA { get; set; }
+	}
 
     public class _ARTICULOS
     {

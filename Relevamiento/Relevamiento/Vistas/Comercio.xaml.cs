@@ -124,73 +124,78 @@ namespace Relevamiento.Vistas
         {
 			try
 			{
-				//Comento acceso al imei politicas android
-				//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
-
-				ERP_ASESORES asesor = new ERP_ASESORES();
-				int maxRequestId = 1;
-				using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+				bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el Relevamiento de este Pueblo?", "Si", "No");
+				if (respuesta)
 				{
-					//TbRequest maxRequest = new TbRequest();
 
-					//Se obtiene asesor mediante el imei del equipo. Por politicas de privacidad se obtiene mediante descripcion asesor.
-					//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
-					//Nuevo metodo de obtener asesore por descripcion (google play)				
-					//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
-					TbRequest maxRequest = conexion.Table<TbRequest>().OrderByDescending(r => r.ID).FirstOrDefault();
-					if (maxRequest != null)
-						maxRequestId = maxRequest.ID + 1;
-				}
+					//Comento acceso al imei politicas android
+					//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
 
-				App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
-				
-				//Asesor previo politica			
-				//App.releva.FK_ERP_ASESORES = asesor.ID;
-				App.releva.FK_ERP_ASESORES = App.globalAsesor.ID;
-
-				App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-				string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), maxRequestId.ToString());
-				//Obtengo el imei del equipo para el request
-
-				App.releva.CODIGO = "ASD123ADSASD";
-				ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
-				relevamientos.relevamiento = App.releva;
-				relevamientos.comercios = App.comercios;
-				relevamientos.codigoRequest = codigoRequest;// "123456789-9"; //<-- Usar este codigo para test (no va a itris)
-
-				string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
-
-				var tbRequestDataService = new TbRequestDataService();
-
-				if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
-				{
-					TbRequest tbRequests = new TbRequest()
+					ERP_ASESORES asesor = new ERP_ASESORES();
+					int maxRequestId = 1;
+					using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
 					{
-						req_codigo = relevamientos.codigoRequest,
-						req_json = jsonRelevamiento,
-						req_estado = false
-					};
+						//TbRequest maxRequest = new TbRequest();
 
-					//Se updatea el estado del registro de la planilla enviada
-					tbRequestDataService.Insert(tbRequests);
+						//Se obtiene asesor mediante el imei del equipo. Por politicas de privacidad se obtiene mediante descripcion asesor.
+						//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+						//Nuevo metodo de obtener asesore por descripcion (google play)				
+						//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+						TbRequest maxRequest = conexion.Table<TbRequest>().OrderByDescending(r => r.ID).FirstOrDefault();
+						if (maxRequest != null)
+							maxRequestId = maxRequest.ID + 1;
+					}
 
-					//Se comenta codigo porque son mensajes debug
-					//if (tbRequestDataService.Insert(tbRequests))
-					//	await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
-					//else
-					//	await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+					App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
 
-					if (CheckNetworkState.hasConnectivity)
-						await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+					//Asesor previo politica			
+					//App.releva.FK_ERP_ASESORES = asesor.ID;
+					App.releva.FK_ERP_ASESORES = App.globalAsesor.ID;
+
+					App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+					string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), maxRequestId.ToString());
+					//Obtengo el imei del equipo para el request
+
+					App.releva.CODIGO = "ASD123ADSASD";
+					ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
+					relevamientos.relevamiento = App.releva;
+					relevamientos.comercios = App.comercios;
+					relevamientos.codigoRequest = codigoRequest;// "123456789-9"; //<-- Usar este codigo para test (no va a itris)
+
+					string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
+
+					var tbRequestDataService = new TbRequestDataService();
+
+					if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
+					{
+						TbRequest tbRequests = new TbRequest()
+						{
+							req_codigo = relevamientos.codigoRequest,
+							req_json = jsonRelevamiento,
+							req_estado = false
+						};
+
+						//Se updatea el estado del registro de la planilla enviada
+						tbRequestDataService.Insert(tbRequests);
+
+						//Se comenta codigo porque son mensajes debug
+						//if (tbRequestDataService.Insert(tbRequests))
+						//	await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
+						//else
+						//	await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+
+						if (CheckNetworkState.hasConnectivity)
+							await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+						else
+							await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
+					}
 					else
-						await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
+					{
+						await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
+					}
+					PopUntilDestination(typeof(Principal));
 				}
-				else
-				{
-					await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
-				}
-                PopUntilDestination(typeof(Principal));
-            }
+			}
 			catch (Exception ex)
 			{
 				throw ex;
@@ -219,7 +224,9 @@ namespace Relevamiento.Vistas
 
                 if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Created)
                 {
-                    await DisplayAlert("Aviso", "Se ha enviado el relevamiento", "Ok");
+					//Se comenta porque no es necesario informarle al usuario que se envio el relevamiento ok
+					//Va a poder chequearlo desde el menu estados
+                    //await DisplayAlert("Aviso", "Se ha enviado el relevamiento", "Ok");
                     
                     //Obtengo el mensaje de respuesta del server
                     var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;

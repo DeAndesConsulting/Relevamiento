@@ -32,7 +32,7 @@ namespace Relevamiento.Vistas
                     {
                         Id = obj.ID,
                         Producto = obj.DESCRIPCION,
-                        TipoProducto = obj.FK_TIP_ART,
+                        TipoProducto = obj.FK_TIP_ART
                     };
                     listaTemp.Add(producto);
                 }

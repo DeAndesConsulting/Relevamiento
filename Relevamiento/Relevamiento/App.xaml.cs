@@ -80,19 +80,23 @@ namespace Relevamiento
 
 				conexion.CreateTable<Relevado>();
 				conexion.CreateTable<TbRequest>();
-                conexion.CreateTable<GenericDataConfig>();
+                
+                //conexion.DropTable<GenericDataConfig>();
+                //conexion.DropTable<SynchronizeDataConfig>();
+                conexion.CreateTable<SynchronizeDataConfig>();
 
                 //first time
-                if(conexion.Table<GenericDataConfig>().Count() == 0)
+                if (conexion.Table<SynchronizeDataConfig>().Count() == 0)
                 {
-                    var genericDataConfig = new GenericDataConfig()
+                    var synchronizeDataConfig = new SynchronizeDataConfig()
                     {
                         ID = 1,
                         isSynchronized = false,
-                        lastSynchronized = DateTime.Today
+                        lastSynchronized = DateTime.Today,
+                        isFirstTimeSynchronizedReady = false
                     };
 
-                    conexion.Insert(genericDataConfig);
+                    conexion.Insert(synchronizeDataConfig);
                 }
 			}
 

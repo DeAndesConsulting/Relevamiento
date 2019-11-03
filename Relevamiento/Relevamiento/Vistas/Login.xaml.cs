@@ -20,7 +20,7 @@ namespace Relevamiento.Vistas
 	{
         private bool _isAlreadySynchronized = false;
 		private bool _mostrarControles = false;
-        private GenericDataConfig _genericDataConfig = new GenericDataConfig();
+        private SynchronizeDataConfig _synchronizeDataConfig = new SynchronizeDataConfig();
 
         public Login()
 		{
@@ -34,11 +34,11 @@ namespace Relevamiento.Vistas
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
-                _genericDataConfig = conexion.Table<GenericDataConfig>().FirstOrDefault();
+                _synchronizeDataConfig = conexion.Table<SynchronizeDataConfig>().FirstOrDefault();
 
-                if (_genericDataConfig.lastSynchronized.Day != DateTime.Today.Day)
+                if (_synchronizeDataConfig.lastSynchronized.Day != DateTime.Today.Day)
                 {
-                    _genericDataConfig.isSynchronized = false;
+                    _synchronizeDataConfig.isSynchronized = false;
                 }
             }
 
@@ -107,7 +107,7 @@ namespace Relevamiento.Vistas
 			}
 		}
 
-        private bool isMonday()
+        private bool IsMonday()
         {
             //Se trato de hacerlo usando FindSystemTimeZoneById pero en xamarin no funciona
             //DateTime timeUtc = DateTime.UtcNow;
@@ -122,43 +122,80 @@ namespace Relevamiento.Vistas
             return argDateTime.DayOfWeek == DayOfWeek.Monday;
         }
 
-		private async Task Synchronize()
+        private async Task Synchronize()
 		{
 			try
 			{
-                if (isMonday() && CheckNetworkState.hasConnectivity && !_genericDataConfig.isSynchronized)
+                if (CheckNetworkState.hasConnectivity)
                 {
-                    var articulosService = new ArticulosService();
-                    Task.Run(async () => await articulosService.SynchronizeArticulos()).GetAwaiter().GetResult();
-                    var asesoresService = new ErpAsesoresService();
-                    Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
-					var empresasService = new ErpEmpresasService();
-					Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
-
-					var countLocalidades = 0;
-                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    if (!_synchronizeDataConfig.isFirstTimeSynchronizedReady || IsMonday() && !_synchronizeDataConfig.isSynchronized)
                     {
-                        countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
-                    }
+                        //TABLA ARTICULOS
+                        var articulosService = new ArticulosService();
+                        Task.Run(async () => await articulosService.SynchronizeArticulos()).GetAwaiter().GetResult();
+                        
+                        //para debug Articulos
+                        var countArticulos = 0;
+                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        {
+                            //73
+                            countArticulos = conexion.Table<_ARTICULOS>().Count();
+                        }
 
-					if (countLocalidades < 21683)
-					{
-						var localidadesService = new ErpLocalidadesService();
-						Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
-					}
+                        //TABLA ASESORES
+                        var asesoresService = new ErpAsesoresService();
+                        Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
 
-                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-                    {
-                        _genericDataConfig.isSynchronized = true;
-                        _genericDataConfig.lastSynchronized = DateTime.Today;
-                        conexion.Update(_genericDataConfig);
+                        //para debug Asesores
+                        var countAsesores = 0;
+                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        {
+                            //116
+                            countAsesores = conexion.Table<ERP_ASESORES>().Count();
+                        }
+
+                        //TABLA EMPRESAS
+                        var empresasService = new ErpEmpresasService();
+                        Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
+
+                        //para debug Empresas
+                        var countEmpresas = 0;
+                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        {
+                            //3133
+                            countEmpresas = conexion.Table<ERP_EMPRESAS>().Count();
+                        }
+
+                        var countLocalidades = 0;
+                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        {
+                            //21683
+                            countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+                        }
+
+                        if (countLocalidades < 21683)
+                        {
+                            var localidadesService = new ErpLocalidadesService();
+                            Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
+                        }
+
+                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        {
+                            _synchronizeDataConfig.isSynchronized = true;
+                            _synchronizeDataConfig.lastSynchronized = DateTime.Today;
+                            _synchronizeDataConfig.isFirstTimeSynchronizedReady = true;
+                            conexion.Update(_synchronizeDataConfig);
+                        }
                     }
+                    //valido equipo con IMEI. Por politicas no se usa por el momento, gestionarlas
+                    //Task.Run(async () => await ValidarEquipo()).GetAwaiter().GetResult();
+                    //Se valida por nombre de usuario y sin pass por el tema de arriba, descomentar y se usa la anterior
+                    ValidarEquipo(true);
                 }
-                
-                //valido equipo con IMEI. Por politicas no se usa por el momento, gestionarlas
-                //Task.Run(async () => await ValidarEquipo()).GetAwaiter().GetResult();
-				//Se valida por nombre de usuario y sin pass por el tema de arriba, descomentar y se usa la anterior
-                ValidarEquipo(true);
+                else
+                {
+                    //TODO: comunicar al usuario que no hay conectividad.
+                }
 			}
 			catch (Exception ex)
 			{

@@ -6,19 +6,42 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Relevamiento.Vistas
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Principal : ContentPage
+    public partial class Principal : ContentPage, INotifyPropertyChanged
     {
         public Principal(Usuario usuario)
         {
             InitializeComponent();
             lblUsuario.Text = "¡Hola " + usuario.NombreUsuario + "!";
+
+            BindingContext = this;
         }
 
-        async private void BtnRelevamiento(object sender, EventArgs e)
+        private bool _IsBusy;
+        public bool IsBusy
+        {
+            get => _IsBusy;
+            set
+            {
+                _IsBusy = value;
+                OnPropertyChanged("IsBusy");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        async private void BtnRelevamiento_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BusquedaDistribuidor());
         }
@@ -32,15 +55,19 @@ namespace Relevamiento.Vistas
 		{
 			try
 			{
-				var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
-				articulosService.SynchronizeArticulos();
+                IsBusy = true;
+
+                var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
+				await articulosService.SynchronizeArticulos();
 				var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
-				asesoresService.SynchronizeAsesores();
+				await asesoresService.SynchronizeAsesores();
 				var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
-				empresasService.SynchronizeEmpresas();
+				await empresasService.SynchronizeEmpresas();
 				var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
-				localidadesService.SynchronizeLocalidades();
-			}
+				await localidadesService.SynchronizeLocalidades();
+
+                IsBusy = false;
+            }
 			catch (Exception)
 			{
 				throw;

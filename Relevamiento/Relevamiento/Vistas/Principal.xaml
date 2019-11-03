@@ -4,63 +4,71 @@
              x:Class="Relevamiento.Vistas.Principal"
              BackgroundColor="#FFECA9">
     <ContentPage.Content>
-        <StackLayout>
-            <Label x:Name="lblUsuario"  HorizontalOptions="Center"/>
-            <Button x:Name="BtnRelevamiento1" Clicked="BtnRelevamiento" Text="Hacer un relevamiento"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
-            <Button x:Name="BtnEstado" Clicked="BtnEstado_Clicked" Text="Estados"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
-            <Button x:Name="btnSincronizarRegistros" Clicked="SincronizarRegistros_Clicked" Text="Sincronizar Registros"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
-            <Grid IsVisible="False">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackLayout>
-                    <Label Text="Articulos Create:" />
-                    <Label Text="Articulos Update:" />
-                    <Label Text="Articulos Delete:" />
-                </StackLayout>
-                <StackLayout Grid.Column="1">
-                    <Label x:Name="lblArticulosCreate" />
-                    <Label x:Name="lblArticulosUpdate" />
-                    <Label x:Name="lblArticulosDelete" />
-                </StackLayout>
-                <StackLayout Grid.Row="1">
-                    <Label Text="Asesores Create:" />
-                    <Label Text="Asesores Update:" />
-                    <Label Text="Asesores Delete:" />
-                </StackLayout>
-                <StackLayout Grid.Row="1" Grid.Column="1">
-                    <Label x:Name="lblAsesoresCreate" />
-                    <Label x:Name="lblAsesoresUpdate" />
-                    <Label x:Name="lblAsesoresDelete" />
-                </StackLayout>
-                <StackLayout Grid.Row="2">
-                    <Label Text="Empresas Create:" />
-                    <Label Text="Empresas Update:" />
-                    <Label Text="Empresas Delete:" />
-                </StackLayout>
-                <StackLayout Grid.Row="2" Grid.Column="1">
-                    <Label x:Name="lblEmpresasCreate" />
-                    <Label x:Name="lblEmpresasUpdate" />
-                    <Label x:Name="lblEmpresasDelete" />
-                </StackLayout>
-                <StackLayout Grid.Row="3">
-                    <Label Text="Localidades Create:" />
-                    <Label Text="Localidades Update:" />
-                    <Label Text="Localidades Delete:" />
-                </StackLayout>
-                <StackLayout Grid.Row="3" Grid.Column="1">
-                    <Label x:Name="lblLocalidadesCreate" />
-                    <Label x:Name="lblLocalidadesUpdate" />
-                    <Label x:Name="lblLocalidadesDelete" />
-                </StackLayout>
+
+        <Grid>
+            <StackLayout>
+                <Label x:Name="lblUsuario"  HorizontalOptions="Center"/>
+                <Button x:Name="BtnRelevamiento" Clicked="BtnRelevamiento_Clicked" Text="Hacer un relevamiento"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9" />
+                <Button x:Name="BtnEstado" Clicked="BtnEstado_Clicked" Text="Estados"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9" />
+                <Button x:Name="btnSincronizarRegistros" Clicked="SincronizarRegistros_Clicked" Text="Sincronizar Registros"  TextColor="Gray" BackgroundColor="#F5DE8E" BorderColor="White" BorderWidth="1" CornerRadius="9"/>
+                <Grid IsVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout>
+                        <Label Text="Articulos Create:" />
+                        <Label Text="Articulos Update:" />
+                        <Label Text="Articulos Delete:" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                        <Label x:Name="lblArticulosCreate" />
+                        <Label x:Name="lblArticulosUpdate" />
+                        <Label x:Name="lblArticulosDelete" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="1">
+                        <Label Text="Asesores Create:" />
+                        <Label Text="Asesores Update:" />
+                        <Label Text="Asesores Delete:" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="1" Grid.Column="1">
+                        <Label x:Name="lblAsesoresCreate" />
+                        <Label x:Name="lblAsesoresUpdate" />
+                        <Label x:Name="lblAsesoresDelete" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="2">
+                        <Label Text="Empresas Create:" />
+                        <Label Text="Empresas Update:" />
+                        <Label Text="Empresas Delete:" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="2" Grid.Column="1">
+                        <Label x:Name="lblEmpresasCreate" />
+                        <Label x:Name="lblEmpresasUpdate" />
+                        <Label x:Name="lblEmpresasDelete" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="3">
+                        <Label Text="Localidades Create:" />
+                        <Label Text="Localidades Update:" />
+                        <Label Text="Localidades Delete:" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="3" Grid.Column="1">
+                        <Label x:Name="lblLocalidadesCreate" />
+                        <Label x:Name="lblLocalidadesUpdate" />
+                        <Label x:Name="lblLocalidadesDelete" />
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+
+            <Grid x:Name="GridActivityIndicator" Opacity=".8" BackgroundColor="Black" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator x:Name="ActivityIndicator" IsRunning="{Binding IsBusy}" HorizontalOptions="Center"></ActivityIndicator>
             </Grid>
-        </StackLayout>
+        </Grid>
+        
     </ContentPage.Content>
 </ContentPage>

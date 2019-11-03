@@ -18,7 +18,7 @@ namespace Relevamiento.Vistas
         public Saborizadas()
         {
             InitializeComponent();
-            int Saborizadas = 2;
+            int Saborizadas = 3;
             List<_ARTICULOS> listaArticulos = new List<_ARTICULOS>();
 
             List<ListaProductos> listaTemp = new List<ListaProductos>();

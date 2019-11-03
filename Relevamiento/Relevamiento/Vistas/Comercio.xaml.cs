@@ -21,13 +21,13 @@ using Relevamiento.Services.Data;
 
 namespace Relevamiento.Vistas
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Comercio : ContentPage
-    {
-        //public Distribuidora distribuidorseleccionado;
-        public _COMERCIO ComercioSeleccionado = new _COMERCIO();
-        public _TIP_COM TipoSeleccionado;
-        public List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class Comercio : ContentPage
+	{
+		//public Distribuidora distribuidorseleccionado;
+		public _COMERCIO ComercioSeleccionado = new _COMERCIO();
+		public _TIP_COM TipoSeleccionado;
+		public List<ERP_LOCALIDADES> ListaLocalidades = new List<ERP_LOCALIDADES>();
 
 		public Comercio(ERP_EMPRESAS Distribuidor)
 		{
@@ -44,90 +44,92 @@ namespace Relevamiento.Vistas
 
 			}
 			pickerTipoLocal.ItemsSource = lista_locales.ToList();
+
 			PickerProvincia.SelectedItem = Distribuidor.Z_FK_ERP_PROVINCIAS;
 			App.distribuidorseleccionado = Distribuidor;
 		}
 
-        public bool ValidarDatos()
-        {
-            bool validar = true;
-            if (string.IsNullOrEmpty(entryCalleLocal.Text))
-            {
-                LabelCalleLocal.IsVisible = true;
-                validar = false;
-            }
-            if (string.IsNullOrEmpty(LocalidadSearch.Text))
-            {
-                LabelLocalidad.IsVisible = true;
-                validar = false;
-            }
-            if (string.IsNullOrEmpty(entryNombreLocal.Text))
-            {
-                LabelNombreLocal.IsVisible = true;
-                validar = false;
-            }
-            if (string.IsNullOrEmpty(entryNumeroLocal.Text))
-            {
-                LabelNumero.IsVisible = true;
-                validar = false;
-            }
-            if (pickerTipoLocal.SelectedIndex == -1)
-            {
-                LabelTipoLocal.IsVisible = true;
-                validar = false;
-            }
-            return validar;
-        }
+		public bool ValidarDatos()
+		{
+			bool validar = true;
+			if (string.IsNullOrEmpty(entryCalleLocal.Text))
+			{
+				LabelCalleLocal.IsVisible = true;
+				validar = false;
+			}
+			if (string.IsNullOrEmpty(LocalidadSearch.Text))
+			{
+				LabelLocalidad.IsVisible = true;
+				validar = false;
+			}
+			if (string.IsNullOrEmpty(entryNombreLocal.Text))
+			{
+				LabelNombreLocal.IsVisible = true;
+				validar = false;
+			}
+			if (string.IsNullOrEmpty(entryNumeroLocal.Text))
+			{
+				LabelNumero.IsVisible = true;
+				validar = false;
+			}
+			if (pickerTipoLocal.SelectedIndex == -1)
+			{
+				LabelTipoLocal.IsVisible = true;
+				validar = false;
+			}
+			return validar;
+		}
 
-        public List<_TIP_COM> TraerLocales()
-        {
-            List<_TIP_COM> ListaComercios = new List<_TIP_COM>();
+		public List<_TIP_COM> TraerLocales()
+		{
+			List<_TIP_COM> ListaComercios = new List<_TIP_COM>();
 
-            _TIP_COM d3 = new _TIP_COM()
-            {
-                ID = 1,
-                DESCRIPCION = "Almacen"
-            };
-            ListaComercios.Add(d3);
+			_TIP_COM d3 = new _TIP_COM()
+			{
+				ID = 1,
+				DESCRIPCION = "Almacen"
+			};
+			ListaComercios.Add(d3);
 
-            d3 = new _TIP_COM()
-            {
-                ID = 2,
-                DESCRIPCION = "Chino"
-            };
-            ListaComercios.Add(d3);
-            d3 = new _TIP_COM()
-            {
-                ID = 3,
-                DESCRIPCION = "Despensa",
-            };
-            ListaComercios.Add(d3);
-            d3 = new _TIP_COM()
-            {
-                ID = 4,
-                DESCRIPCION = "Kiosco",
-            };
-            ListaComercios.Add(d3);
+			d3 = new _TIP_COM()
+			{
+				ID = 2,
+				DESCRIPCION = "Chino"
+			};
+			ListaComercios.Add(d3);
+			d3 = new _TIP_COM()
+			{
+				ID = 3,
+				DESCRIPCION = "Despensa",
+			};
+			ListaComercios.Add(d3);
+			d3 = new _TIP_COM()
+			{
+				ID = 4,
+				DESCRIPCION = "Kiosco",
+			};
+			ListaComercios.Add(d3);
 
-            return ListaComercios;
-        }
+			return ListaComercios;
+		}
 
-        private async void btnCancelarClicked(object sender, EventArgs e)
-        {
-            if(await DisplayAlert("Aviso", "Ud. va a cancelar todos los relevamientos de la localidad, ¿desea continuar?", "Si", "No"))
-            {
-                await Navigation.PopAsync();
-            }
-        }
+		private async void btnCancelarClicked(object sender, EventArgs e)
+		{
+			if (await DisplayAlert("Aviso", "Ud. va a cancelar todos los relevamientos de la localidad, ¿desea continuar?", "Si", "No"))
+			{
+				await Navigation.PopAsync();
+			}
+		}
 
-        private async void btnFinalizarClicked(object sender, EventArgs e)
-        {
+		private async void btnFinalizarClicked(object sender, EventArgs e)
+		{
 			try
 			{
 				bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el Relevamiento de este Pueblo?", "Si", "No");
 				if (respuesta)
 				{
-
+					//Primero se envia a la pantalla principal para que se sigan ejecutando los threads y evitar mandar 2 relevamientos
+					PopUntilDestination(typeof(Principal));
 					//Comento acceso al imei politicas android
 					//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
 
@@ -193,55 +195,56 @@ namespace Relevamiento.Vistas
 					{
 						await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
 					}
-					PopUntilDestination(typeof(Principal));
+					//Se comenta esta linea porque permitia enviar dos formularios, se agrego arriba (si pasa test borrar).
+					//PopUntilDestination(typeof(Principal));
 				}
 			}
 			catch (Exception ex)
 			{
 				throw ex;
 			}
-        }
+		}
 
-        private async Task SendPostRelevamiento(string jsonRelevamiento, TbRequest tbRequestToUpdate)
-        {
-            try
-            {
-                //String content que serealiza la clase a string
-                StringContent stringContent =
-                        new StringContent(jsonRelevamiento, Encoding.UTF8, "application/json");
+		private async Task SendPostRelevamiento(string jsonRelevamiento, TbRequest tbRequestToUpdate)
+		{
+			try
+			{
+				//String content que serealiza la clase a string
+				StringContent stringContent =
+						new StringContent(jsonRelevamiento, Encoding.UTF8, "application/json");
 
-                HttpClient httpClient = new HttpClient();
-                httpClient.Timeout = TimeSpan.FromMinutes(30);
+				HttpClient httpClient = new HttpClient();
+				httpClient.Timeout = TimeSpan.FromMinutes(30);
 
-                //URL para hacer el post
-                string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
+				//URL para hacer el post
+				string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
-                //variable que se utiliza para tomar la respuesta
-                HttpResponseMessage httpResponseMessage;
+				//variable que se utiliza para tomar la respuesta
+				HttpResponseMessage httpResponseMessage;
 
-                //Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
-                httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
+				//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
+				httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
 
-                if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Created)
-                {
+				if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+				{
 					//Se comenta porque no es necesario informarle al usuario que se envio el relevamiento ok
 					//Va a poder chequearlo desde el menu estados
-                    //await DisplayAlert("Aviso", "Se ha enviado el relevamiento", "Ok");
-                    
-                    //Obtengo el mensaje de respuesta del server
-                    var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
+					//await DisplayAlert("Aviso", "Se ha enviado el relevamiento", "Ok");
 
-                    //Serializo la repsuesta que viene en formato json al tipo de clase
-                    //ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
-                    ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
+					//Obtengo el mensaje de respuesta del server
+					var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
-                    //Dato a guardar en tabla tbRequest
-                    string requestBody = JsonConvert.SerializeObject(respuesta);
+					//Serializo la repsuesta que viene en formato json al tipo de clase
+					//ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
+					ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
 
-                    var tbRequestDataService = new TbRequestDataService();
+					//Dato a guardar en tabla tbRequest
+					string requestBody = JsonConvert.SerializeObject(respuesta);
 
-                    tbRequestToUpdate.req_json = requestBody;
-                    tbRequestToUpdate.req_estado = true;
+					var tbRequestDataService = new TbRequestDataService();
+
+					tbRequestToUpdate.req_json = requestBody;
+					tbRequestToUpdate.req_estado = true;
 
 					//Se updatea el estado del registro de la planilla enviada
 					tbRequestDataService.Update(tbRequestToUpdate);
@@ -253,131 +256,133 @@ namespace Relevamiento.Vistas
 					//    await DisplayAlert("Aviso", "NO se ha podido actualizar el relevamiento relevamiento", "Ok");
 				}
 				else
-                    await DisplayAlert("Aviso", "NO se ha podido enviar el relevamiento", "Ok");
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+					await DisplayAlert("Aviso", "NO se ha podido enviar el relevamiento", "Ok");
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
 
-        private async void btnSiguienteClicked(object sender, EventArgs e)
-        {
-            if (ValidarDatos())
-            {
-                _COMERCIO nuevoLocal = new _COMERCIO()
-                {
-                    FK_ERP_PROVINCIAS = 1,
-                    FK_TIP_COM = TipoSeleccionado.ID,
-                    NOMBRE = entryNombreLocal.Text,
-                    CALLE = entryCalleLocal.Text,
-                    NUMERO = entryNumeroLocal.Text,
-                    FK_ERP_LOCALIDADES = LocalidadSearch.Text,
+		private async void btnSiguienteClicked(object sender, EventArgs e)
+		{
+			if (ValidarDatos())
+			{
+				_COMERCIO nuevoLocal = new _COMERCIO()
+				{
+					FK_ERP_PROVINCIAS = 1,
+					FK_TIP_COM = TipoSeleccionado.ID,
+					NOMBRE = entryNombreLocal.Text,
+					CALLE = entryCalleLocal.Text,
+					NUMERO = entryNumeroLocal.Text,
+					FK_ERP_LOCALIDADES = LocalidadSearch.Text,
 					HORA_VISITA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
 				};
-                await Navigation.PushAsync(new Tabbed(nuevoLocal));
-            }
-        }
+				await Navigation.PushAsync(new Tabbed(nuevoLocal));
+			}
+		}
 
-        private void PickerTipoLocal_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var picker = sender as Picker;
+		private void PickerTipoLocal_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var picker = sender as Picker;
 
-            var selectedTipo = picker.ItemsSource[picker.SelectedIndex] as _TIP_COM;
-            TipoSeleccionado = selectedTipo;
-        }
+			var selectedTipo = picker.ItemsSource[picker.SelectedIndex] as _TIP_COM;
+			TipoSeleccionado = selectedTipo;
+		}
 
-        public void LocalidadSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(LocalidadSearch.Text))
-            {
-                List<ERP_LOCALIDADES> temp = new List<ERP_LOCALIDADES>();
+		public void LocalidadSearch_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			if (!string.IsNullOrEmpty(LocalidadSearch.Text))
+			{
+				List<ERP_LOCALIDADES> temp = new List<ERP_LOCALIDADES>();
 
-                temp = ListaLocalidades.Where(c => c.DESCRIPCION.ToString().ToLower().Contains(LocalidadSearch.Text)).ToList();
-                if (temp.Count != 0)
-                {
-                    LocalidadList.IsVisible = true;
-                    LocalidadList.ItemsSource = temp;
-                }
-                else LocalidadList.IsVisible = false;
-            }
-            else LocalidadList.IsVisible = false;
-        }
+				temp = ListaLocalidades.Where(c => c.DESCRIPCION.ToString().ToLower().Contains(LocalidadSearch.Text)).ToList();
+				if (temp.Count != 0)
+				{
+					LocalidadList.IsVisible = true;
+					LocalidadList.ItemsSource = temp;
+				}
+				else LocalidadList.IsVisible = false;
+			}
+			else LocalidadList.IsVisible = false;
+		}
 
-        public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            LocalidadList.IsVisible = false;
-            BusquedaDistribuidor.LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;
-            PickerProvincia.SelectedItem = BusquedaDistribuidor.LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS;
-            ComercioSeleccionado.FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS;
-            ComercioSeleccionado.FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
-            LocalidadSearch.Text = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
+		public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
+		{
+			LocalidadList.IsVisible = false;
+			BusquedaDistribuidor.LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;
+			PickerProvincia.SelectedItem = BusquedaDistribuidor.LocalidadSeleccionada.Z_FK_ERP_PROVINCIAS;
+			ComercioSeleccionado.FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS;
+			ComercioSeleccionado.FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
+			LocalidadSearch.Text = BusquedaDistribuidor.LocalidadSeleccionada.DESCRIPCION;
 
-        }
+		}
 
-        private void PickerProvincia_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var picker = sender as Picker;
-            var provincia = picker.SelectedItem.ToString();
-            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-            {
-                ListaLocalidades = conexion.Query<ERP_LOCALIDADES>("select * from ERP_LOCALIDADES where Z_FK_ERP_PROVINCIAS = ?", provincia).ToList();
+		private void PickerProvincia_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var picker = sender as Picker;
+			var provincia = picker.SelectedItem.ToString();
+			using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+			{
+				ListaLocalidades = conexion.Query<ERP_LOCALIDADES>("select * from ERP_LOCALIDADES where Z_FK_ERP_PROVINCIAS = ?", provincia).ToList();
 
-            }
-        }
-        void PopUntilDestination(Type DestinationPage)
-        {
-            int LeastFoundIndex = 0;
-            int PagesToRemove = 0;
+			}
+		}
 
-            for (int index = Navigation.NavigationStack.Count - 2; index > 0; index--)
-            {
-                if (Navigation.NavigationStack[index].GetType().Equals(DestinationPage))
-                {
-                    break;
-                }
-                else
-                {
-                    LeastFoundIndex = index;
-                    PagesToRemove++;
-                }
-            }
+		void PopUntilDestination(Type DestinationPage)
+		{
+			int LeastFoundIndex = 0;
+			int PagesToRemove = 0;
 
-            for (int index = 0; index < PagesToRemove; index++)
-            {
-                Navigation.RemovePage(Navigation.NavigationStack[LeastFoundIndex]);
-            }
+			for (int index = Navigation.NavigationStack.Count - 2; index > 0; index--)
+			{
+				if (Navigation.NavigationStack[index].GetType().Equals(DestinationPage))
+				{
+					break;
+				}
+				else
+				{
+					LeastFoundIndex = index;
+					PagesToRemove++;
+				}
+			}
 
-            Navigation.PopAsync();
-        }
-        #region Metodos para generar codigo del POST para el relevamiento
+			for (int index = 0; index < PagesToRemove; index++)
+			{
+				Navigation.RemovePage(Navigation.NavigationStack[LeastFoundIndex]);
+			}
 
-        /// <summary>
-        /// Metodo de obtencion de IMEI
-        /// </summary>
-        /// <returns></returns>
-        private async Task<string> GetImei()
-        {
-            //Verifico permisos en el equipo
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
-            if (status != PermissionStatus.Granted)
-            {
-                var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
-                //como buena practica siempre es bueno chequear tener los permisos
-                if (results.ContainsKey(Permission.Phone))
-                    status = results[Permission.Phone];
-            }
+			Navigation.PopAsync();
+		}
 
-            return DependencyService.Get<IServiceImei>().GetImei();
-        }
+		#region Metodos para generar codigo del POST para el relevamiento
 
-        private string GetMaxIdTbRequest()
-        {
-            int maxId = 1;
-            return maxId.ToString();
-        }
+		/// <summary>
+		/// Metodo de obtencion de IMEI
+		/// </summary>
+		/// <returns></returns>
+		private async Task<string> GetImei()
+		{
+			//Verifico permisos en el equipo
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Phone);
+			if (status != PermissionStatus.Granted)
+			{
+				var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
+				//como buena practica siempre es bueno chequear tener los permisos
+				if (results.ContainsKey(Permission.Phone))
+					status = results[Permission.Phone];
+			}
 
-        #endregion
+			return DependencyService.Get<IServiceImei>().GetImei();
+		}
 
-    }
+		private string GetMaxIdTbRequest()
+		{
+			int maxId = 1;
+			return maxId.ToString();
+		}
+
+		#endregion
+
+	}
 }

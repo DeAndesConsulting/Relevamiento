@@ -14,7 +14,7 @@ namespace Relevamiento.Vistas
         public Fernet()
         {
             InitializeComponent();
-            int Fernet = 5;
+            int Fernet = 6;
             List<_ARTICULOS> listaArticulos = new List<_ARTICULOS>();
 
             List<ListaProductos> listaTemp = new List<ListaProductos>();

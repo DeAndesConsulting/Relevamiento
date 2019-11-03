@@ -20,7 +20,7 @@ namespace Relevamiento.Vistas
             List<ListaProductos> listaGaseosasTemp = new List<ListaProductos>();
 
             InitializeComponent();
-            int Gaseosas = 0;
+            int Gaseosas = 1;
 
             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
             {

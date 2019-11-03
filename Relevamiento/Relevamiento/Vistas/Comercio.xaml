@@ -11,30 +11,30 @@
                     <Picker x:Name="PickerProvincia" Title="Provincia" SelectedIndexChanged="PickerProvincia_SelectedIndexChanged">
                         <Picker.ItemsSource >
                             <x:Array Type="{x:Type x:String}">
+                                <x:String>Capital Federal</x:String>
                                 <x:String>Buenos Aires</x:String>
                                 <x:String>Catamarca</x:String>
-                                <x:String>Chaco</x:String>
-                                <x:String>Chubut</x:String>
-                                <x:String>Capital Federal</x:String>
-                                <x:String>Cordoba</x:String>
+                                <x:String>Córdoba</x:String>
                                 <x:String>Corrientes</x:String>
                                 <x:String>Entre Rios</x:String>
-                                <x:String>Formosa</x:String>
                                 <x:String>Jujuy</x:String>
-                                <x:String>La Pampa</x:String>
-                                <x:String>La Rioja</x:String>
                                 <x:String>Mendoza</x:String>
-                                <x:String>Misiones</x:String>
-                                <x:String>Neuquen</x:String>
-                                <x:String>Rio Negro</x:String>
+                                <x:String>La Rioja</x:String>
                                 <x:String>Salta</x:String>
                                 <x:String>San Juan</x:String>
                                 <x:String>San Luis</x:String>
-                                <x:String>Santa Cruz</x:String>
                                 <x:String>Santa Fe</x:String>
-                                <x:String>Santiago del Estero</x:String>
+                                <x:String>Santiago Del Estero</x:String>
+                                <x:String>Tucumán</x:String>
+                                <x:String>Chaco</x:String>
+                                <x:String>Chubut</x:String>
+                                <x:String>Formosa</x:String>
+                                <x:String>Misiones</x:String>
+                                <x:String>Neuquén</x:String>
+                                <x:String>La Pampa</x:String>
+                                <x:String>Rio Negro</x:String>
+                                <x:String>Santa Cruz</x:String>
                                 <x:String>Tierra del Fuego</x:String>
-                                <x:String>Tucuman</x:String>
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>

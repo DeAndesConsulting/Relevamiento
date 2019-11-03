@@ -18,7 +18,7 @@ namespace Relevamiento.Vistas
             List<_ARTICULOS> listaArticulos = new List<_ARTICULOS>();
 
             List<ListaProductos> listaAguasTemp = new List<ListaProductos>();
-            int Aguas = 1;
+            int Aguas = 2;
             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
             {
                 listaArticulos = conexion.Query<_ARTICULOS>("select * from _ARTICULOS where FK_TIP_ART = ?", Aguas).ToList();

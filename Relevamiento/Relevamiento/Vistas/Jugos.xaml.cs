@@ -18,7 +18,7 @@ namespace Relevamiento.Vistas
         public Jugos()
         {
             InitializeComponent();
-            int Jugos = 4;
+            int Jugos = 5;
             List<_ARTICULOS> listaArticulos = new List<_ARTICULOS>();
 
             List<ListaProductos> listaTemp = new List<ListaProductos>();

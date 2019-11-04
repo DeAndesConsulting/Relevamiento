@@ -194,7 +194,7 @@ namespace Relevamiento.Vistas
                 }
                 else
                 {
-                    //TODO: comunicar al usuario que no hay conectividad.
+                    ValidarEquipo(true);
                 }
 			}
 			catch (Exception ex)

@@ -51,27 +51,34 @@ namespace Relevamiento.Vistas
             await Navigation.PushAsync(new EstadoPage());
         }
 
-		async private void SincronizarRegistros_Clicked(object sender, EventArgs e)
-		{
-			try
-			{
-                IsBusy = true;
+        async private void SincronizarRegistros_Clicked(object sender, EventArgs e)
+        {
+            if (CheckNetworkState.hasConnectivity)
+            {
+                try
+                {
+                    IsBusy = true;
 
-                var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
-				await articulosService.SynchronizeArticulos();
-				var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
-				await asesoresService.SynchronizeAsesores();
-				var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
-				await empresasService.SynchronizeEmpresas();
-				var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
-				await localidadesService.SynchronizeLocalidades();
+                    var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
+                    await articulosService.SynchronizeArticulos();
+                    var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
+                    await asesoresService.SynchronizeAsesores();
+                    var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
+                    await empresasService.SynchronizeEmpresas();
+                    var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
+                    await localidadesService.SynchronizeLocalidades();
 
-                IsBusy = false;
+                    IsBusy = false;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
-			catch (Exception)
-			{
-				throw;
-			}
+            else
+            {
+                await DisplayAlert("Aviso", "Sin conexion a internet, no se pueden sincronizar los registros", "Ok");
+            }
         }
 
         protected override void OnAppearing()

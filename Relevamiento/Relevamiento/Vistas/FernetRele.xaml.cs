@@ -17,7 +17,7 @@ namespace Relevamiento.Vistas
         public FernetRele()
         {
             InitializeComponent();
-            int Fernet = 5;
+            int Fernet = 6;
             FernetListView.ItemsSource = EstadoRelevamiento.listaArticulos.Where(c => c.FK_TIP_ART.ToString().ToLower().Contains(Fernet.ToString()));
         }
     }

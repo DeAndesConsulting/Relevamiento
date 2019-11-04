@@ -17,7 +17,7 @@ namespace Relevamiento.Vistas
         public JugosRele()
         {
             InitializeComponent();
-            int Jugos = 4;
+            int Jugos = 5;
             JugosListView.ItemsSource = EstadoRelevamiento.listaArticulos.Where(c => c.FK_TIP_ART.ToString().ToLower().Contains(Jugos.ToString()));
         }
     }

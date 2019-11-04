@@ -17,7 +17,7 @@ namespace Relevamiento.Vistas
         public AguasRele()
         {
             InitializeComponent();
-            int Aguas = 1;
+            int Aguas = 2;
 
             //Se inserto comentarios para gabito
 

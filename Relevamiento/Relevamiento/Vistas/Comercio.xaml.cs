@@ -162,7 +162,7 @@ namespace Relevamiento.Vistas
 					ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
 					relevamientos.relevamiento = App.releva;
 					relevamientos.comercios = App.comercios;
-					relevamientos.codigoRequest = codigoRequest;// "123456789-9"; //<-- Usar este codigo para test (no va a itris)
+                    relevamientos.codigoRequest = "44444-16"; //codigoRequest;// "123456789-9"; //<-- Usar este codigo para test (no va a itris)
 
 					string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
 

@@ -44,7 +44,7 @@
 
                                 <Label Text="{Binding Empresa.NOM_FANTASIA}" Grid.Column="0"/>
                                 <Label Text="{Binding relevamiento.FECHA}" Grid.Column="2" FontAttributes="Bold"/>
-                                <Image Source="no.png" Grid.Column="3">
+                                <Image Source="no.png" Grid.Column="3" Scale="1" HorizontalOptions="Center" VerticalOptions="Center">
                                     <Image.Triggers>
                                         <DataTrigger TargetType="Image" Binding="{Binding req_estado}" Value="True">
                                             <Setter Property="Source" Value="si.png"></Setter>

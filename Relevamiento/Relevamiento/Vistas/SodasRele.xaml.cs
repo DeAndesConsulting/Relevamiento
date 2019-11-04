@@ -17,7 +17,7 @@ namespace Relevamiento.Vistas
         public SodasRele()
         {
             InitializeComponent();
-            int Sodas = 3;
+            int Sodas = 4;
             SodasListView.ItemsSource = EstadoRelevamiento.listaArticulos.Where(c => c.FK_TIP_ART.ToString().ToLower().Contains(Sodas.ToString()));
         }
     }

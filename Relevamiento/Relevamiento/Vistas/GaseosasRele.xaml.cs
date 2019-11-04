@@ -17,7 +17,7 @@ namespace Relevamiento.Vistas
         public GaseosasRele()
         {
             InitializeComponent();
-            int Gaseosas = 0;
+            int Gaseosas = 1;
 
             GaseosasListView.ItemsSource = EstadoRelevamiento.listaArticulos.Where(c => c.FK_TIP_ART.ToString().ToLower().Contains(Gaseosas.ToString()));
 

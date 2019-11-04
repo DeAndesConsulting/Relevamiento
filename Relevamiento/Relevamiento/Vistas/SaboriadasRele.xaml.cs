@@ -17,7 +17,7 @@ namespace Relevamiento.Vistas
         public SaboriadasRele()
         {
             InitializeComponent();
-            int Saborizadas = 2;
+            int Saborizadas = 3;
             SaborizadasListView.ItemsSource = EstadoRelevamiento.listaArticulos.Where(c => c.FK_TIP_ART.ToString().ToLower().Contains(Saborizadas.ToString()));
         }
     }

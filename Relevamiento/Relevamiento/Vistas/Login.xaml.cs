@@ -107,28 +107,13 @@ namespace Relevamiento.Vistas
 			}
 		}
 
-        private bool IsMonday()
-        {
-            //Se trato de hacerlo usando FindSystemTimeZoneById pero en xamarin no funciona
-            //DateTime timeUtc = DateTime.UtcNow;
-            //TimeZoneInfo argZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
-            //DateTime argDateTime = TimeZoneInfo.ConvertTimeFromUtc(timeUtc, fooZone);
-
-            DateTime now = DateTime.Now;
-            DateTime gmt = now.ToUniversalTime();
-            DateTime local = gmt.ToLocalTime();
-            DateTime argDateTime = local.AddHours(-3);
-
-            return argDateTime.DayOfWeek == DayOfWeek.Monday;
-        }
-
         private async Task Synchronize()
 		{
 			try
 			{
                 if (CheckNetworkState.hasConnectivity)
                 {
-                    if (!_synchronizeDataConfig.isFirstTimeSynchronizedReady || IsMonday() && !_synchronizeDataConfig.isSynchronized)
+                    if (!_synchronizeDataConfig.isFirstTimeSynchronizedReady || DateTime.Now.DayOfWeek == DayOfWeek.Monday && !_synchronizeDataConfig.isSynchronized)
                     {
                         //TABLA ARTICULOS
                         var articulosService = new ArticulosService();

@@ -155,10 +155,12 @@ namespace Relevamiento.Vistas
 					App.releva.FK_ERP_ASESORES = App.globalAsesor.ID;
 
 					App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-					string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), maxRequestId.ToString());
-					//Obtengo el imei del equipo para el request
+                    //string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), maxRequestId.ToString());
+                    string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), DateTime.Now.ToString("yyyyMMddHHmmss"));
 
-					App.releva.CODIGO = "ASD123ADSASD";
+                    //Obtengo el imei del equipo para el request
+
+                    App.releva.CODIGO = "ASD123ADSASD";
 					ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
 					relevamientos.relevamiento = App.releva;
 					relevamientos.comercios = App.comercios;

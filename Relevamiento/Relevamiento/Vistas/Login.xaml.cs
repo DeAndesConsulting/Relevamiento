@@ -355,14 +355,23 @@ namespace Relevamiento.Vistas
 			//}
 			if (!string.IsNullOrEmpty(entryName.Text))
 			{
-				//validacion con asesores
-				//ERP_ASESORES asesor = new ERP_ASESORES();
-				using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                //validacion con asesores
+                //ERP_ASESORES asesor = new ERP_ASESORES();
+                int countAsesores = 0;
+                using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
 				{
-					App.globalAsesor = conexion.Table<ERP_ASESORES>().Where(a => a.DESCRIPCION == entryName.Text.ToUpper()).FirstOrDefault();
+                    countAsesores = conexion.Table<ERP_ASESORES>().Count();
+
+                    App.globalAsesor = conexion.Table<ERP_ASESORES>().Where(a => a.DESCRIPCION == entryName.Text.ToUpper()).FirstOrDefault();
 				}
 
-				if (App.globalAsesor != null)
+                if (countAsesores == 0)
+                {
+                    //lblMensaje.Text = "No se ha podido inicializar la aplicacion por falta de conexion a internet.";
+                    await DisplayAlert("Aviso", "No se ha podido sincronizar por 1era vez. Sin conexión a internet.", "Ok");
+                }
+
+                if (App.globalAsesor != null)
 				{
 					User.NombreUsuario = App.globalAsesor.DESCRIPCION;
 					CheckNetworkState.isLoged = true;

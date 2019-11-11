@@ -55,24 +55,28 @@ namespace Relevamiento.Vistas
         {
             if (CheckNetworkState.hasConnectivity)
             {
-                try
+                if (await DisplayAlert("Aviso", "Esta apunto de sincronizar los datos, ¿desea continuar?", "Si", "No"))
                 {
-                    IsBusy = true;
+                    try
+                    {
+                        IsBusy = true;
 
-                    var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
-                    await articulosService.SynchronizeArticulos();
-                    var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
-                    await asesoresService.SynchronizeAsesores();
-                    var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
-                    await empresasService.SynchronizeEmpresas();
-                    var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
-                    await localidadesService.SynchronizeLocalidades();
+                        var articulosService = new ArticulosService(lblArticulosCreate, lblArticulosUpdate, lblArticulosDelete);
+                        await articulosService.SynchronizeArticulos();
+                        var asesoresService = new ErpAsesoresService(lblAsesoresCreate, lblAsesoresUpdate, lblAsesoresDelete);
+                        await asesoresService.SynchronizeAsesores();
+                        var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
+                        await empresasService.SynchronizeEmpresas();
+                        var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
+                        await localidadesService.SynchronizeLocalidades();
 
-                    IsBusy = false;
-                }
-                catch (Exception)
-                {
-                    throw;
+                        IsBusy = false;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+
                 }
             }
             else

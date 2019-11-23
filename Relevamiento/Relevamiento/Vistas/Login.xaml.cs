@@ -136,7 +136,7 @@ namespace Relevamiento.Vistas
                         using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
                         {
                             //116
-                            countAsesores = conexion.Table<ERP_ASESORES>().Count();
+                            countAsesores = conexion.Table<ERP_ASESORES>().Count();                           
                         }
 
                         //TABLA EMPRESAS
@@ -358,9 +358,28 @@ namespace Relevamiento.Vistas
 
                 if (App.globalAsesor != null)
 				{
-					User.NombreUsuario = App.globalAsesor.DESCRIPCION;
-					CheckNetworkState.isLoged = true;
-					await Navigation.PushAsync(new Principal(User));
+                    if (!_synchronizeDataConfig.isFirstTimeLoggedReady)
+                    {
+                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        {
+                            _synchronizeDataConfig.c_IMEI = App.globalAsesor.c_IMEI;
+                            _synchronizeDataConfig.isFirstTimeLoggedReady = true;
+                            conexion.Update(_synchronizeDataConfig);
+                        }   
+                    }
+
+                    if (_synchronizeDataConfig.c_IMEI == App.globalAsesor.c_IMEI)
+                    {
+                        User.NombreUsuario = App.globalAsesor.DESCRIPCION;
+                        CheckNetworkState.isLoged = true;
+                        await Navigation.PushAsync(new Principal(User));
+                    }
+                    else
+                    {
+                        await DisplayAlert("Aviso", "Este usuario no puede usar la aplicación.", "Ok");
+                        lblpwfail.Text = "Usuario incorrecto.";
+                        lblusufail.IsVisible = true;
+                    }
 				}
 				else
 				{

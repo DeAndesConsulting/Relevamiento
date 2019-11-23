@@ -93,12 +93,15 @@ namespace Relevamiento
                         ID = 1,
                         isSynchronized = false,
                         lastSynchronized = DateTime.Today,
-                        isFirstTimeSynchronizedReady = false
+                        isFirstTimeSynchronizedReady = false,
+                        isFirstTimeLoggedReady = false,
+                        c_IMEI = string.Empty
                     };
 
                     conexion.Insert(synchronizeDataConfig);
                 }
-			}
+
+            }
 
 
 

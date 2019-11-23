@@ -12,6 +12,8 @@ namespace Relevamiento.Models
         public bool isSynchronized { get; set; }
         public DateTime lastSynchronized { get; set; }
         public bool isFirstTimeSynchronizedReady { get; set; }
+        public bool isFirstTimeLoggedReady { get; set; }
+        public string c_IMEI { get; set; }
     }
 
     public class GenericDataConfig

@@ -13,16 +13,16 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <!--<ColumnDefinition Width="*"/>-->
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Text="Nombre del Distribuidor" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Fecha" Grid.Row="0" Grid.Column="2" FontAttributes="Bold"/>
-                <Label Text="Entregado" Grid.Row="0" Grid.Column="3" FontAttributes="Bold"/>
-                <Label Text="Localidad" FontAttributes="Bold" Grid.Column="1"/>
+                <Label Text="Fecha" Grid.Row="0" Grid.Column="1" FontAttributes="Bold"/>
+                <Label Text="Entregado" Grid.Row="0" Grid.Column="2" FontAttributes="Bold"/>
+                <!--<Label Text="Localidad" FontAttributes="Bold" Grid.Column="1"/>-->
             </Grid>
             <ListView x:Name="EstadoListView"
                           HasUnevenRows="True"

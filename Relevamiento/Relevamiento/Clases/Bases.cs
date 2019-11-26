@@ -262,7 +262,8 @@ namespace Relevamiento.Clases
 		public int ID { get; set; }
 		[ForeignKey(typeof(_TIP_ART))]
 		public int FK_TIP_ART { get; set; }
-		public string DESCRIPCION { get; set; }
+        public string Z_FK_TIP_ART { get; set; }
+        public string DESCRIPCION { get; set; }
 		public bool ARTICULO_PROPIO { get; set; }
 		public double Precio { get; set; }
 		public bool Existe { get; set; }

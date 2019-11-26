@@ -56,14 +56,11 @@ namespace Relevamiento.Services.Middleware
 
         public void CreateArticulos(ArticulosServiceModel articulosServiceModel)
         {
-            if (!isAlreadyCreated())
+            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
-                using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
-                {
-                    articulosServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
-                    if (_lblArticulosCreate != null)
-                        _lblArticulosCreate.Text = "Created";
-                }
+                articulosServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
+                if (_lblArticulosCreate != null)
+                    _lblArticulosCreate.Text = "Created";
             }
         }
 

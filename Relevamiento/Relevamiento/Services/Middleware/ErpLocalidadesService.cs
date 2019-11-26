@@ -56,14 +56,11 @@ namespace Relevamiento.Services.Middleware
 
         public void CreateLocalidades(LocalidadesServiceModel localidadesServiceModel)
         {
-            if (!isAlreadyCreated())
+            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
-                using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
-                {
-                    localidadesServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
-                    if (_lblLocalidadesCreate != null)
-                        _lblLocalidadesCreate.Text = "Created";
-                }
+                localidadesServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
+                if (_lblLocalidadesCreate != null)
+                    _lblLocalidadesCreate.Text = "Created";
             }
         }
 

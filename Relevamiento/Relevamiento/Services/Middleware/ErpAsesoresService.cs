@@ -56,14 +56,11 @@ namespace Relevamiento.Services.Middleware
 
         public void CreateAsesores(AsesoresServiceModel asesoresServiceModel)
         {
-            if (!isAlreadyCreated())
+            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
-                using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
-                {
-                    asesoresServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
-                    if(_lblAsesoresCreate != null)
-                        _lblAsesoresCreate.Text = "Created";
-                }
+                asesoresServiceModel.listaCreate.ForEach(m => conexion.Insert(m));
+                if(_lblAsesoresCreate != null)
+                    _lblAsesoresCreate.Text = "Created";
             }
         }
 

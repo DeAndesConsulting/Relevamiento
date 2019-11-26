@@ -116,16 +116,7 @@ namespace Relevamiento.Services.Middleware
             if (isAlreadyCreated())
             {
                 using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
-                {
-                    if (!App.globalAsesor.c_IMEI_ADMIN)
-                    {
-                        return conexion.Table<ERP_EMPRESAS>()
-                        .Where(m => m.FK_ERP_ASESORES == App.globalAsesor.ID
-                        || m.FK_ERP_ASESORES2 == App.globalAsesor.ID
-                        || m.FK_ERP_ASESORES2 == App.globalAsesor.ID)
-                        .ToList();
-                    }
-                    
+                {                    
                     return conexion.Table<ERP_EMPRESAS>().ToList();
                 }
             }

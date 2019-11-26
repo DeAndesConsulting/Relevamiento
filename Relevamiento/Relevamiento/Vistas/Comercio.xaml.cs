@@ -218,11 +218,14 @@ namespace Relevamiento.Vistas
 				HttpClient httpClient = new HttpClient();
 				httpClient.Timeout = TimeSpan.FromMinutes(30);
 
-				//URL para hacer el post
-				string urlPost = "http://iserver.itris.com.ar:7101/DACServices/api/Relevamiento";
+				//TEST
+				string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
-				//variable que se utiliza para tomar la respuesta
-				HttpResponseMessage httpResponseMessage;
+                //PROD
+                //string urlPost = "http://iserver.itris.com.ar:7101/DACServices/api/Relevamiento";
+
+                //variable que se utiliza para tomar la respuesta
+                HttpResponseMessage httpResponseMessage;
 
 				//Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
 				httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);

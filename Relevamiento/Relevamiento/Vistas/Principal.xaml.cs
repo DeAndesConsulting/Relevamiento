@@ -74,7 +74,8 @@ namespace Relevamiento.Vistas
                     }
                     catch (Exception)
                     {
-                        throw;
+                        await DisplayAlert("Aviso", "Fallo el proceso de sincronización asegurese de tener buena conexión a datos e intente nuevamente.", "Ok");
+                        IsBusy = false;
                     }
 
                 }

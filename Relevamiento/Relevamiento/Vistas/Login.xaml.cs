@@ -36,10 +36,10 @@ namespace Relevamiento.Vistas
             {
                 _synchronizeDataConfig = conexion.Table<SynchronizeDataConfig>().FirstOrDefault();
 
-                if (_synchronizeDataConfig.lastSynchronized.Day != DateTime.Today.Day)
+                /*if (_synchronizeDataConfig.lastSynchronized.Day != DateTime.Today.Day)
                 {
                     _synchronizeDataConfig.isSynchronized = false;
-                }
+                }*/
             }
 
             
@@ -77,14 +77,11 @@ namespace Relevamiento.Vistas
             //ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.Camera }, REQUEST_LOCATION);
             
             await AskForPermissions();
-            if (!_isAlreadySynchronized)
-            {
+            //if (!_isAlreadySynchronized)
+            //{
                 Task.Run(async () => await CargaDeDatosInicial());
-                _isAlreadySynchronized = true;
-            }
-
-           
-            
+                //_isAlreadySynchronized = true;
+            //}
         }
 
         private async Task AskForPermissions()
@@ -113,63 +110,106 @@ namespace Relevamiento.Vistas
 			{
                 if (CheckNetworkState.hasConnectivity)
                 {
-                    if (!_synchronizeDataConfig.isFirstTimeSynchronizedReady || DateTime.Now.DayOfWeek == DayOfWeek.Monday && !_synchronizeDataConfig.isSynchronized)
+                    if (!_synchronizeDataConfig.isFirstTimeSynchronizedReady)
                     {
-                        //TABLA ARTICULOS
-                        var articulosService = new ArticulosService();
-                        Task.Run(async () => await articulosService.SynchronizeArticulos()).GetAwaiter().GetResult();
-                        
-                        //para debug Articulos
-                        var countArticulos = 0;
-                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        if (!_synchronizeDataConfig.isArticulosReady)
                         {
-                            //73
-                            countArticulos = conexion.Table<_ARTICULOS>().Count();
+                            //TABLA ARTICULOS
+                            var articulosService = new ArticulosService();
+                            Task.Run(async () => await articulosService.SynchronizeArticulos()).GetAwaiter().GetResult();
+
+                            //para debug Articulos
+                            var countArticulos = 0;
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                //73
+                                countArticulos = conexion.Table<_ARTICULOS>().Count();
+                            }
+
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                _synchronizeDataConfig.isArticulosReady = true;
+                                conexion.Update(_synchronizeDataConfig);
+                            }
                         }
 
-                        //TABLA ASESORES
-                        var asesoresService = new ErpAsesoresService();
-                        Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
-
-                        //para debug Asesores
-                        var countAsesores = 0;
-                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        if (!_synchronizeDataConfig.isAsesoresReady)
                         {
-                            //116
-                            countAsesores = conexion.Table<ERP_ASESORES>().Count();                           
+                            //TABLA ASESORES
+                            var asesoresService = new ErpAsesoresService();
+                            Task.Run(async () => await asesoresService.SynchronizeAsesores()).GetAwaiter().GetResult();
+
+                            //para debug Asesores
+                            var countAsesores = 0;
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                //116
+                                countAsesores = conexion.Table<ERP_ASESORES>().Count();
+                            }
+
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                _synchronizeDataConfig.isAsesoresReady = true;
+                                conexion.Update(_synchronizeDataConfig);
+                            }
                         }
 
-                        //TABLA EMPRESAS
-                        var empresasService = new ErpEmpresasService();
-                        Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
 
-                        //para debug Empresas
-                        var countEmpresas = 0;
-                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        if (!_synchronizeDataConfig.isEmpresasReady)
                         {
-                            //3133
-                            countEmpresas = conexion.Table<ERP_EMPRESAS>().Count();
+                            //TABLA EMPRESAS
+                            var empresasService = new ErpEmpresasService();
+                            Task.Run(async () => await empresasService.SynchronizeEmpresas()).GetAwaiter().GetResult();
+
+                            //para debug Empresas
+                            var countEmpresas = 0;
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                //3133
+                                countEmpresas = conexion.Table<ERP_EMPRESAS>().Count();
+                            }
+
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                _synchronizeDataConfig.isEmpresasReady = true;
+                                conexion.Update(_synchronizeDataConfig);
+                            }
                         }
 
-                        var countLocalidades = 0;
-                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                        if (!_synchronizeDataConfig.isLocalidadesReady)
                         {
-                            //21683
-                            countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+                            var countLocalidades = 0;
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                //21683
+                                countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+                            }
+
+                            if (countLocalidades < 21683)
+                            {
+                                var localidadesService = new ErpLocalidadesService();
+                                Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
+                            }
+
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                _synchronizeDataConfig.isLocalidadesReady = true;
+                                conexion.Update(_synchronizeDataConfig);
+                            }
                         }
 
-                        if (countLocalidades < 21683)
+                        if (_synchronizeDataConfig.isArticulosReady &&
+                            _synchronizeDataConfig.isAsesoresReady &&
+                            _synchronizeDataConfig.isEmpresasReady &&
+                            _synchronizeDataConfig.isLocalidadesReady)
                         {
-                            var localidadesService = new ErpLocalidadesService();
-                            Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
-                        }
-
-                        using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-                        {
-                            _synchronizeDataConfig.isSynchronized = true;
-                            _synchronizeDataConfig.lastSynchronized = DateTime.Today;
-                            _synchronizeDataConfig.isFirstTimeSynchronizedReady = true;
-                            conexion.Update(_synchronizeDataConfig);
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
+                                //_synchronizeDataConfig.isSynchronized = true;
+                                //_synchronizeDataConfig.lastSynchronized = DateTime.Today;
+                                _synchronizeDataConfig.isFirstTimeSynchronizedReady = true;
+                                conexion.Update(_synchronizeDataConfig);
+                            }
                         }
                     }
                     //valido equipo con IMEI. Por politicas no se usa por el momento, gestionarlas
@@ -179,13 +219,35 @@ namespace Relevamiento.Vistas
                 }
                 else
                 {
-                    ValidarEquipo(true);
+                    if(_synchronizeDataConfig.isFirstTimeSynchronizedReady)
+                    {
+                        ValidarEquipo(true);
+                    }
+                    else
+                    {
+                        aiLogin.IsVisible = false;
+                        aiLogin.IsRunning = false;
+                        aiLogin.IsEnabled = false;
+
+                        lblMensaje.Text = "";
+
+                        await DisplayAlert("Aviso", "No se ha podido sincronizar por 1era vez. Sin conexión a internet.\nVuelva a abrir la aplicación cuando tenga acceso a internet.", "Ok");
+                    }
                 }
 			}
 			catch (Exception ex)
 			{
-				throw ex;
-			}
+                Device.BeginInvokeOnMainThread(async () => {
+
+                    await DisplayAlert("Aviso", "Se ha perdido la conexión a datos. Asegurese de contar con buena señal para realizar el proceso de sincronización.\nCierre la aplicación y vuelva a intentar cuando tenga acceso a internet.", "Ok");
+
+                    aiLogin.IsVisible = false;
+                    aiLogin.IsRunning = false;
+                    aiLogin.IsEnabled = false;
+
+                    lblMensaje.Text = "";
+                });             
+            }
 		}
 
 		//public void ValidarEquipo()

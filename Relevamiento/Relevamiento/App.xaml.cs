@@ -95,7 +95,11 @@ namespace Relevamiento
                         lastSynchronized = DateTime.Today,
                         isFirstTimeSynchronizedReady = false,
                         isFirstTimeLoggedReady = false,
-                        c_IMEI = string.Empty
+                        c_IMEI = string.Empty,
+                        isArticulosReady = false,
+                        isAsesoresReady = false,
+                        isEmpresasReady = false,
+                        isLocalidadesReady =  false
                     };
 
                     conexion.Insert(synchronizeDataConfig);

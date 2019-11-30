@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Relevamiento.Repository
 {
@@ -45,10 +46,10 @@ namespace Relevamiento.Repository
 
                 throw new HttpRequestExceptionEx(responseMessage.StatusCode, jsonResult);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine($"{ e.GetType().Name + " : " + e.Message}");
-                throw;
+                Debug.WriteLine($"{ ex.GetType().Name + " : " + ex.Message}");
+                throw ex;
             }
         }
 
@@ -131,10 +132,10 @@ namespace Relevamiento.Repository
                 throw new HttpRequestExceptionEx(responseMessage.StatusCode, jsonResult);
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine($"{ e.GetType().Name + " : " + e.Message}");
-                throw;
+                Debug.WriteLine($"{ ex.GetType().Name + " : " + ex.Message}");
+                throw ex;
             }
         }
 

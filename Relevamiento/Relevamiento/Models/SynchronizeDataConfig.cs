@@ -14,6 +14,10 @@ namespace Relevamiento.Models
         public bool isFirstTimeSynchronizedReady { get; set; }
         public bool isFirstTimeLoggedReady { get; set; }
         public string c_IMEI { get; set; }
+        public bool isArticulosReady { get; set; }
+        public bool isAsesoresReady { get; set; }
+        public bool isEmpresasReady { get; set; }
+        public bool isLocalidadesReady { get; set; }
     }
 
     public class GenericDataConfig

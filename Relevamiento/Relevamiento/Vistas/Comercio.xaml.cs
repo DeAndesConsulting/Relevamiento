@@ -117,7 +117,7 @@ namespace Relevamiento.Vistas
 		{
 			if (await DisplayAlert("Aviso", "Ud. va a cancelar todos los relevamientos de la localidad, ¿desea continuar?", "Si", "No"))
 			{
-				await Navigation.PopAsync();
+				PopUntilDestination(typeof(Principal));
 			}
 		}
 

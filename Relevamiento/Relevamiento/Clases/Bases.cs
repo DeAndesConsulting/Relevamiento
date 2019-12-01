@@ -197,7 +197,7 @@ namespace Relevamiento.Clases
 
 	public class ERP_ASESORES
 	{
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]
 		public int ID { get; set; }
 		public string DESCRIPCION { get; set; }
 		public string c_EMAIL { get; set; }
@@ -207,13 +207,14 @@ namespace Relevamiento.Clases
 
 	public class _TIP_COM
 	{
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]
 		public int ID { get; set; }
 		public string DESCRIPCION { get; set; }
 	}
+
 	public class _TIP_ART
 	{
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]
 		public int ID { get; set; }
 		public string DESCRIPCION { get; set; }
 	}
@@ -258,7 +259,7 @@ namespace Relevamiento.Clases
 
 	public class _ARTICULOS
 	{
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]
 		public int ID { get; set; }
 		[ForeignKey(typeof(_TIP_ART))]
 		public int FK_TIP_ART { get; set; }

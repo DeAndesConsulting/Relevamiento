@@ -67,8 +67,9 @@ namespace Relevamiento.Vistas
                         await asesoresService.SynchronizeAsesores();
                         var empresasService = new ErpEmpresasService(lblEmpresasCreate, lblEmpresasUpdate, lblEmpresasDelete);
                         await empresasService.SynchronizeEmpresas();
-                        var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
-                        await localidadesService.SynchronizeLocalidades();
+                        //Se comenta sincronizacion porque se estan cargando de la clase localidades data por problemas de conexión a datos
+                        //var localidadesService = new ErpLocalidadesService(lblLocalidadesCreate, lblLocalidadesUpdate, lblLocalidadesDelete);
+                        //await localidadesService.SynchronizeLocalidades();
 
                         IsBusy = false;
                     }

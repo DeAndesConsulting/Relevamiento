@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Relevamiento.Models;
 using Relevamiento.Services.Middleware;
+using System.Diagnostics;
 
 namespace Relevamiento
 {
@@ -84,7 +85,9 @@ namespace Relevamiento
 					//conexion.InsertAll(ListaLocalidades);
 				}
 
-				conexion.CreateTable<Relevado>();
+                Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+
+                conexion.CreateTable<Relevado>();
 				conexion.CreateTable<TbRequest>();
                 
                 //conexion.DropTable<GenericDataConfig>();

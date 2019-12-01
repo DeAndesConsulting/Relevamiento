@@ -27,10 +27,7 @@ namespace Relevamiento.Vistas
 		{
             InitializeComponent();
 
-			aiLogin.IsVisible = true;
-			aiLogin.IsRunning = true;
-			aiLogin.IsEnabled = true;
-			lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
+			
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
@@ -83,7 +80,13 @@ namespace Relevamiento.Vistas
             if (!isSynchronizing)
             {
                 isSynchronizing = true;
-                Task.Run(async () => await CargaDeDatosInicial());               
+
+                aiLogin.IsVisible = true;
+                aiLogin.IsRunning = true;
+                aiLogin.IsEnabled = true;
+                lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
+
+                Task.Run(async () => await CargaDeDatosInicial());
             }
             
             //_isAlreadySynchronized = true;
@@ -241,7 +244,9 @@ namespace Relevamiento.Vistas
 
                         lblMensaje.Text = "";
 
-                        await DisplayAlert("Aviso", "No se ha podido sincronizar por 1era vez. Sin conexión a internet.\nVuelva a abrir la aplicación cuando tenga acceso a internet.", "Ok");
+                        await DisplayAlert("Aviso", "No se ha podido sincronizar por 1era vez. Sin conexión a internet.\nCierre la aplicación y vuelva a abrirla cuando tenga acceso a internet.", "Ok");
+
+                        isSynchronizing = false;
                     }
                 }
 			}
@@ -256,6 +261,8 @@ namespace Relevamiento.Vistas
                     aiLogin.IsEnabled = false;
 
                     lblMensaje.Text = "";
+
+                    isSynchronizing = false;
                 });             
             }
 		}

@@ -76,14 +76,14 @@ namespace Relevamiento.Clases
                 HttpClient httpClient = new HttpClient();
                 httpClient.Timeout = TimeSpan.FromMinutes(30);
 
-                //TEST
-                string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
+				//TEST
+				//string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
-                //PROD
-                //string urlPost = "http://iserver.itris.com.ar:7101/DACServices/api/Relevamiento";
+				//PROD
+				string urlPost = "http://iserver.itris.com.ar:7101/DACServices/api/Relevamiento";
 
-                //variable que se utiliza para tomar la respuesta
-                HttpResponseMessage httpResponseMessage;
+				//variable que se utiliza para tomar la respuesta
+				HttpResponseMessage httpResponseMessage;
 
                 //Se ejecuta el post y se lo asigna a la variable que contiene la respuesta
                 httpResponseMessage = await httpClient.PostAsync(new Uri(urlPost), stringContent);
@@ -94,7 +94,7 @@ namespace Relevamiento.Clases
                     var stringResponse = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
                     //Serializo la repsuesta que viene en formato json al tipo de clase
-                    //ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO DACServiceTest
+                    //ACA TENES QUE TENER LA RESPUESTA DEL SERVICIO
                     ItrisPlanillaEntity respuesta = JsonConvert.DeserializeObject<ItrisPlanillaEntity>(stringResponse);
 
                     //Dato a guardar en tabla tbRequest

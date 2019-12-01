@@ -21,6 +21,7 @@ namespace Relevamiento.Vistas
         private bool _isAlreadySynchronized = false;
 		private bool _mostrarControles = false;
         private SynchronizeDataConfig _synchronizeDataConfig = new SynchronizeDataConfig();
+        private bool isSynchronizing = false;
 
         public Login()
 		{
@@ -30,7 +31,6 @@ namespace Relevamiento.Vistas
 			aiLogin.IsRunning = true;
 			aiLogin.IsEnabled = true;
 			lblMensaje.Text = "Sincronizando información... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
-
 
             using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
             {
@@ -79,8 +79,14 @@ namespace Relevamiento.Vistas
             await AskForPermissions();
             //if (!_isAlreadySynchronized)
             //{
-                Task.Run(async () => await CargaDeDatosInicial());
-                //_isAlreadySynchronized = true;
+
+            if (!isSynchronizing)
+            {
+                isSynchronizing = true;
+                Task.Run(async () => await CargaDeDatosInicial());               
+            }
+            
+            //_isAlreadySynchronized = true;
             //}
         }
 

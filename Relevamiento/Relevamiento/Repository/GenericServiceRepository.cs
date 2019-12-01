@@ -107,6 +107,8 @@ namespace Relevamiento.Repository
                 var content = new StringContent(JsonConvert.SerializeObject(data));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
+                Debug.WriteLine($"{ "SERVICIO: " + uri }");
+
                 HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
 
                 string jsonResult = string.Empty;

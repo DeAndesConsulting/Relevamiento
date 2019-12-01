@@ -74,6 +74,12 @@ namespace Relevamiento
                 if (!TableExists("ERP_LOCALIDADES"))
 				{
 					conexion.CreateTable<ERP_LOCALIDADES>();
+
+					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
+					LocalidadesData localidadesData = new LocalidadesData();
+					var listaLocalidades = localidadesData.TraerLocalidades();
+					conexion.InsertAll(listaLocalidades);
+
 					//ListaLocalidades = TraerLocalidades();
 					//conexion.InsertAll(ListaLocalidades);
 				}

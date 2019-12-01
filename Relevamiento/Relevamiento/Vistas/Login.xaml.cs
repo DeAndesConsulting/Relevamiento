@@ -182,34 +182,38 @@ namespace Relevamiento.Vistas
                             }
                         }
 
-                        if (!_synchronizeDataConfig.isLocalidadesReady)
-                        {
-                            var countLocalidades = 0;
-                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-                            {
-                                //21683
-                                countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
-                            }
+						//if (!_synchronizeDataConfig.isLocalidadesReady)
+						//{
+						//    var countLocalidades = 0;
+						//    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+						//    {
+						//        //21683
+						//        countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+						//    }
 
-                            if (countLocalidades < 21683)
-                            {
-                                var localidadesService = new ErpLocalidadesService();
-                                Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
-                            }
+						//    if (countLocalidades < 21683)
+						//    {
+						//        var localidadesService = new ErpLocalidadesService();
+						//        Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
+						//    }
 
-                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-                            {
-                                _synchronizeDataConfig.isLocalidadesReady = true;
-                                conexion.Update(_synchronizeDataConfig);
-                            }
-                        }
+						//    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+						//    {
+						//        _synchronizeDataConfig.isLocalidadesReady = true;
+						//        conexion.Update(_synchronizeDataConfig);
+						//    }
+						//}
 
-                        if (_synchronizeDataConfig.isArticulosReady &&
-                            _synchronizeDataConfig.isAsesoresReady &&
-                            _synchronizeDataConfig.isEmpresasReady &&
-                            _synchronizeDataConfig.isLocalidadesReady)
-                        {
-                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+						//if (_synchronizeDataConfig.isArticulosReady &&
+						//	_synchronizeDataConfig.isAsesoresReady &&
+						//	_synchronizeDataConfig.isEmpresasReady &&
+						//	_synchronizeDataConfig.isLocalidadesReady)
+
+							if (_synchronizeDataConfig.isArticulosReady &&
+								_synchronizeDataConfig.isAsesoresReady &&
+								_synchronizeDataConfig.isEmpresasReady)
+							{
+								using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
                             {
                                 //_synchronizeDataConfig.isSynchronized = true;
                                 //_synchronizeDataConfig.lastSynchronized = DateTime.Today;

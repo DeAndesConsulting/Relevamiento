@@ -205,8 +205,10 @@ namespace Relevamiento.Vistas
                             {
                                 //INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
                                 LocalidadesData localidadesData = new LocalidadesData();
-                                var listaLocalidades = localidadesData.TraerLocalidades();
-                                conexion.InsertAll(listaLocalidades);
+                                //var listaLocalidades = localidadesData.TraerLocalidades();
+                                //conexion.InsertAll(listaLocalidades);
+
+                                localidadesData.TraerLocalidades().ForEach(m => conexion.Insert(m));
 
                                 //Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");               
                             }

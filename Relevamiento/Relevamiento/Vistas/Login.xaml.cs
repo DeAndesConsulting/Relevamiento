@@ -201,8 +201,6 @@ namespace Relevamiento.Vistas
 						        Task.Run(async () => await localidadesService.SynchronizeLocalidades()).GetAwaiter().GetResult();
 						    }*/
 
-						    
-
                             using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
                             {
                                 //INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
@@ -210,11 +208,14 @@ namespace Relevamiento.Vistas
                                 var listaLocalidades = localidadesData.TraerLocalidades();
                                 conexion.InsertAll(listaLocalidades);
 
-                                Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                                //Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");               
+                            }
 
+                            using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                            {
                                 _synchronizeDataConfig.isLocalidadesReady = true;
                                 conexion.Update(_synchronizeDataConfig);
-                            }                         
+                            }
                         }
 
 						if (_synchronizeDataConfig.isArticulosReady &&

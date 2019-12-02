@@ -77,15 +77,15 @@ namespace Relevamiento
 					conexion.CreateTable<ERP_LOCALIDADES>();
 
 					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
-					LocalidadesData localidadesData = new LocalidadesData();
-					var listaLocalidades = localidadesData.TraerLocalidades();
-					conexion.InsertAll(listaLocalidades);
+					//LocalidadesData localidadesData = new LocalidadesData();
+					//var listaLocalidades = localidadesData.TraerLocalidades();
+					//conexion.InsertAll(listaLocalidades);
 
 					//ListaLocalidades = TraerLocalidades();
 					//conexion.InsertAll(ListaLocalidades);
 				}
 
-                Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                //Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
 
                 conexion.CreateTable<Relevado>();
 				conexion.CreateTable<TbRequest>();

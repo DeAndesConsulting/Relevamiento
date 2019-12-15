@@ -35,8 +35,6 @@ namespace Relevamiento
 			RutaBD = rutaBD;
 			VersionTracking.Track();
 			bool firsttime = VersionTracking.IsFirstLaunchForCurrentVersion;
-			//if (firsttime == true)
-			//{
 
 			List<_ARTICULOS> lista_productos;
 			List<ERP_EMPRESAS> ListaDistribuidores;
@@ -45,76 +43,114 @@ namespace Relevamiento
 
 			using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))
 			{
-				conexion.CreateTable<Provincia>();
-				conexion.CreateTable<TipoLocal>();
-				conexion.CreateTable<_COMERCIO>();
-				conexion.CreateTable<_TIP_ART>();
-                
-                //conexion.DropTable<_ARTICULOS>();
-                if (!TableExists("_ARTICULOS"))
+				if (firsttime == true)
 				{
-					conexion.CreateTable<_ARTICULOS>();
-					//lista_productos = TraerProductos();
-					//conexion.InsertAll(lista_productos);
+					conexion.CreateTable<Provincia>();
+					conexion.CreateTable<TipoLocal>();
+					conexion.CreateTable<_COMERCIO>();
+					conexion.CreateTable<_TIP_ART>();
+
+					//Valido que las tablas maestras no existan porque arrojaba error en equipos que ya la habian
+					//instalado. Si las tablas existen y es la primera ejecución de la version, se dropean y crean.
+					//Si no existen es debido a que es la primera instalación en un equipo.
+					if (!TableExists("_ARTICULOS"))
+					{
+						conexion.CreateTable<_ARTICULOS>();
+						//lista_productos = TraerProductos();
+						//conexion.InsertAll(lista_productos);
+					}
+					else
+					{
+						conexion.DropTable<_ARTICULOS>();
+						conexion.CreateTable<_ARTICULOS>();
+					}
+
+					if (!TableExists("ERP_EMPRESAS"))
+					{
+						conexion.CreateTable<ERP_EMPRESAS>();
+						//ListaDistribuidores = TraerEmpresas();
+						//conexion.InsertAll(ListaDistribuidores);
+					}
+					else
+					{
+						conexion.DropTable<ERP_EMPRESAS>();
+						conexion.CreateTable<ERP_EMPRESAS>();
+					}
+
+					if (!TableExists("ERP_ASESORES"))
+					{
+						conexion.CreateTable<ERP_ASESORES>();
+						//listaAsesores = TraerAsesores();
+						//conexion.InsertAll(listaAsesores);
+					}
+					else
+					{
+						conexion.DropTable<ERP_ASESORES>();
+						conexion.CreateTable<ERP_ASESORES>();
+					}
+
+					if (!TableExists("ERP_LOCALIDADES"))
+					{
+						conexion.CreateTable<ERP_LOCALIDADES>();
+
+						//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
+						LocalidadesData localidadesData = new LocalidadesData();
+						var listaLocalidades = localidadesData.TraerLocalidades();
+						conexion.InsertAll(listaLocalidades);
+
+						//ListaLocalidades = TraerLocalidades();
+						//conexion.InsertAll(ListaLocalidades);
+					}
+					else
+					{
+						conexion.DropTable<ERP_LOCALIDADES>();
+						conexion.CreateTable<ERP_LOCALIDADES>();
+
+						//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
+						LocalidadesData localidadesData = new LocalidadesData();
+						var listaLocalidades = localidadesData.TraerLocalidades();
+						conexion.InsertAll(listaLocalidades);
+					}
+
+					Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+
+					conexion.CreateTable<Relevado>();
+					conexion.CreateTable<TbRequest>();
+
+					//conexion.DropTable<GenericDataConfig>();
+					//conexion.DropTable<SynchronizeDataConfig>();
+					if (!TableExists("SynchronizeDataConfig"))
+					{
+						conexion.CreateTable<SynchronizeDataConfig>();
+					}
+					else
+					{
+						conexion.DropTable<SynchronizeDataConfig>();
+						conexion.CreateTable<SynchronizeDataConfig>();
+					}
+
+					//first time
+					if (conexion.Table<SynchronizeDataConfig>().Count() == 0)
+					{
+						var synchronizeDataConfig = new SynchronizeDataConfig()
+						{
+							ID = 1,
+							isSynchronized = false,
+							lastSynchronized = DateTime.Today,
+							isFirstTimeSynchronizedReady = false,
+							isFirstTimeLoggedReady = false,
+							c_IMEI = string.Empty,
+							isArticulosReady = false,
+							isAsesoresReady = false,
+							isEmpresasReady = false,
+							isLocalidadesReady = false
+						};
+
+						conexion.Insert(synchronizeDataConfig);
+					}
 				}
-                //conexion.DropTable<ERP_EMPRESAS>();
-                if (!TableExists("ERP_EMPRESAS"))
-				{
-					conexion.CreateTable<ERP_EMPRESAS>();
-					//ListaDistribuidores = TraerEmpresas();
-					//conexion.InsertAll(ListaDistribuidores);
-				}
-                //conexion.DropTable<ERP_ASESORES>();
-                if (!TableExists("ERP_ASESORES"))
-				{
-					conexion.CreateTable<ERP_ASESORES>();
-					//listaAsesores = TraerAsesores();
-					//conexion.InsertAll(listaAsesores);
-				}
-                //conexion.DropTable<ERP_LOCALIDADES>();
-                if (!TableExists("ERP_LOCALIDADES"))
-				{
-					conexion.CreateTable<ERP_LOCALIDADES>();
 
-					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
-					LocalidadesData localidadesData = new LocalidadesData();
-					var listaLocalidades = localidadesData.TraerLocalidades();
-					conexion.InsertAll(listaLocalidades);
-
-					//ListaLocalidades = TraerLocalidades();
-					//conexion.InsertAll(ListaLocalidades);
-				}
-
-                Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
-
-                conexion.CreateTable<Relevado>();
-				conexion.CreateTable<TbRequest>();
-                
-                //conexion.DropTable<GenericDataConfig>();
-                //conexion.DropTable<SynchronizeDataConfig>();
-                conexion.CreateTable<SynchronizeDataConfig>();
-
-                //first time
-                if (conexion.Table<SynchronizeDataConfig>().Count() == 0)
-                {
-                    var synchronizeDataConfig = new SynchronizeDataConfig()
-                    {
-                        ID = 1,
-                        isSynchronized = false,
-                        lastSynchronized = DateTime.Today,
-                        isFirstTimeSynchronizedReady = false,
-                        isFirstTimeLoggedReady = false,
-                        c_IMEI = string.Empty,
-                        isArticulosReady = false,
-                        isAsesoresReady = false,
-                        isEmpresasReady = false,
-                        isLocalidadesReady =  false
-                    };
-
-                    conexion.Insert(synchronizeDataConfig);
-                }
-
-            }
+			}
 
 
 

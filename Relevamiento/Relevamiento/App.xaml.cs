@@ -45,10 +45,45 @@ namespace Relevamiento
 			{
 				if (firsttime == true)
 				{
-					conexion.CreateTable<Provincia>();
-					conexion.CreateTable<TipoLocal>();
-					conexion.CreateTable<_COMERCIO>();
-					conexion.CreateTable<_TIP_ART>();
+					if (!TableExists("Provincia"))
+					{
+						conexion.CreateTable<Provincia>();
+					}
+					else
+					{
+						conexion.DropTable<Provincia>();
+						conexion.CreateTable<Provincia>();
+					}
+
+					if (!TableExists("TipoLocal"))
+					{
+						conexion.CreateTable<TipoLocal>();
+					}
+					else
+					{
+						conexion.DropTable<TipoLocal>();
+						conexion.CreateTable<TipoLocal>();
+					}
+
+					if (!TableExists("_COMERCIO"))
+					{
+						conexion.CreateTable<_COMERCIO>();
+					}
+					else
+					{
+						conexion.DropTable<_COMERCIO>();
+						conexion.CreateTable<_COMERCIO>();
+					}
+
+					if (!TableExists("_TIP_ART"))
+					{
+						conexion.CreateTable<_TIP_ART>();
+					}
+					else
+					{
+						conexion.DropTable<_TIP_ART>();
+						conexion.CreateTable<_TIP_ART>();
+					}
 
 					//Valido que las tablas maestras no existan porque arrojaba error en equipos que ya la habian
 					//instalado. Si las tablas existen y es la primera ejecución de la version, se dropean y crean.
@@ -114,11 +149,26 @@ namespace Relevamiento
 
 					Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
 
-					conexion.CreateTable<Relevado>();
-					conexion.CreateTable<TbRequest>();
+					if (!TableExists("Relevado"))
+					{
+						conexion.CreateTable<Relevado>();
+					}
+					else
+					{
+						conexion.DropTable<Relevado>();
+						conexion.CreateTable<Relevado>();
+					}
 
-					//conexion.DropTable<GenericDataConfig>();
-					//conexion.DropTable<SynchronizeDataConfig>();
+					if (!TableExists("TbRequest"))
+					{
+						conexion.CreateTable<TbRequest>();
+					}
+					else
+					{
+						conexion.DropTable<TbRequest>();
+						conexion.CreateTable<TbRequest>();
+					}
+
 					if (!TableExists("SynchronizeDataConfig"))
 					{
 						conexion.CreateTable<SynchronizeDataConfig>();

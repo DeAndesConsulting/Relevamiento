@@ -77,10 +77,10 @@ namespace Relevamiento.Clases
                 httpClient.Timeout = TimeSpan.FromMinutes(30);
 
 				//TEST
-				string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
+				//string urlPost = "http://iserver.itris.com.ar:7101/DACServicesTest/api/Relevamiento";
 
 				//PROD
-				//string urlPost = "http://iserver.itris.com.ar:7101/DACServices/api/Relevamiento";
+				string urlPost = "http://iserver.itris.com.ar:7101/DACServices/api/Relevamiento";
 
 				//variable que se utiliza para tomar la respuesta
 				HttpResponseMessage httpResponseMessage;

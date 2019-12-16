@@ -74,7 +74,7 @@ namespace Relevamiento.Vistas
             {
                 ItrisComercioEntity c3 = new ItrisComercioEntity()
                 {
-					FK_TIP_COM = 2,
+					FK_TIP_COM = localARelevar.FK_TIP_COM,
                     NOMBRE = localARelevar.NOMBRE,
                     CALLE = localARelevar.CALLE,
                     NUMERO = localARelevar.NUMERO,

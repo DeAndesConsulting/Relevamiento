@@ -185,8 +185,9 @@ namespace Relevamiento.Vistas
                             tbRequestDataService.Insert(tbRequests);
                             App.comercios = new List<ItrisComercioArticulo>();
                         }
-                        catch
+                        catch(Exception ex)
                         {
+							throw ex;
                         }
 
                         //Se comenta codigo porque son mensajes debug

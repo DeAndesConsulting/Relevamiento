@@ -43,9 +43,9 @@ namespace Relevamiento
 
 			using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))
 			{
-				if (firsttime == true)
-				{
-					if (!TableExists("Provincia"))
+				//if (firsttime == true)
+				//{
+                    /*if (!TableExists("Provincia"))
 					{
 						conexion.CreateTable<Provincia>();
 					}
@@ -53,131 +53,77 @@ namespace Relevamiento
 					{
 						conexion.DropTable<Provincia>();
 						conexion.CreateTable<Provincia>();
-					}
+					}*/
 
-					if (!TableExists("TipoLocal"))
-					{
-						conexion.CreateTable<TipoLocal>();
-					}
-					else
-					{
-						conexion.DropTable<TipoLocal>();
-						conexion.CreateTable<TipoLocal>();
-					}
+                    //conexion.DropTable<Provincia>();
+                    conexion.CreateTable<Provincia>();
 
-					if (!TableExists("_COMERCIO"))
-					{
-						conexion.CreateTable<_COMERCIO>();
-					}
-					else
-					{
-						conexion.DropTable<_COMERCIO>();
-						conexion.CreateTable<_COMERCIO>();
-					}
+                    //conexion.DropTable<TipoLocal>();
+                    conexion.CreateTable<TipoLocal>();
 
-					if (!TableExists("_TIP_ART"))
-					{
-						conexion.CreateTable<_TIP_ART>();
-					}
-					else
-					{
-						conexion.DropTable<_TIP_ART>();
-						conexion.CreateTable<_TIP_ART>();
-					}
+                    //conexion.DropTable<_COMERCIO>();
+                    conexion.CreateTable<_COMERCIO>();
 
-					//Valido que las tablas maestras no existan porque arrojaba error en equipos que ya la habian
-					//instalado. Si las tablas existen y es la primera ejecución de la version, se dropean y crean.
-					//Si no existen es debido a que es la primera instalación en un equipo.
-					if (!TableExists("_ARTICULOS"))
-					{
-						conexion.CreateTable<_ARTICULOS>();
-						//lista_productos = TraerProductos();
-						//conexion.InsertAll(lista_productos);
-					}
-					else
-					{
-						conexion.DropTable<_ARTICULOS>();
-						conexion.CreateTable<_ARTICULOS>();
-					}
+                    //conexion.DropTable<_TIP_ART>();
+                    conexion.CreateTable<_TIP_ART>();
 
-					if (!TableExists("ERP_EMPRESAS"))
-					{
-						conexion.CreateTable<ERP_EMPRESAS>();
-						//ListaDistribuidores = TraerEmpresas();
-						//conexion.InsertAll(ListaDistribuidores);
-					}
-					else
-					{
-						conexion.DropTable<ERP_EMPRESAS>();
-						conexion.CreateTable<ERP_EMPRESAS>();
-					}
+                //Valido que las tablas maestras no existan porque arrojaba error en equipos que ya la habian
+                //instalado. Si las tablas existen y es la primera ejecución de la version, se dropean y crean.
+                //Si no existen es debido a que es la primera instalación en un equipo.
 
-					if (!TableExists("ERP_ASESORES"))
-					{
-						conexion.CreateTable<ERP_ASESORES>();
-						//listaAsesores = TraerAsesores();
-						//conexion.InsertAll(listaAsesores);
-					}
-					else
-					{
-						conexion.DropTable<ERP_ASESORES>();
-						conexion.CreateTable<ERP_ASESORES>();
-					}
+                    //conexion.DropTable<_ARTICULOS>();
+                    conexion.CreateTable<_ARTICULOS>();
 
-					if (!TableExists("ERP_LOCALIDADES"))
-					{
-						conexion.CreateTable<ERP_LOCALIDADES>();
+                    //conexion.DropTable<ERP_EMPRESAS>();
+                    conexion.CreateTable<ERP_EMPRESAS>();
 
-						//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
-						LocalidadesData localidadesData = new LocalidadesData();
-						var listaLocalidades = localidadesData.TraerLocalidades();
-						conexion.InsertAll(listaLocalidades);
+                    //conexion.DropTable<ERP_ASESORES>();
+                    conexion.CreateTable<ERP_ASESORES>();
 
-						//ListaLocalidades = TraerLocalidades();
-						//conexion.InsertAll(ListaLocalidades);
-					}
-					else
-					{
-						conexion.DropTable<ERP_LOCALIDADES>();
-						conexion.CreateTable<ERP_LOCALIDADES>();
+					//conexion.DropTable<ERP_LOCALIDADES>();
+					conexion.CreateTable<ERP_LOCALIDADES>();
 
-						//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
-						LocalidadesData localidadesData = new LocalidadesData();
-						var listaLocalidades = localidadesData.TraerLocalidades();
-						conexion.InsertAll(listaLocalidades);
-					}
+					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
+					LocalidadesData localidadesData = new LocalidadesData();
+					var listaLocalidades = localidadesData.TraerLocalidades();
+
+                    var countLocalidades = 0;
+                    var totalLocalidades = 21683;
+                    //var count = 0;
+                    
+                    //21683
+
+                    countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+
+                    for(int i = countLocalidades; i < totalLocalidades; i++)
+                    {
+                        conexion.Insert(listaLocalidades[i]);
+                    }
+
+                    /*listaLocalidades.ForEach(m => {
+                        count++;
+                        if (count > countLocalidades) {
+                            conexion.Insert(m);
+                        }
+                    });*/
+
+                    //conexion.InsertAll(listaLocalidades);
+
 
 					Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                    //Debug.WriteLine($"{"LOCALIDADES: " + countLocalidades.ToString()}");
 
-					if (!TableExists("Relevado"))
-					{
-						conexion.CreateTable<Relevado>();
-					}
-					else
-					{
-						conexion.DropTable<Relevado>();
-						conexion.CreateTable<Relevado>();
-					}
 
-					if (!TableExists("TbRequest"))
-					{
-						conexion.CreateTable<TbRequest>();
-					}
-					else
-					{
-						conexion.DropTable<TbRequest>();
-						conexion.CreateTable<TbRequest>();
-					}
+                    //conexion.DropTable<Relevado>();
+                    conexion.CreateTable<Relevado>();
 
-					if (!TableExists("SynchronizeDataConfig"))
-					{
-						conexion.CreateTable<SynchronizeDataConfig>();
-					}
-					else
-					{
-						conexion.DropTable<SynchronizeDataConfig>();
-						conexion.CreateTable<SynchronizeDataConfig>();
-					}
+
+					//conexion.DropTable<TbRequest>();
+					conexion.CreateTable<TbRequest>();
+
+
+					//conexion.DropTable<SynchronizeDataConfig>();
+					conexion.CreateTable<SynchronizeDataConfig>();
 
 					//first time
 					if (conexion.Table<SynchronizeDataConfig>().Count() == 0)
@@ -198,11 +144,8 @@ namespace Relevamiento
 
 						conexion.Insert(synchronizeDataConfig);
 					}
-				}
-
+				//}
 			}
-
-
 
 			//DROP DE TABLAS
 			/*using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))

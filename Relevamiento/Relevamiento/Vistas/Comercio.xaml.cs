@@ -57,7 +57,7 @@ namespace Relevamiento.Vistas
 				LabelCalleLocal.IsVisible = true;
 				validar = false;
 			}
-			if (string.IsNullOrEmpty(LocalidadSearch.Text))
+			if (string.IsNullOrEmpty(LocalidadSearch.Text) || !isLocalidadesExist())
 			{
 				LabelLocalidad.IsVisible = true;
 				validar = false;
@@ -320,7 +320,17 @@ namespace Relevamiento.Vistas
 			else LocalidadList.IsVisible = false;
 		}
 
-		public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
+        private bool isLocalidadesExist()
+        {
+            //List<ERP_LOCALIDADES> temp = new List<ERP_LOCALIDADES>();
+
+            //temp = ListaLocalidades.Where(c => c.DESCRIPCION.ToString().ToLower().Contains(LocalidadSearch.Text)).ToList();
+            var temp = ListaLocalidades.Where(c => c.DESCRIPCION.IndexOf(LocalidadSearch.Text, StringComparison.OrdinalIgnoreCase) != -1);
+
+            return temp.Count() != 0;
+        }
+
+        public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
 		{
 			LocalidadList.IsVisible = false;
 			BusquedaDistribuidor.LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;

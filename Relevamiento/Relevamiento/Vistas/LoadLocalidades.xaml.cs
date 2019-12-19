@@ -27,7 +27,7 @@ namespace Relevamiento.Vistas
             aiLogin.IsVisible = true;
             aiLogin.IsRunning = true;
             aiLogin.IsEnabled = true;
-            lblMensaje.Text = "Insertando Localidades... \nEste proceso puede demorar algunos minutos. \nAsegúrese de tener una buena conexión a internet.";
+            lblMensaje.Text = "Cargando aplicación....";
 
             Task.Run(() => InsertLocalidades());
         }

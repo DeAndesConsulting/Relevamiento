@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Relevamiento.Clases
 {
-    public class LocalidadesData1
+    public class LocalidadesData1 : ILocalidadesData
     {
         public List<ERP_LOCALIDADES> TraerLocalidades()
         {

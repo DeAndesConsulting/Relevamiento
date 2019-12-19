@@ -43,14 +43,22 @@ namespace Relevamiento.Vistas
 
             if (countLocalidades < 21683)
             {
-                LocalidadesData localidadesData = new LocalidadesData();
+                LocalidadesData1 localidadesData = new LocalidadesData1();
                 var listaLocalidades = localidadesData.TraerLocalidades();
 
-                using (SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                //3639
+                Debug.WriteLine($"{"LOCALIDADES_1: " + listaLocalidades.Count()}");
+
+                if (countLocalidades < listaLocalidades.Count())
                 {
-                    conexion.InsertAll(listaLocalidades);
-                    Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                    using (SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    {
+                        conexion.InsertAll(listaLocalidades);
+                        Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                    }
                 }
+
+                listaLocalidades = null;
             }
 
             //System.Threading.Thread.Sleep(5000);

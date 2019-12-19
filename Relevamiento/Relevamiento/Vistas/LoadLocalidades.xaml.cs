@@ -99,6 +99,25 @@ namespace Relevamiento.Vistas
 
                 localidadesData = null;
                 listaLocalidades = null;
+
+                //LOCALIDADES DATA 4
+                localidadesData = new LocalidadesData4();
+                listaLocalidades = localidadesData.TraerLocalidades();
+
+                //3636
+                Debug.WriteLine($"{"LOCALIDADES_4: " + listaLocalidades.Count()}");
+
+                if (countLocalidades < listaLocalidades.Count())
+                {
+                    using (SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    {
+                        conexion.InsertAll(listaLocalidades);
+                        Debug.WriteLine($"{"LOCALIDADES_4: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                    }
+                }
+
+                localidadesData = null;
+                listaLocalidades = null;
             }
 
             //System.Threading.Thread.Sleep(5000);

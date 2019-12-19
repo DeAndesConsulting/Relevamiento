@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Relevamiento.Vistas.LoadLocalidades"
+             Title="Ingresar"
+             BackgroundColor="#FFECA9">
+
+    <ContentPage.Resources>
+        <StyleSheet Source="/Estilos/Estilos.css" />
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid>
+            <BoxView Opacity="0.8"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Image Source="logo3.png" Scale="1" Opacity="0.8" Margin="0,5"/>
+                <StackLayout Grid.Row="1">
+
+                    <ActivityIndicator Color="Gray" x:Name="aiLogin"></ActivityIndicator>
+                    <Label x:Name="lblMensaje" TextColor="Gray" HorizontalTextAlignment="Center" ></Label>
+                    <Label x:Name="lblImei" IsVisible="False"/>
+
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

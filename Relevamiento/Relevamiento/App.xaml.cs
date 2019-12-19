@@ -84,21 +84,21 @@ namespace Relevamiento
 					conexion.CreateTable<ERP_LOCALIDADES>();
 
 					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
-					LocalidadesData localidadesData = new LocalidadesData();
-					var listaLocalidades = localidadesData.TraerLocalidades();
+					//LocalidadesData localidadesData = new LocalidadesData();
+					//var listaLocalidades = localidadesData.TraerLocalidades();
 
-                    var countLocalidades = 0;
-                    var totalLocalidades = 21683;
+                    //var countLocalidades = 0;
+                    //var totalLocalidades = 21683;
                     //var count = 0;
                     
                     //21683
 
-                    countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+                    //countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
 
-                    for(int i = countLocalidades; i < totalLocalidades; i++)
+                    /*for(int i = countLocalidades; i < totalLocalidades; i++)
                     {
                         conexion.Insert(listaLocalidades[i]);
-                    }
+                    }*/
 
                     /*listaLocalidades.ForEach(m => {
                         count++;
@@ -110,7 +110,7 @@ namespace Relevamiento
                     //conexion.InsertAll(listaLocalidades);
 
 
-					Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+					//Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
                     //Debug.WriteLine($"{"LOCALIDADES: " + countLocalidades.ToString()}");
 
 
@@ -161,7 +161,7 @@ namespace Relevamiento
 
 
 			//MainPage = new NavigationPage(new Vistas.Login());
-			MainPage = new NavigationPage(new Login())
+			MainPage = new NavigationPage(new LoadLocalidades())
 			{
 				BarBackgroundColor = Color.FromHex("#F5DE8E"),
 				BarTextColor = Color.Gray

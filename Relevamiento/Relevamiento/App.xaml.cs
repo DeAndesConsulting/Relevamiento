@@ -86,22 +86,12 @@ namespace Relevamiento
 					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
 					//LocalidadesData localidadesData = new LocalidadesData();
 					//var listaLocalidades = localidadesData.TraerLocalidades();
-<<<<<<< HEAD
-					//conexion.InsertAll(listaLocalidades);
-
-					//ListaLocalidades = TraerLocalidades();
-					//conexion.InsertAll(ListaLocalidades);
-				}
-
-                //Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
-=======
 
                     //var countLocalidades = 0;
                     //var totalLocalidades = 21683;
                     //var count = 0;
                     
                     //21683
->>>>>>> desarrollofix
 
                     //countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
 

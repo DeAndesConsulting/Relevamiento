@@ -35,8 +35,6 @@ namespace Relevamiento
 			RutaBD = rutaBD;
 			VersionTracking.Track();
 			bool firsttime = VersionTracking.IsFirstLaunchForCurrentVersion;
-			//if (firsttime == true)
-			//{
 
 			List<_ARTICULOS> lista_productos;
 			List<ERP_EMPRESAS> ListaDistribuidores;
@@ -45,40 +43,50 @@ namespace Relevamiento
 
 			using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))
 			{
-				conexion.CreateTable<Provincia>();
-				conexion.CreateTable<TipoLocal>();
-				conexion.CreateTable<_COMERCIO>();
-				conexion.CreateTable<_TIP_ART>();
-                
-                //conexion.DropTable<_ARTICULOS>();
-                if (!TableExists("_ARTICULOS"))
-				{
-					conexion.CreateTable<_ARTICULOS>();
-					//lista_productos = TraerProductos();
-					//conexion.InsertAll(lista_productos);
-				}
-                //conexion.DropTable<ERP_EMPRESAS>();
-                if (!TableExists("ERP_EMPRESAS"))
-				{
-					conexion.CreateTable<ERP_EMPRESAS>();
-					//ListaDistribuidores = TraerEmpresas();
-					//conexion.InsertAll(ListaDistribuidores);
-				}
-                //conexion.DropTable<ERP_ASESORES>();
-                if (!TableExists("ERP_ASESORES"))
-				{
-					conexion.CreateTable<ERP_ASESORES>();
-					//listaAsesores = TraerAsesores();
-					//conexion.InsertAll(listaAsesores);
-				}
-                //conexion.DropTable<ERP_LOCALIDADES>();
-                if (!TableExists("ERP_LOCALIDADES"))
-				{
+				//if (firsttime == true)
+				//{
+                    /*if (!TableExists("Provincia"))
+					{
+						conexion.CreateTable<Provincia>();
+					}
+					else
+					{
+						conexion.DropTable<Provincia>();
+						conexion.CreateTable<Provincia>();
+					}*/
+
+                    //conexion.DropTable<Provincia>();
+                    conexion.CreateTable<Provincia>();
+
+                    //conexion.DropTable<TipoLocal>();
+                    conexion.CreateTable<TipoLocal>();
+
+                    //conexion.DropTable<_COMERCIO>();
+                    conexion.CreateTable<_COMERCIO>();
+
+                    //conexion.DropTable<_TIP_ART>();
+                    conexion.CreateTable<_TIP_ART>();
+
+                //Valido que las tablas maestras no existan porque arrojaba error en equipos que ya la habian
+                //instalado. Si las tablas existen y es la primera ejecución de la version, se dropean y crean.
+                //Si no existen es debido a que es la primera instalación en un equipo.
+
+                    //conexion.DropTable<_ARTICULOS>();
+                    conexion.CreateTable<_ARTICULOS>();
+
+                    //conexion.DropTable<ERP_EMPRESAS>();
+                    conexion.CreateTable<ERP_EMPRESAS>();
+
+                    //conexion.DropTable<ERP_ASESORES>();
+                    conexion.CreateTable<ERP_ASESORES>();
+
+					//conexion.DropTable<ERP_LOCALIDADES>();
 					conexion.CreateTable<ERP_LOCALIDADES>();
 
 					//INSERTO LOCALIDADES DE LA CLASE LOCALIDADES DATA
 					//LocalidadesData localidadesData = new LocalidadesData();
 					//var listaLocalidades = localidadesData.TraerLocalidades();
+<<<<<<< HEAD
 					//conexion.InsertAll(listaLocalidades);
 
 					//ListaLocalidades = TraerLocalidades();
@@ -86,37 +94,68 @@ namespace Relevamiento
 				}
 
                 //Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+=======
 
-                conexion.CreateTable<Relevado>();
-				conexion.CreateTable<TbRequest>();
-                
-                //conexion.DropTable<GenericDataConfig>();
-                //conexion.DropTable<SynchronizeDataConfig>();
-                conexion.CreateTable<SynchronizeDataConfig>();
+                    //var countLocalidades = 0;
+                    //var totalLocalidades = 21683;
+                    //var count = 0;
+                    
+                    //21683
+>>>>>>> desarrollofix
 
-                //first time
-                if (conexion.Table<SynchronizeDataConfig>().Count() == 0)
-                {
-                    var synchronizeDataConfig = new SynchronizeDataConfig()
+                    //countLocalidades = conexion.Table<ERP_LOCALIDADES>().Count();
+
+                    /*for(int i = countLocalidades; i < totalLocalidades; i++)
                     {
-                        ID = 1,
-                        isSynchronized = false,
-                        lastSynchronized = DateTime.Today,
-                        isFirstTimeSynchronizedReady = false,
-                        isFirstTimeLoggedReady = false,
-                        c_IMEI = string.Empty,
-                        isArticulosReady = false,
-                        isAsesoresReady = false,
-                        isEmpresasReady = false,
-                        isLocalidadesReady =  false
-                    };
+                        conexion.Insert(listaLocalidades[i]);
+                    }*/
 
-                    conexion.Insert(synchronizeDataConfig);
-                }
+                    /*listaLocalidades.ForEach(m => {
+                        count++;
+                        if (count > countLocalidades) {
+                            conexion.Insert(m);
+                        }
+                    });*/
 
-            }
+                    //conexion.InsertAll(listaLocalidades);
 
 
+					//Debug.WriteLine($"{"LOCALIDADES: " + conexion.Table<ERP_LOCALIDADES>().Count().ToString()}");
+                    //Debug.WriteLine($"{"LOCALIDADES: " + countLocalidades.ToString()}");
+
+
+                    //conexion.DropTable<Relevado>();
+                    conexion.CreateTable<Relevado>();
+
+
+					//conexion.DropTable<TbRequest>();
+					conexion.CreateTable<TbRequest>();
+
+
+					//conexion.DropTable<SynchronizeDataConfig>();
+					conexion.CreateTable<SynchronizeDataConfig>();
+
+					//first time
+					if (conexion.Table<SynchronizeDataConfig>().Count() == 0)
+					{
+						var synchronizeDataConfig = new SynchronizeDataConfig()
+						{
+							ID = 1,
+							isSynchronized = false,
+							lastSynchronized = DateTime.Today,
+							isFirstTimeSynchronizedReady = false,
+							isFirstTimeLoggedReady = false,
+							c_IMEI = string.Empty,
+							isArticulosReady = false,
+							isAsesoresReady = false,
+							isEmpresasReady = false,
+							isLocalidadesReady = false
+						};
+
+						conexion.Insert(synchronizeDataConfig);
+					}
+				//}
+			}
 
 			//DROP DE TABLAS
 			/*using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(RutaBD))
@@ -132,7 +171,7 @@ namespace Relevamiento
 
 
 			//MainPage = new NavigationPage(new Vistas.Login());
-			MainPage = new NavigationPage(new Login())
+			MainPage = new NavigationPage(new LoadLocalidades())
 			{
 				BarBackgroundColor = Color.FromHex("#F5DE8E"),
 				BarTextColor = Color.Gray

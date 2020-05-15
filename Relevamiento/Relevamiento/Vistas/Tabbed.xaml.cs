@@ -7,6 +7,8 @@
  * 
  */
 using Newtonsoft.Json;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Relevamiento.Clases;
 using System;
 using System.Collections.Generic;
@@ -30,20 +32,39 @@ namespace Relevamiento.Vistas
             localARelevar = nuevolocal;
         }
 
-        async private void BtnFinalizar_Clicked(object sender, EventArgs e)
-        {
-            List<ListaProductos> ListaTotal = Aguas.listaAguas;
-            ListaTotal.AddRange(Fernet.listaFernets);
-            ListaTotal.AddRange(Gaseosas.listaGaseosas);
-            ListaTotal.AddRange(Jugos.listaJugos);
-            ListaTotal.AddRange(Saborizadas.listaSaborizadas);
-            ListaTotal.AddRange(Sodas.listaSodas);
+		async private void BtnFinalizar_Clicked(object sender, EventArgs e)
+		{
+			Location location = null;
+			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
 
-            if (ListaTotal.Count != 0)
-            {
-                ItrisRelevamientoArticuloEntity rla = new ItrisRelevamientoArticuloEntity();
-                foreach (var obj in ListaTotal)
-                {
+			if (status == PermissionStatus.Granted)
+			{
+				location = await Geolocation.GetLastKnownLocationAsync();
+			}
+
+			if (location != null)
+			{
+				LATITUD = location.Latitude.ToString();
+				LONGITUD = location.Longitude.ToString();
+			}
+			else
+			{
+				LATITUD = "0";
+				LONGITUD = "0";
+			}
+
+			List<ListaProductos> ListaTotal = Aguas.listaAguas;
+			ListaTotal.AddRange(Fernet.listaFernets);
+			ListaTotal.AddRange(Gaseosas.listaGaseosas);
+			ListaTotal.AddRange(Jugos.listaJugos);
+			ListaTotal.AddRange(Saborizadas.listaSaborizadas);
+			ListaTotal.AddRange(Sodas.listaSodas);
+
+			if (ListaTotal.Count != 0)
+			{
+				ItrisRelevamientoArticuloEntity rla = new ItrisRelevamientoArticuloEntity();
+				foreach (var obj in ListaTotal)
+				{
 					if (obj.Existe)
 					{
 						rla = new ItrisRelevamientoArticuloEntity()
@@ -54,129 +75,118 @@ namespace Relevamiento.Vistas
 						};
 						relarts.Add(rla);
 					}
-                }
+				}
 
-            }
+			}
 
-            var location = await Geolocation.GetLastKnownLocationAsync();
-            if (location != null)
-            {
-                LATITUD = location.Latitude.ToString();
-                LONGITUD = location.Longitude.ToString();
-            }
-            else
-            {
-                LATITUD = "0";
-                LONGITUD = "0";
-            }
-            bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el relevamiento de este comercio?", "Si", "No");
-            if (respuesta)
-            {
-                ItrisComercioEntity c3 = new ItrisComercioEntity()
-                {
-					FK_TIP_COM = 2,
-                    NOMBRE = localARelevar.NOMBRE,
-                    CALLE = localARelevar.CALLE,
-                    NUMERO = localARelevar.NUMERO,
-                    FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.ID,
-                    FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS,
-                    LATITUD = LATITUD,
-                    LONGITUD = LONGITUD,
+			bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el relevamiento de este comercio?", "Si", "No");
+			if (respuesta)
+			{
+				ItrisComercioEntity c3 = new ItrisComercioEntity()
+				{
+					FK_TIP_COM = localARelevar.FK_TIP_COM,
+					NOMBRE = localARelevar.NOMBRE,
+					CALLE = localARelevar.CALLE,
+					NUMERO = localARelevar.NUMERO,
+					FK_ERP_LOCALIDADES = BusquedaDistribuidor.LocalidadSeleccionada.ID,
+					FK_ERP_PROVINCIAS = BusquedaDistribuidor.LocalidadSeleccionada.FK_ERP_PROVINCIAS,
+					LATITUD = LATITUD,
+					LONGITUD = LONGITUD,
 					HORA_VISITA = localARelevar.HORA_VISITA
-                };
-                listacom.Add(c3);
+				};
+				listacom.Add(c3);
 
 
 
-                //ItrisRelevamientoArticuloEntity rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 1,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//ItrisRelevamientoArticuloEntity rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 1,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
+				//};
+				//relarts.Add(rla);
 
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 2,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 2,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 3,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//};
+				//relarts.Add(rla);
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 3,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 4,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//};
+				//relarts.Add(rla);
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 4,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 5,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//};
+				//relarts.Add(rla);
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 5,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 6,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//};
+				//relarts.Add(rla);
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 6,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 7,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//};
+				//relarts.Add(rla);
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 7,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
+				//};
+				//relarts.Add(rla);
 
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 8,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 8,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-                //rla = new ItrisRelevamientoArticuloEntity()
-                //{
-                //    FK_ARTICULOS = 9,
-                //    EXISTE = true,
-                //    PRECIO = 55.55
+				//};
+				//relarts.Add(rla);
+				//rla = new ItrisRelevamientoArticuloEntity()
+				//{
+				//    FK_ARTICULOS = 9,
+				//    EXISTE = true,
+				//    PRECIO = 55.55
 
-                //};
-                //relarts.Add(rla);
-
-
-                ItrisComercioArticulo cs3 = new ItrisComercioArticulo()
-                {
-                    comercio = c3,
-                    relevamientoArticulo = relarts,
-                };
-                App.comercios.Add(cs3);
+				//};
+				//relarts.Add(rla);
 
 
+				ItrisComercioArticulo cs3 = new ItrisComercioArticulo()
+				{
+					comercio = c3,
+					relevamientoArticulo = relarts,
+				};
+				App.comercios.Add(cs3);
 
 
-                await Navigation.PushAsync(new Comercio(App.distribuidorseleccionado));
 
-                /*
+
+				await Navigation.PushAsync(new Comercio(App.distribuidorseleccionado));
+
+				/*
                 Relevado localRelevado = new Relevado();
                 localRelevado.Longitud = location.Latitude.ToString();
                 localRelevado.Latitud = location.Longitude.ToString();
@@ -199,8 +209,8 @@ namespace Relevamiento.Vistas
 
                 await Navigation.PushAsync(new Finalizado(localRelevado));
             */
-            }
-        }
+			}
+		}
         async private void BtnCancelar_Clicked(object sender, EventArgs e)
         {
             bool respuesta = await DisplayAlert("ATENCION", "Desea cancelar el relevamiento?", "Si", "No");

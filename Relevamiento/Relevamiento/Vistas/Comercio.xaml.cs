@@ -57,7 +57,7 @@ namespace Relevamiento.Vistas
 				LabelCalleLocal.IsVisible = true;
 				validar = false;
 			}
-			if (string.IsNullOrEmpty(LocalidadSearch.Text))
+			if (string.IsNullOrEmpty(LocalidadSearch.Text) || !isLocalidadesExist())
 			{
 				LabelLocalidad.IsVisible = true;
 				validar = false;
@@ -123,88 +123,96 @@ namespace Relevamiento.Vistas
 
 		private async void btnFinalizarClicked(object sender, EventArgs e)
 		{
-			try
-			{
-				bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el Relevamiento de este Pueblo?", "Si", "No");
-				if (respuesta)
-				{
-					//Primero se envia a la pantalla principal para que se sigan ejecutando los threads y evitar mandar 2 relevamientos
-					PopUntilDestination(typeof(Principal));
-					//Comento acceso al imei politicas android
-					//string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
+            try
+            {
+                bool respuesta = await DisplayAlert("ATENCION", "¿Desea finalizar el Relevamiento de este Pueblo?", "Si", "No");
+                if (respuesta)
+                {
+                    //Primero se envia a la pantalla principal para que se sigan ejecutando los threads y evitar mandar 2 relevamientos
+                    PopUntilDestination(typeof(Principal));
+                    //Comento acceso al imei politicas android
+                    //string imeiTelefono = DependencyService.Get<IServiceImei>().GetImei();
 
-					ERP_ASESORES asesor = new ERP_ASESORES();
-					int maxRequestId = 1;
-					using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-					{
-						//TbRequest maxRequest = new TbRequest();
+                    ERP_ASESORES asesor = new ERP_ASESORES();
+                    int maxRequestId = 1;
+                    using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
+                    {
+                        //TbRequest maxRequest = new TbRequest();
 
-						//Se obtiene asesor mediante el imei del equipo. Por politicas de privacidad se obtiene mediante descripcion asesor.
-						//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
-						//Nuevo metodo de obtener asesore por descripcion (google play)				
-						//asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
-						TbRequest maxRequest = conexion.Table<TbRequest>().OrderByDescending(r => r.ID).FirstOrDefault();
-						if (maxRequest != null)
-							maxRequestId = maxRequest.ID + 1;
-					}
+                        //Se obtiene asesor mediante el imei del equipo. Por politicas de privacidad se obtiene mediante descripcion asesor.
+                        //asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+                        //Nuevo metodo de obtener asesore por descripcion (google play)				
+                        //asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == imeiTelefono).FirstOrDefault();
+                        TbRequest maxRequest = conexion.Table<TbRequest>().OrderByDescending(r => r.ID).FirstOrDefault();
+                        if (maxRequest != null)
+                            maxRequestId = maxRequest.ID + 1;
+                    }
 
-					App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
+                    App.releva.FK_ERP_EMPRESAS = App.distribuidorseleccionado.ID.ToString();
 
-					//Asesor previo politica			
-					//App.releva.FK_ERP_ASESORES = asesor.ID;
-					App.releva.FK_ERP_ASESORES = App.globalAsesor.ID;
+                    //Asesor previo politica			
+                    //App.releva.FK_ERP_ASESORES = asesor.ID;
+                    App.releva.FK_ERP_ASESORES = App.globalAsesor.ID;
 
-					App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    App.releva.FECHA = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     //string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), maxRequestId.ToString());
                     string codigoRequest = string.Format("{0}-{1}", App.globalAsesor.ID.ToString(), DateTime.Now.ToString("yyyyMMddHHmmss"));
 
                     //Obtengo el imei del equipo para el request
 
                     App.releva.CODIGO = "ASD123ADSASD";
-					ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
-					relevamientos.relevamiento = App.releva;
-					relevamientos.comercios = App.comercios;
+                    ItrisPlanillaEntity relevamientos = new ItrisPlanillaEntity();
+                    relevamientos.relevamiento = App.releva;
+                    relevamientos.comercios = App.comercios;
                     relevamientos.codigoRequest = codigoRequest;// "123456789-9"; //<-- Usar este codigo para test (no va a itris)
 
-					string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
+                    string jsonRelevamiento = JsonConvert.SerializeObject(relevamientos);
 
-					var tbRequestDataService = new TbRequestDataService();
+                    var tbRequestDataService = new TbRequestDataService();
 
-					if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
-					{
-						TbRequest tbRequests = new TbRequest()
-						{
-							req_codigo = relevamientos.codigoRequest,
-							req_json = jsonRelevamiento,
-							req_estado = false
-						};
+                    if (!tbRequestDataService.isInserted(relevamientos.codigoRequest))
+                    {
+                        TbRequest tbRequests = new TbRequest()
+                        {
+                            req_codigo = relevamientos.codigoRequest,
+                            req_json = jsonRelevamiento,
+                            req_estado = false
+                        };
 
-						//Se updatea el estado del registro de la planilla enviada
-						tbRequestDataService.Insert(tbRequests);
+                        //Se updatea el estado del registro de la planilla enviada
+                        try
+                        {
+                            tbRequestDataService.Insert(tbRequests);
+                            App.comercios = new List<ItrisComercioArticulo>();
+                        }
+                        catch(Exception ex)
+                        {
+							throw ex;
+                        }
 
-						//Se comenta codigo porque son mensajes debug
-						//if (tbRequestDataService.Insert(tbRequests))
-						//	await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
-						//else
-						//	await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
+                        //Se comenta codigo porque son mensajes debug
+                        //if (tbRequestDataService.Insert(tbRequests))
+                        //	await DisplayAlert("Aviso", "Se ha dado de alta un nuevo relevamiento", "Ok");
+                        //else
+                        //	await DisplayAlert("Aviso", "NO se ha podido dar de alta el relevamiento", "Ok");
 
-						if (CheckNetworkState.hasConnectivity)
-							await SendPostRelevamiento(jsonRelevamiento, tbRequests);
-						else
-							await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
-					}
-					else
-					{
-						await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
-					}
-					//Se comenta esta linea porque permitia enviar dos formularios, se agrego arriba (si pasa test borrar).
-					//PopUntilDestination(typeof(Principal));
-				}
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
+                        if (CheckNetworkState.hasConnectivity)
+                            await SendPostRelevamiento(jsonRelevamiento, tbRequests);
+                        else
+                            await DisplayAlert("Aviso", "Sin conexion a internet, no se podra enviar el relevamiento hasta que vuelva a tener conexion", "Ok");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Aviso", "Ese relevamiento ya se encuentra dado de alta", "Ok");
+                    }
+                    //Se comenta esta linea porque permitia enviar dos formularios, se agrego arriba (si pasa test borrar).
+                    //PopUntilDestination(typeof(Principal));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 		}
 
 		private async Task SendPostRelevamiento(string jsonRelevamiento, TbRequest tbRequestToUpdate)
@@ -312,7 +320,17 @@ namespace Relevamiento.Vistas
 			else LocalidadList.IsVisible = false;
 		}
 
-		public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
+        private bool isLocalidadesExist()
+        {
+            //List<ERP_LOCALIDADES> temp = new List<ERP_LOCALIDADES>();
+
+            //temp = ListaLocalidades.Where(c => c.DESCRIPCION.ToString().ToLower().Contains(LocalidadSearch.Text)).ToList();
+            var temp = ListaLocalidades.Where(c => c.DESCRIPCION.IndexOf(LocalidadSearch.Text, StringComparison.OrdinalIgnoreCase) != -1);
+
+            return temp.Count() != 0;
+        }
+
+        public void LocalidadList_ItemTapped(object sender, ItemTappedEventArgs e)
 		{
 			LocalidadList.IsVisible = false;
 			BusquedaDistribuidor.LocalidadSeleccionada = e.Item as ERP_LOCALIDADES;

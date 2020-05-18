@@ -90,6 +90,19 @@ namespace Relevamiento.Vistas
         protected override void OnAppearing()
         {
         }
-    }
+
+		private async void btnAbout_Clicked(object sender, EventArgs e)
+		{
+			string imei = this.GetImei();
+			await DisplayAlert("Aviso", "Aplicación para desarrollar relevamientos en campo. \nVersion: 5.1-18 : " + imei, "Ok");
+		}
+
+		private string GetImei()
+		{
+			//Get Imei
+			string imei = DependencyService.Get<IServiceImei>().GetImei();
+			return imei;
+		}
+	}
 
 }

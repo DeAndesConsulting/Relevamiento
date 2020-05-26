@@ -95,8 +95,8 @@ namespace Relevamiento.Vistas
 
         private async Task AskForPermissions()
         {
-            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
-            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+			Permission[] permisos = new Permission[] { Permission.Phone, Permission.Location };
+            await CrossPermissions.Current.RequestPermissionsAsync(permisos);
         }
 
         private async Task CargaDeDatosInicial()

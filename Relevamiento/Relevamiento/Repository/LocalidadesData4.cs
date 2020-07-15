@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Relevamiento.Clases;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Relevamiento.Clases
+namespace Relevamiento.Repository
 {
     public class LocalidadesData4 : ILocalidadesData
     {

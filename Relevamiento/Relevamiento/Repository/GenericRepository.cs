@@ -21,6 +21,12 @@ namespace Relevamiento.Repository
             return rs;
         }
 
+        public bool InsertAll(IEnumerable<T> obj)
+        {
+            var rs = db.InsertAll(obj) > 0 ? true : false;
+            return rs;
+        }
+
         public bool Delete(T obj)
         {
             var rs = db.Delete(obj) > 0 ? true : false;

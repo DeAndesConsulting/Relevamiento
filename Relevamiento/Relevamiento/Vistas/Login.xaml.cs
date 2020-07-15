@@ -12,14 +12,15 @@ using System.Collections.Generic;
 using Relevamiento.Services.Middleware;
 using System.Linq;
 using Relevamiento.Models;
+using Relevamiento.ViewModels;
 
 namespace Relevamiento.Vistas
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Login : ContentPage
 	{
-        private bool _isAlreadySynchronized = false;
-		private bool _mostrarControles = false;
+        LoginViewModel viewModel;
+
         private SynchronizeDataConfig _synchronizeDataConfig = new SynchronizeDataConfig();
         private bool isSynchronizing = false;
 
@@ -27,55 +28,14 @@ namespace Relevamiento.Vistas
 		{
             InitializeComponent();
 
-			
+            BindingContext = viewModel = new LoginViewModel();
 
-            using (SQLite.SQLiteConnection conexion = new SQLite.SQLiteConnection(App.RutaBD))
-            {
-                _synchronizeDataConfig = conexion.Table<SynchronizeDataConfig>().FirstOrDefault();
-
-                /*if (_synchronizeDataConfig.lastSynchronized.Day != DateTime.Today.Day)
-                {
-                    _synchronizeDataConfig.isSynchronized = false;
-                }*/
-            }
-
-            
-            //OK		
-            //Task.Run(async () => await CargaDeDatosInicial()).GetAwaiter().GetResult();
-
-            //Task.Run(async () => await AskForPermissions());
-
-            //TEST
-            //Task.Run(async() => await CargaDeDatosInicial());
-
-            //test formulario principal
-            //ERP_ASESORES asesor = new ERP_ASESORES();
-            //using (SQLite.SQLiteConnection conexion = new SQLiteConnection(App.RutaBD))
-            //{
-            //	var listaAsesores = conexion.Table<ERP_ASESORES>().ToList();
-            //	//listaEmpresas = conexion.Table<ERP_EMPRESAS>().ToList();
-            //	asesor = conexion.Table<ERP_ASESORES>().Where(a => a.c_IMEI == "358240051111110").FirstOrDefault();
-            //}
-
-            //Usuario User = new Usuario();
-            //User.NombreUsuario = asesor.DESCRIPCION;
-            //User.NumeroImei = asesor.c_IMEI;
-            //CheckNetworkState.isLoged = true;
-            //Navigation.PushAsync(new Principal(User));
-            //test formulario principal
+            _synchronizeDataConfig = viewModel.Config;
         }
 
         protected async override void OnAppearing()
-        {
-            //base.OnAppearing();
-            //PermissionStatus status = await CrossPermissions.Current.RequestPermissionAsync<CalendarPermission>();
-            //await CrossPermissions.Current.RequestPermissionsAsync(Permission.Phone);
-            //await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-            //ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.Camera }, REQUEST_LOCATION);
-            
-            await AskForPermissions();
-            //if (!_isAlreadySynchronized)
-            //{
+        {                       
+            await AskForPermissions();            
 
             if (!isSynchronizing)
             {
@@ -88,9 +48,6 @@ namespace Relevamiento.Vistas
 
                 Task.Run(async () => await CargaDeDatosInicial());
             }
-            
-            //_isAlreadySynchronized = true;
-            //}
         }
 
         private async Task AskForPermissions()
@@ -427,7 +384,7 @@ namespace Relevamiento.Vistas
                     countAsesores = conexion.Table<ERP_ASESORES>().Count();
 
                     App.globalAsesor = conexion.Table<ERP_ASESORES>().Where(a => a.DESCRIPCION == entryName.Text.ToUpper()).FirstOrDefault();
-				}
+                }
 
                 if (countAsesores == 0)
                 {
